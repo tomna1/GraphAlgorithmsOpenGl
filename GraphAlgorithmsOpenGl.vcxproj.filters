@@ -21,13 +21,13 @@
     <ClCompile Include="src\shaderProcessing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graph.cpp">
+    <ClCompile Include="src\MappedGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GraphNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\setup.cpp">
+    <ClCompile Include="src\Setup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,13 +35,13 @@
     <ClInclude Include="include\shaderProcessing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Graph.h">
+    <ClInclude Include="include\MappedGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\GraphNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\setup.h">
+    <ClInclude Include="include\Setup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

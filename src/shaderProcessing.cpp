@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <cstdlib>
 #include <string>
 
 #include <GL/glew.h>
@@ -91,7 +90,7 @@ static GLuint createShaderProgram(const char *vertexShader, const char *fragment
 
 // Setups up the shader program based on the shader files that are called at
 // the start of the function. To read different shader files, this function
-// has to be refactored.
+// has to be refactored. Returns the id of the shader program being used.
 GLuint setUpShaderProgram() {
     std::string vertexShader = readShaderFromFile("res\\shaders\\vertexShader.shader");
     std::string fragmentShader = readShaderFromFile("res\\shaders\\fragmentShader.shader");

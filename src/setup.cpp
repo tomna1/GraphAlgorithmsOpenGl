@@ -1,3 +1,5 @@
+#include <GL/glew.h>
+
 #include <string>
 #include <iostream>
 
@@ -9,7 +11,7 @@ void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
     glViewport(0, 0, width, height);
 }
 
-
+// This function prints out a standard error message to the error stream.
 void GLAPIENTRY debugMessageCallback(GLenum source, GLenum type, GLuint id
     , GLenum severity, GLsizei length, const GLchar *message, const void *userParam) {
 
