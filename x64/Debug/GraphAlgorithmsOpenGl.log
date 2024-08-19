@@ -1,5 +1,9 @@
 ﻿  main.cpp
+  setup.cpp
+  Generating Code...
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+LINK : warning LNK4217: symbol 'glewInit' defined in 'glew32s.lib(glew.obj)' is imported by 'setup.obj' in function '"struct GLFWwindow * __cdecl setUp(void)" (?setUp@@YAPEAUGLFWwindow@@XZ)'
+LINK : warning LNK4217: symbol '__glewDebugMessageCallback' defined in 'glew32s.lib(glew.obj)' is imported by 'setup.obj' in function '"struct GLFWwindow * __cdecl setUp(void)" (?setUp@@YAPEAUGLFWwindow@@XZ)'
 LINK : warning LNK4217: symbol '__glewAttachShader' defined in 'glew32s.lib(glew.obj)' is imported by 'shaderProcessing.obj' in function '"unsigned int __cdecl createShaderProgram(char const *,char const *)" (?createShaderProgram@@YAIPEBD0@Z)'
 LINK : warning LNK4217: symbol '__glewCompileShader' defined in 'glew32s.lib(glew.obj)' is imported by 'shaderProcessing.obj' in function '"unsigned int __cdecl compileShader(unsigned int,char const *)" (?compileShader@@YAIIPEBD@Z)'
 LINK : warning LNK4217: symbol '__glewCreateProgram' defined in 'glew32s.lib(glew.obj)' is imported by 'shaderProcessing.obj' in function '"unsigned int __cdecl createShaderProgram(char const *,char const *)" (?createShaderProgram@@YAIPEBD0@Z)'
@@ -22,9 +26,9 @@ glfw3.lib(platform.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'g
 glfw3.lib(vulkan.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(vulkan.obj)' or at 'C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\glfw3.pdb'; linking object as if no debug info
 glfw3.lib(window.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(window.obj)' or at 'C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\glfw3.pdb'; linking object as if no debug info
 glfw3.lib(egl_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(egl_context.obj)' or at 'C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(osmesa_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(osmesa_context.obj)' or at 'C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(null_init.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(null_init.obj)' or at 'C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(null_monitor.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(null_monitor.obj)' or at 'C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(osmesa_context.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(osmesa_context.obj)' or at ''; linking object as if no debug info
+glfw3.lib(null_init.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(null_init.obj)' or at ''; linking object as if no debug info
+glfw3.lib(null_monitor.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(null_monitor.obj)' or at ''; linking object as if no debug info
 glfw3.lib(null_window.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(null_window.obj)' or at 'C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\glfw3.pdb'; linking object as if no debug info
 glfw3.lib(null_joystick.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(null_joystick.obj)' or at 'C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\glfw3.pdb'; linking object as if no debug info
 glfw3.lib(win32_module.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_module.obj)' or at 'C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\glfw3.pdb'; linking object as if no debug info

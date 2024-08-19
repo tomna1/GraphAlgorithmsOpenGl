@@ -46,7 +46,7 @@ static GLuint compileShader(GLuint type, const char* source) {
         // Get the error message
         int length;
         glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-        char* message = (char*) malloc(sizeof(char) * length);
+        char* message = new char[length];
         glGetShaderInfoLog(id, length, &length, message);
 
         // Print the error message
