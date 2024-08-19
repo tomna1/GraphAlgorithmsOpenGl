@@ -119,7 +119,7 @@ GLFWwindow *setUp() {
     // sets up glfw.
     if (!glfwInit()) {
         std::cerr << "GLFW failed to initialise." << std::endl;
-        return nullptr;
+        exit(1);
     }
     
     // Sets up glfw window.
@@ -128,7 +128,7 @@ GLFWwindow *setUp() {
     {
         std::cerr << "Window failed to open" << std::endl;
         glfwTerminate();
-        return nullptr;
+        exit(1);
     }
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
@@ -137,7 +137,7 @@ GLFWwindow *setUp() {
     if (glewInit() != GLEW_OK) {
         std::cerr << "GLEW failed to initialise." << std::endl;
         glfwTerminate();
-        return nullptr;
+        exit(1);
     }
     
     std::cout << "Currently using OpenGL version " << glGetString(GL_VERSION) << std::endl;

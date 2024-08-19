@@ -19,13 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\LinkedList.cpp" />
+    <ClCompile Include="src\Graph.cpp" />
+    <ClCompile Include="src\GraphNode.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\shaderProcessing.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\graph.h" />
-    <ClInclude Include="include\LinkedList.h" />
+    <ClInclude Include="include\Graph.h" />
+    <ClInclude Include="include\GraphNode.h" />
     <ClInclude Include="include\shaderProcessing.h" />
   </ItemGroup>
   <ItemGroup>

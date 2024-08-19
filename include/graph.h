@@ -1,23 +1,34 @@
 #ifndef GRAPH___H
 #define GRAPH___H
 
-#include "grid.h"
+#include <list>
 
-// Each node may have a theoretically unlimited amount of edges. Each edge
-// tells the other node that a node is connected to and the weighting between
-// each nodes.
-typedef struct Edge {
-	Node *connectedNode;
-	unsigned int weight;
+#include "GraphNode.h"
 
-} Edge;
+class Graph {
+private:
+	std::list<GraphNode> nodes_;
+	std::list<std::pair<GraphNode, GraphNode>> edges_;
+public:
+	Graph(std::list<GraphNode> &nodes,
+		std::list<std::pair<std::pair<GraphNode, GraphNode>, int>> edges);
+	~Graph();
 
-// Each node represents a specific tile
-typedef struct Node {
-	Tile tile;
-	
-	
-} Node;
+	int getNodeCount();
+	int getEdgeCount();
+
+	bool addNode();
+	bool addEdge();
+
+	bool removeNode();
+	bool removeEdge();
+
+	std::list<GraphNode> findShortestPath(GraphNode, GraphNode);
+
+	bool hasNode();
+	bool hasConnection(GraphNode, GraphNode);
+};
+
 
 
 
