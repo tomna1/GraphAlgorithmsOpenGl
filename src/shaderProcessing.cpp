@@ -55,7 +55,7 @@ static GLuint compileShader(GLuint type, const char* source) {
             << std::endl;
         
         glDeleteShader(id);
-        free(message);
+        delete[] message;
 
         exit(1);
     }
