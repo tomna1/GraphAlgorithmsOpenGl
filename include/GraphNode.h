@@ -3,17 +3,20 @@
 
 class GraphNode {
 private:
-	int x;
-	int y;
+	int m_x;
+	int m_y;
 
 public:
 	GraphNode();
-	~GraphNode();
+	GraphNode(int x, int y);
 
-	int setX(int);
-	int setY(int);
+	bool setX(int x);
+	bool setY(int y);
 
-	int distanceToNode(GraphNode);
+	int getX();
+	int getY();
+
+	int distanceToNode(const GraphNode&);
 	int distanceToPoint(int x, int y);
 };
 
