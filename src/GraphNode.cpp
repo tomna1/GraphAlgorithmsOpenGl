@@ -11,6 +11,19 @@ GraphNode::GraphNode(int x, int y) {
 	m_y = y;
 }
 
+bool GraphNode::operator==(const GraphNode &rhs) {
+	if ((m_x == rhs.m_x) && (m_y == rhs.m_y)) {
+		return true;
+	}
+	return false;
+}
+bool GraphNode::operator!=(const GraphNode &rhs) {
+	if ((m_x != rhs.m_x) || (m_y != rhs.m_y)) {
+		return true;
+	}
+	return false;
+}
+
 bool GraphNode::setX(int x) {
 	m_x = x;
 	return true;
