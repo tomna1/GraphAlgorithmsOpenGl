@@ -1,7 +1,6 @@
 #ifndef MAPPED_GRAPH_H
 #define MAPPED_GRAPH_H
 
-#include <list>
 #include <vector>
 #include <utility>
 
@@ -19,7 +18,7 @@ private:
 	// Each node has a list which contains what other nodes it is connected to
 	// and the weight of each connection. The first list of edges relates to the
 	// first node in the nodes dynamic array.
-	std::vector<std::list<std::pair<GraphNode, int>>> m_edges;
+	std::vector<std::vector<std::pair<GraphNode, int>>> m_edges;
 public:
 	// Initialises a graph with no nodes and no edges.
 	MappedGraph();
@@ -27,12 +26,19 @@ public:
 	MappedGraph(const std::vector<GraphNode>&);
 	// Initialises a graph with nodes and edges.
 	MappedGraph(const std::vector<GraphNode>& nodes,
-		const std::vector<std::list<std::pair<GraphNode, int>>>& edges);
+		const std::vector<std::vector<std::pair<GraphNode, int>>>& edges);
+	// Copy constructor.
+	MappedGraph(const MappedGraph &rhs);
+	// Destructor.
 	~MappedGraph();
 private:
 	// Returns the index of the specified node in the m_nodes array. Will
 	// return -1 if not found.
 	int getNodeIndex(const GraphNode &node);
+	// Returns the index of the specified edge in the vector which contains 
+	// the pairs of graphnodes and edgeweights. Returns -1 if the edge
+	// has not been found.
+	int getEdgeIndex(const GraphNode &node, const GraphNode &rhs);
 public:
 	// Returns the amount of nodes stored in the graph.
 	int getNodeCount();
@@ -51,7 +57,7 @@ public:
 	// if all nodes not already in the graph have not all been successfully
 	// added.
 	bool addNodes(const std::vector<GraphNode> &nodes);
-	bool addEdges(const std::vector<std::list<std::pair<GraphNode, int>>>& edges);
+	bool addEdges(const std::vector<std::vector<std::pair<GraphNode, int>>>& edges);
 
 	// Checks if the graph has a certain node
 	bool hasNode(const GraphNode&);
@@ -64,7 +70,7 @@ public:
 	bool removeEdge(const GraphNode&, const GraphNode&);
 	// Changes the edge weight of an edge between 2 nodes. Requires there to 
 	// already be an edge between 2 nodes.
-	bool changeEdgeWeight(const GraphNode&, const GraphNode&, int weight);
+	bool changeEdgeWeight(const GraphNode&, const GraphNode&, const int newWeight);
 	// Gets the weight between of an edge between 2 nodes. If there is no edge
 	// then will return -1.
 	int getEdgeWeight(const GraphNode&, const GraphNode&);
@@ -74,11 +80,11 @@ public:
 	
 	// Returns a list of nodes which indicate the shortest path between 2 nodes.
 	// A indicates this algorithm is the A* algorithm
-	std::list<GraphNode> findShortestPathA(const GraphNode& start, const GraphNode& end);
+	std::vector<GraphNode> findShortestPathA(const GraphNode& start, const GraphNode& end);
 
 	// Returns a list of nodes which indicates the shortest path between 2 nodes.
 	// D indicates this uses Djikstra's shortest path algorithm.
-	std::list<GraphNode> findShortestPathD(const GraphNode &start, const GraphNode &end);
+	std::vector<GraphNode> findShortestPathD(const GraphNode &start, const GraphNode &end);
 };
 
 
