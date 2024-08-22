@@ -58,5 +58,5 @@ int GraphNode::distanceToPoint(int x, int y) const {
 }
 
 void GraphNode::printNode() const {
-	std::cout << "Node(" << m_x << ',' << m_y << ')' << std::endl;
+	std::cout << "Node(" << m_x << ", " << m_y << ')' << std::endl;
 }

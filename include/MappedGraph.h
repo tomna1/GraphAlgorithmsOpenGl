@@ -78,9 +78,25 @@ public:
 
 	// Returns the amount of edges a Node has.
 	int countConnections(const GraphNode&);
+	
+	// Print out and edge to the standard output. Example: Edge(Node(1, 2), 5)
+	// where 1 is the x coordinate of the node, 2 is the y coordinate and 5 is 
+	// the edge weight
 	void printEdge(const std::pair<GraphNode, int> &edge);
+	// Print out a node to the standard output. Example: Node(5, 6) where 5 is
+	// the x coordinate of the node and 6 is the y coordinate.
 	void printNodes();
+	// Prints out all the edges of a certain node in the graph. Example:
+	// Printing Edges of Node(3, 3)
+	// Edge(Node(1, 2), 5)
+	// Edge(Node(6, 8), 34)
 	void printEdges(const GraphNode &node);
+	// Prints out every single edge associated with the graph. Example:
+	// Printing all nodes of graph
+	// Printing Edges of Node(1, 1)
+	// Edge(Node(5, 6), 4)
+	// Printing Edges of Node(5, 6)
+	// Edge(Node(1, 1), 4)
 	void printAllEdges();
 	
 	// Returns a list of nodes which indicate the shortest path between 2 nodes.

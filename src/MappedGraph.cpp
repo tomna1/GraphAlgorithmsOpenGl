@@ -61,8 +61,10 @@ int MappedGraph::getEdgeCount() {
 
 bool MappedGraph::addNode(const GraphNode &node) {
 	m_nodes.push_back(node);
-	// Push a new empty array to the end of the array.
-	m_edges.push_back({});
+	
+	if (m_nodes.size() >= m_edges.capacity()) {
+		m_edges.resize(m_edges.capacity() * 2);
+	}
 	return true;
 }
 bool MappedGraph::addEdge(const GraphNode &node, const GraphNode &to, int weight) {
@@ -185,7 +187,7 @@ int MappedGraph::countConnections(const GraphNode &node) {
 }
 
 void MappedGraph::printEdge(const std::pair<GraphNode, int> &edge) {
-	std::cout << "Edge(Node(" << edge.first.getX() << ',' << edge.first.getY()
+	std::cout << "Edge(Node(" << edge.first.getX() << ", " << edge.first.getY()
 		<< "), " << edge.second << ')' << std::endl;
 }
 void MappedGraph::printNodes() {
@@ -200,7 +202,7 @@ void MappedGraph::printEdges(const GraphNode &node) {
 		return;
 	}
 	
-	std::cout << "Printing edges of";
+	std::cout << "Printing edges of ";
 	node.printNode();
 
 	for (int i = 0; i < m_edges[index].size(); i++) {
@@ -209,10 +211,9 @@ void MappedGraph::printEdges(const GraphNode &node) {
 }
 void MappedGraph::printAllEdges() {
 	std::cout << "Printing all nodes of the graph" << std::endl;
-	for (int i = 0; i < m_edges.size(); i++) {
-		std::cout << "=============================" << std::endl;
+	for (int i = 0; i < m_nodes.size(); i++) {
+		std::cout << "Printing Edges of ";
 		m_nodes[i].printNode();
-		std::cout << "=============================" << std::endl;
 		for (int j = 0; j < m_edges[i].size(); j++) {
 			printEdge(m_edges[i][j]);
 		}

@@ -32,7 +32,8 @@ public:
 	int distanceToNode(const GraphNode&) const;
 	// Returns the distance to a point. Calculated using pythagoras' theorem.
 	int distanceToPoint(int x, int y) const;
-
+	// Prints out a Node to the standard output. Example: Node(1, 2) where 1
+	// is the x coordinate of the node and 2 is the y coordinate.
 	void printNode() const;
 };
 
