@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 
 #include "GraphNode.h"
 
@@ -33,22 +34,22 @@ bool GraphNode::setY(int y) {
 	return true;
 }
 
-int GraphNode::getX() {
+int GraphNode::getX() const {
 	return m_x;
 }
-int GraphNode::getY() {
+int GraphNode::getY() const {
 	return m_y;
 }
 
 
-int GraphNode::distanceToNode(const GraphNode& rhs) {
+int GraphNode::distanceToNode(const GraphNode& rhs) const {
 	// Use pythagoras' theorem. a^^2 + b^^2 = c^^2
 
 	int xDistance = abs(m_x - rhs.m_x);
 	int yDistance = abs(m_y - rhs.m_y);
 	return std::sqrt(pow(xDistance, 2) + pow(yDistance, 2));
 }
-int GraphNode::distanceToPoint(int x, int y) {
+int GraphNode::distanceToPoint(int x, int y) const {
 	// Use pythagoras' theorem. a^^2 + b^^2 = c^^2
 
 	int xDistance = abs(m_x - x);
@@ -56,3 +57,6 @@ int GraphNode::distanceToPoint(int x, int y) {
 	return std::sqrt(pow(xDistance, 2) + pow(yDistance, 2));
 }
 
+void GraphNode::printNode() const {
+	std::cout << "Node(" << m_x << ',' << m_y << ')' << std::endl;
+}

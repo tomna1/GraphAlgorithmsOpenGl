@@ -23,15 +23,17 @@ public:
 	bool setY(int y);
 
 	// Get the x value of the node.
-	int getX();
+	int getX() const;
 	// Get the y value of the node.
-	int getY();
+	int getY() const;
 
 	// Returns the distance to another node. Calculated using pythagoras'
 	// theorem
-	int distanceToNode(const GraphNode&);
+	int distanceToNode(const GraphNode&) const;
 	// Returns the distance to a point. Calculated using pythagoras' theorem.
-	int distanceToPoint(int x, int y);
+	int distanceToPoint(int x, int y) const;
+
+	void printNode() const;
 };
 
 #endif

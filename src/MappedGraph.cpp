@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "MappedGraph.h"
 
 
@@ -72,12 +74,27 @@ bool MappedGraph::addEdge(const GraphNode &node, const GraphNode &to, int weight
 	return true;
 }
 
-//bool MappedGraph::addNodes(const std::vector<GraphNode> &nodes) {
-	// TODO: THIS
-//}
-//bool MappedGraph::addEdges(const std::vector<std::vector<std::pair<GraphNode, int>>> &edges) {
-	// TODO: THIS
-//}
+bool MappedGraph::addNodes(const std::vector<GraphNode> &nodes) {
+	for (int i = 0; i < nodes.size(); i++) {
+		m_nodes.push_back(nodes[i]);
+		m_edges.push_back({});
+	}
+	return true;
+}
+bool MappedGraph::addEdges(const GraphNode &node, const std::vector<std::pair<GraphNode, int>> &edges) {
+	int index = getNodeIndex(node);
+	if (index == -1) {
+		return false;
+	}
+
+	for (int i = 0; i < edges.size(); i++) {
+		if (!hasEdge(node, edges[i].first)) {
+			m_edges[index].push_back(edges[i]);
+		}
+		else return false;
+	}
+	return true;
+}
 
 bool MappedGraph::hasNode(const GraphNode& node) {
 	for (int i = 0; i < m_nodes.size(); i++) {
@@ -165,6 +182,41 @@ int MappedGraph::countConnections(const GraphNode &node) {
 	}
 
 	return m_edges[index].size();
+}
+
+void MappedGraph::printEdge(const std::pair<GraphNode, int> &edge) {
+	std::cout << "Edge(Node(" << edge.first.getX() << ',' << edge.first.getY()
+		<< "), " << edge.second << ')' << std::endl;
+}
+void MappedGraph::printNodes() {
+	std::cout << "Printing nodes of graph." << std::endl;
+	for (int i = 0; i < m_nodes.size(); i++) {
+		m_nodes[i].printNode();
+	}
+}
+void MappedGraph::printEdges(const GraphNode &node) {
+	int index = getNodeIndex(node);
+	if (index == -1) {
+		return;
+	}
+	
+	std::cout << "Printing edges of";
+	node.printNode();
+
+	for (int i = 0; i < m_edges[index].size(); i++) {
+		printEdge(m_edges[index][i]);
+	}
+}
+void MappedGraph::printAllEdges() {
+	std::cout << "Printing all nodes of the graph" << std::endl;
+	for (int i = 0; i < m_edges.size(); i++) {
+		std::cout << "=============================" << std::endl;
+		m_nodes[i].printNode();
+		std::cout << "=============================" << std::endl;
+		for (int j = 0; j < m_edges[i].size(); j++) {
+			printEdge(m_edges[i][j]);
+		}
+	}
 }
 
 // Returns a list of nodes which indicate the shortest path between 2 nodes.

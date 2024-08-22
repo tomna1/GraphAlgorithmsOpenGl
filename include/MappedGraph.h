@@ -57,7 +57,8 @@ public:
 	// if all nodes not already in the graph have not all been successfully
 	// added.
 	bool addNodes(const std::vector<GraphNode> &nodes);
-	bool addEdges(const std::vector<std::vector<std::pair<GraphNode, int>>>& edges);
+	// Adds all the edges to a node.
+	bool addEdges(const GraphNode &node, const std::vector<std::pair<GraphNode, int>>& edges);
 
 	// Checks if the graph has a certain node
 	bool hasNode(const GraphNode&);
@@ -77,6 +78,10 @@ public:
 
 	// Returns the amount of edges a Node has.
 	int countConnections(const GraphNode&);
+	void printEdge(const std::pair<GraphNode, int> &edge);
+	void printNodes();
+	void printEdges(const GraphNode &node);
+	void printAllEdges();
 	
 	// Returns a list of nodes which indicate the shortest path between 2 nodes.
 	// A indicates this algorithm is the A* algorithm
