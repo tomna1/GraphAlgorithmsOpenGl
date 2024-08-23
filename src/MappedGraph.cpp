@@ -237,14 +237,100 @@ void MappedGraph::printAllEdges() {
 	}
 }
 
+
+
 // Returns a list of nodes which indicate the shortest path between 2 nodes.
 // A indicates this algorithm is the A* algorithm
 //std::vector<GraphNode> MappedGraph::findShortestPathA(const GraphNode &start, const GraphNode &end) {
 	// TODO: THIS
 //}
 
+
+
+// Node information used exclusively for Djikstras algorithm. Contains the
+// distance from the start, if the node is visted or not and the index of
+// the previous node.
+struct DNode {
+	// The distance this node if from the starting node.
+	int distanceFromStart;
+	// has the node been visited or not.
+	bool isVisited;
+	// the index of the previous node in the m_nodes array. -1 uf there is
+	// no previous node.
+	int previousNodeIndex;
+};
+// Function used to get the index of the shortest from the start, unvisited 
+// node. Returns -1 if there are no available options.
+int getShortestUnvistedIndex(std::vector<DNode> vec) {
+	int output = -1;
+	int currentShortest = INT_MAX;
+	for (int i = 0; i < vec.size(); i++) {
+		if ((vec[i].isVisited == false) && vec[i].distanceFromStart < currentShortest) {
+			output = i;
+		}
+	}
+	return output;
+}
 // Returns a list of nodes which indicates the shortest path between 2 nodes.
 // D indicates this uses Djikstra's shortest path algorithm.
-//std::vector<GraphNode> MappedGraph::findShortestPathD(const GraphNode &start, const GraphNode &end) {
-	// TODO: THIS
-//}
+std::vector<GraphNode> MappedGraph::findShortestPathD(GraphNode &start, const GraphNode &end) {
+	// Djikstra's algorithm works by:
+	// 1. Marking the distances from the start for all nodes connected to the
+	// current node.
+	// 2. Mark the current node as visited.
+	// 3. Go to the next unvisited node with the shortest distance.
+	// 4. Mark the new current node's previous node as the node it came from.
+	// 5. If the new node is the targeted node then use the information on
+	// previous nodes to make a list of the nodes that were visited. Else 
+	// go back to step 1.
+
+
+	// Array used to contains the information of nodes needed for the 
+	// algorithm.
+	std::vector<DNode> nodesInfo = {};
+	
+	nodesInfo.push_back({ 0, false, -1 });
+	for (int i = 0; i < m_nodes.size() - 1; i++) {
+		nodesInfo.push_back({ INT_MAX, false, -1 });
+	}
+
+	// A pointer to nodes in m_nodes
+	GraphNode *currentNode = &start;
+	// index is the index of the current node in m_nodes and index2 is the
+	// index of a connected node in m_nodes
+	int index, index2;
+	int nextNodeIndex;
+
+	while ((*currentNode) != end) {
+		index = getNodeIndex(*currentNode);
+		// Mark the distances from start for all connected nodes.
+		for (int i = 0; i < m_edges[index].size(); i++) {
+			index2 = getNodeIndex(m_edges[index][i].first);
+			if (nodesInfo[index2].distanceFromStart > m_edges[index][i].second) {
+				nodesInfo[index2].distanceFromStart = m_edges[index][i].second;
+			}
+		}
+		// Mark the current node as visited.
+		nodesInfo[index].isVisited = true;
+		// Make the next unvisited, closest to start node the current one. 
+		nextNodeIndex = getShortestUnvistedIndex(nodesInfo);
+		if (nextNodeIndex == -1) return {};
+		// Make the next unvisted closest to start node have the correct
+		// previous node.
+		nodesInfo[nextNodeIndex].previousNodeIndex = index;
+		// Make the next unvisited, closest to start node the current one.
+		currentNode = &m_nodes[nextNodeIndex];
+	}
+
+	// Create output starting from the current node and using the previous
+	// node in the node info array to go to start.
+	std::vector<GraphNode> output;
+
+	while ((*currentNode) != start) {
+		output.insert(output.begin(), (*currentNode));
+		currentNode = &m_nodes[nodesInfo[getNodeIndex(*currentNode)].previousNodeIndex];
+	}
+	output.insert(output.begin(), (*currentNode));
+
+	return output;
+}

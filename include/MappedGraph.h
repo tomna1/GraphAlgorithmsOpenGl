@@ -15,6 +15,10 @@ class MappedGraph {
 private:
 	// All the nodes associated with the graph.
 	std::vector<GraphNode> m_nodes;
+	
+	// MAYBE THE PAIR IN THIS ARRAY SHOULD BE A PAIR WHICH WOULD BE THE INDEX OF
+	// THE NODE IN M_NODES IT IS CONNECTED TO INSTEAD OF THAT NODE.
+
 	// Each node has a list which contains what other nodes it is connected to
 	// and the weight of each connection. The first list of edges relates to the
 	// first node in the nodes dynamic array.
@@ -113,7 +117,7 @@ public:
 
 	// Returns a list of nodes which indicates the shortest path between 2 nodes.
 	// D indicates this uses Djikstra's shortest path algorithm.
-	std::vector<GraphNode> findShortestPathD(const GraphNode &start, const GraphNode &end);
+	std::vector<GraphNode> findShortestPathD(GraphNode &start, const GraphNode &end);
 };
 
 #endif
