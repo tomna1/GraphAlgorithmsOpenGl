@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include <cmath>
 
 #include "shaderProcessing.h"
 #include "setup.h"
@@ -24,17 +25,17 @@ int main(void) {
     GLuint shaderProgramId = setUpShaderProgram();
 
     // Uniform setup
-    GLint location = glGetUniformLocation(shaderProgramId, "u_Color");
-    if (location == -1) {
-        std::cerr << "Uniform variable location could not be found." << std::endl;
-    }
-    glUniform4f(location, 0.2f, 0.8f, 0.3f, 1.0f);
+    //GLint location = glGetUniformLocation(shaderProgramId, "u_Color");
+    //if (location == -1) {
+    //    std::cerr << "Uniform variable location could not be found." << std::endl;
+    //}
+    //glUniform4f(location, 0.2f, 0.8f, 0.3f, 1.0f);
 
     float positions[] = {
-        -0.5f, -0.5f, // bottom left
-         0.5f, -0.5f, // bottom right
-         0.5f,  0.5f, // top right
-        -0.5f,  0.5f, // top left
+        -0.5f, -0.5f,  1.0f, 0.0f, 0.0f, // bottom left
+         0.5f, -0.5f,  0.0f, 1.0f, 0.0f, // bottom right
+         0.5f,  0.5f,  0.0f, 0.0f, 1.0f, // top right
+        -0.5f,  0.5f,  0.5f, 0.5f, 0.5f  // top left
     };
 
     unsigned int indices[] = {
@@ -49,18 +50,20 @@ int main(void) {
     GLuint buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), &positions, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 4 * 5 * sizeof(float), &positions, GL_STATIC_DRAW);
     
+    // Position attributes.
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+    // Colour attributes.
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(2 * sizeof(float)));
+
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+    glEnableVertexAttribArray(1);
 
     GLuint ibo;
     glGenBuffers(1, &ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), &indices, GL_STATIC_DRAW);
-
-    float r = 0.0f;
-    float rIncrement = 0.01f;
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
@@ -69,16 +72,12 @@ int main(void) {
 
         processInput(window);
         
-        glUniform4f(location, r, 0.8f, 0.3f, 1.0f);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
-        if (r >= 1.0f) {
-            rIncrement = -0.01f;
-        }
-        else if (r <= 0.0f) {
-            rIncrement = 0.01f;
-        }
-        r += rIncrement;
+        // Make the triangle go blue.
+        // float timeValue = glfwGetTime();
+        // float blueValue = sin(timeValue) / 2.0f + 0.5f;
+        // glUniform4f(location, 0.0f, 0.0f, blueValue, 1.0f);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

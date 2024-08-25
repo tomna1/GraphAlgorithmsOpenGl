@@ -153,7 +153,7 @@ GLFWwindow *setUp() {
     glDebugMessageCallback(debugMessageCallback, nullptr);
 
     // Sets the background colour of the window.
-    glClearColor(0.5f, 0.1f, 0.1f, 1.0f);
+    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
     return window;
 }
