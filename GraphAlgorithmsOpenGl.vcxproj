@@ -23,13 +23,13 @@
     <ClCompile Include="src\GraphNode.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Setup.cpp" />
-    <ClCompile Include="src\shaderProcessing.cpp" />
+    <ClCompile Include="src\ShaderProgram.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\MappedGraph.h" />
     <ClInclude Include="include\GraphNode.h" />
     <ClInclude Include="include\Setup.h" />
-    <ClInclude Include="include\shaderProcessing.h" />
+    <ClInclude Include="include\ShaderProgram.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dependencies\lib\glew32s.lib" />

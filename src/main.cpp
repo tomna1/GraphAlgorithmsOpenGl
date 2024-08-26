@@ -6,7 +6,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "shaderProcessing.h"
+#include "ShaderProgram.h"
 #include "setup.h"
 
 
@@ -22,14 +22,8 @@ int main(void) {
     GLFWwindow* window = setUp();
 
     // Shader setup
-    GLuint shaderProgramId = setUpShaderProgram();
-
-    // Uniform setup
-    //GLint location = glGetUniformLocation(shaderProgramId, "u_Color");
-    //if (location == -1) {
-    //    std::cerr << "Uniform variable location could not be found." << std::endl;
-    //}
-    //glUniform4f(location, 0.2f, 0.8f, 0.3f, 1.0f);
+    ShaderProgram s1("res\\shaders\\vertexShader.shader", "res\\shaders\\fragmentShader.shader");
+    s1.use();
 
     float positions[] = {
         -0.5f, -0.5f,  1.0f, 0.0f, 0.0f, // bottom left
@@ -54,10 +48,9 @@ int main(void) {
     
     // Position attributes.
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(0);
     // Colour attributes.
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(2 * sizeof(float)));
-
-    glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
     GLuint ibo;
@@ -86,6 +79,7 @@ int main(void) {
         glfwPollEvents();
     }
 
+    s1.destroy();
     glfwTerminate();
     return 0;
 }
