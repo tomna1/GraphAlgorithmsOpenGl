@@ -57,8 +57,8 @@ ShaderProgram::ShaderProgram(const char *vertexPath, const char *fragPath) {
 
 // Main function to set up the shader program.
 GLuint ShaderProgram::setUpShaderProgram(const char *vertexPath, const char *fragPath) {
-    // res\\shaders\\vertexShader.shader
-    // res\\shaders\\fragmentShader.shader
+    // expected filepath: res\\shaders\\vertexShader.shader
+    // expected filepath: res\\shaders\\fragmentShader.shader
 
     std::string vertexShader = readShaderFromFile(vertexPath);
     std::string fragmentShader = readShaderFromFile(fragPath);
@@ -118,7 +118,17 @@ GLuint ShaderProgram::createShaderProgram(const char *vertexShader, const char *
 
 // Compiles the shader given the source code and type of shader it is
 GLuint ShaderProgram::compileShader(GLuint type, const char *source) {
-    // TODO : ERROR HANDLING IF type IS NOT A VALID TYPE.
+    // check the type is a valid type.
+    if ((type != GL_COMPUTE_SHADER)         &&
+        (type != GL_VERTEX_SHADER)          &&
+        (type != GL_TESS_CONTROL_SHADER)    &&
+        (type != GL_TESS_EVALUATION_SHADER) &&
+        (type != GL_GEOMETRY_SHADER)        &&
+        (type != GL_FRAGMENT_SHADER)) {
+        std::cerr << "Type of shader must be a valid type." << std::endl;
+        exit(1);
+    }
+
     GLuint id_ = glCreateShader(type);
     glShaderSource(id_, 1, &source, nullptr);
     glCompileShader(id_);
