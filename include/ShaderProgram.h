@@ -2,6 +2,10 @@
 
 #include <GL/glew.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 class ShaderProgram {
 private:
 	GLuint m_id;
@@ -11,8 +15,11 @@ public:
 	// Activate the shader program.
 	void use();
 
+	// Delete the shader program and all of its shader.
 	void destroy();
 
+	// Gets the id of the shader program. Shader Program must first have been
+	// setup using the setUpShaderProgram method.
 	GLuint getID();
 
 	// Utility uniform functions.
@@ -26,6 +33,9 @@ public:
 	// Sets a float uniform variable given the name of the variable and the
 	// value to set it to.
 	bool setFloat(const std::string &name, float value) const;
+	// Sets a 4d matrix uniform variable given the name of the variable in the shader
+	// and the value to set it to.
+	bool setMatrix4(const std::string &name, glm::mat4 trans) const;
 
 private:
 	// Main function to set up the shader program.

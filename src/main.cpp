@@ -3,6 +3,10 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <iostream>
 #include <cmath>
 
@@ -26,16 +30,23 @@ int main(void) {
     s1.use();
 
     float positions[] = {
-        -0.5f, -0.5f,  1.0f, 0.0f, 0.0f, // bottom left
-         0.5f, -0.5f,  0.0f, 1.0f, 0.0f, // bottom right
-         0.5f,  0.5f,  0.0f, 0.0f, 1.0f, // top right
-        -0.5f,  0.5f,  0.5f, 0.5f, 0.5f  // top left
+        // position     colour
+        -0.5f, -0.25f,   1.0f, 0.0f, 0.0f, // bottom left
+         0.5f, -0.25f,   0.0f, 1.0f, 0.0f, // bottom right
+         0.5f,  0.25f,   0.0f, 0.0f, 1.0f, // top right
+        -0.5f,  0.25f,   0.5f, 0.5f, 0.5f  // top left
     };
 
     unsigned int indices[] = {
         0, 1, 2,
         2, 3, 0
     };
+
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+    s1.setMatrix4("transform", trans);
+    
+
 
     GLuint vertexArrayObject;
     glGenVertexArrays(1, &vertexArrayObject);
@@ -67,6 +78,10 @@ int main(void) {
         
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
+        // rotate rectangle
+        trans = glm::rotate(trans, float(glfwGetTime()), glm::vec3(0.0, 0.0, 1.0));
+        s1.setMatrix4("transform", trans);
+
         // Make the triangle go blue.
         // float timeValue = glfwGetTime();
         // float blueValue = sin(timeValue) / 2.0f + 0.5f;
@@ -84,9 +99,8 @@ int main(void) {
     return 0;
 }
 
-
 // ESC to exit, TAB to go into wireframe mode and LEFT_SHIFT to go back
-// into fill mode.
+// into fill mode. 
 void processInput(GLFWwindow *window) {
     // If the esc key is pressed then the window closes.
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {

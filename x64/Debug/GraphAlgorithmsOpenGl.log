@@ -1,3 +1,2 @@
-﻿  ShaderProgram.cpp
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\ShaderProgram.cpp(50,27): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+﻿  main.cpp
   GraphAlgorithmsOpenGl.vcxproj -> C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\GraphAlgorithmsOpenGl.exe
