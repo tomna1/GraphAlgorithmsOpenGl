@@ -1,4 +1,11 @@
+#define DEFAULT_SCREEN_WIDTH 960
+#define DEFAULT_SCREEN_HEIGHT 720
+
 #include <GL/glew.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <string>
 #include <iostream>
@@ -122,7 +129,7 @@ GLFWwindow *setUp() {
     }
 
     // Sets up glfw window.
-    GLFWwindow *window = glfwCreateWindow(960, 720, "Hello World", nullptr, nullptr);
+    GLFWwindow *window = glfwCreateWindow(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, "Hello World", nullptr, nullptr);
     if (!window)
     {
         std::cerr << "Window failed to open" << std::endl;
@@ -131,6 +138,7 @@ GLFWwindow *setUp() {
     }
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
+
 
     // Sets up glew.
     if (glewInit() != GLEW_OK) {
@@ -145,7 +153,7 @@ GLFWwindow *setUp() {
 
     // Sets the opengl viewport size and sets the framebufferSizeCallback
     // function to be called everytime the window is resized.
-    glViewport(0, 0, 960, 720);
+    glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
     // Sets up debug message callback function
@@ -154,6 +162,10 @@ GLFWwindow *setUp() {
 
     // Sets the background colour of the window.
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+
+    // GL_DEPTH_TEST is used to make sure that sides that are closes to the 
+    // camera are drawn over sides that are further away
+    glEnable(GL_DEPTH_TEST);
 
     return window;
 }
