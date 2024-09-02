@@ -12,13 +12,18 @@
 
 #include "ShaderProgram.h"
 #include "setup.h"
+#include "Camera.h"
 
+
+// timing
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 
 /**
 * The function in which all of the input code should be handled. This function
 * should be called every render loop.
 */
-void processInput(GLFWwindow *window);
+void processInput(GLFWwindow *window, Camera *cam);
 
 // THERE IS VERY MINIMAL ERROR HANDLING IN THIS PRORGAM SO IF SOMETHING GOES
 // WRONG, EVERYTHING WILL GO WRONG. IT IS NOT A BUG, IT IS A FEATURE.
@@ -29,21 +34,20 @@ int main(void) {
     ShaderProgram s1("res\\shaders\\vertexShader.shader", "res\\shaders\\fragmentShader.shader");
     s1.use();
 
+    // Camera setup
+    Camera cam = Camera();
+
     // model matrix consists of translations, scaling and rotations applied
     // to all objects to place then in the correct global world space.
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.5f, 0.0f));
 
-    // view matrix does some stuff that should simulate a camera hopefully.
-    glm::mat4 view = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
-
     // A projection matrix does some stuff with perspective honestly im not sure.
     glm::mat4 projection = glm::mat4(1.0f);
-    projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(45.0f), 960.0f / 720.0f, 0.1f, 100.0f);
 
     s1.setMatrix4("model", model);
-    s1.setMatrix4("view", view);
+    s1.setMatrix4("view", cam.getViewMatrix());
     s1.setMatrix4("projection", projection);
 
     // cube vertices array
@@ -92,11 +96,18 @@ int main(void) {
         -0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f
     };
 
-    //glm::mat4 trans = glm::mat4(1.0f);
-    //trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
-    //s1.setMatrix4("transform", trans);
-    
-
+    glm::vec3 cubePositions[] = {
+        glm::vec3(0.0f, 0.0f, 0.0f),
+        glm::vec3(2.0f,  5.0f, -15.0f),
+        glm::vec3(-1.5f, -2.2f, -2.5f),
+        glm::vec3(-3.8f, -2.0f, -12.3f),
+        glm::vec3(2.4f, -0.4f, -3.5f),
+        glm::vec3(-1.7f,  3.0f, -7.5f),
+        glm::vec3(1.3f, -2.0f, -2.5f),
+        glm::vec3(1.5f,  2.0f, -2.5f),
+        glm::vec3(1.5f,  0.2f, -1.5f),
+        glm::vec3(-1.3f,  1.0f, -1.5f)
+    };
 
     GLuint vertexArrayObject;
     glGenVertexArrays(1, &vertexArrayObject);
@@ -119,13 +130,27 @@ int main(void) {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        processInput(window);
-        
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        // Timing stuff
+        float currentFrame = static_cast<float>(glfwGetTime());
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
 
-        // rotate rectangle
-        model = glm::rotate(model, sin(float(glfwGetTime())) * glm::radians(2.0f), glm::vec3(1.0f, 0.5f, 0.0f));
-        s1.setMatrix4("model", model);
+        processInput(window, &cam);
+
+        // Draws 10 rainbow cubes in various places and rotations
+        for (unsigned int i = 0; i < 10; i++)
+        {
+            // create 10 cubes at different positions and rotations
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, cubePositions[i]);
+            float angle = 20.0f * i;
+            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            s1.setMatrix4("model", model);
+
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+       
+        s1.setMatrix4("view", cam.getViewMatrix());
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -141,7 +166,7 @@ int main(void) {
 
 // ESC to exit, TAB to go into wireframe mode and LEFT_SHIFT to go back
 // into fill mode. 
-void processInput(GLFWwindow *window) {
+void processInput(GLFWwindow *window, Camera *cam) {
     // If the esc key is pressed then the window closes.
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
@@ -156,4 +181,17 @@ void processInput(GLFWwindow *window) {
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
+
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        cam->ProcessKeyboardMovement(W, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        cam->ProcessKeyboardMovement(S, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        cam->ProcessKeyboardMovement(A, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        cam->ProcessKeyboardMovement(D, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+        cam->ProcessKeyboardMovement(Q, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+        cam->ProcessKeyboardMovement(E, deltaTime);
 }
