@@ -1,7 +1,5 @@
 #include "Camera.h"
 
-#include <iostream>
-
 void Camera::ZoomOut() {
 	float z = m_cameraPos.z;
 	if (z < MAX_Z_DISTANCE) return;
@@ -46,10 +44,10 @@ glm::mat4 Camera::getViewMatrix() {
 
 void Camera::ProcessKeyboardMovement(Keys keyPressed, float deltaTime) {
 	float velocity = m_cameraSpeed * deltaTime;
-	if (keyPressed == W) m_cameraPos -= glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
-	if (keyPressed == A) m_cameraPos += glm::vec3(1.0f, 0.0f, 0.0f) * velocity;
-	if (keyPressed == S) m_cameraPos += glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
-	if (keyPressed == D) m_cameraPos -= glm::vec3(1.0f, 0.0f, 0.0f) * velocity;
-	if (keyPressed == Q) ZoomOut();
-	if (keyPressed == E) ZoomIn();
+	if (keyPressed == Keys::W_KEY) m_cameraPos -= glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
+	else if (keyPressed == Keys::A_KEY) m_cameraPos += glm::vec3(1.0f, 0.0f, 0.0f) * velocity;
+	else if (keyPressed == Keys::S_KEY) m_cameraPos += glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
+	else if (keyPressed == Keys::D_KEY) m_cameraPos -= glm::vec3(1.0f, 0.0f, 0.0f) * velocity;
+	else if (keyPressed == Keys::Q_KEY) ZoomOut();
+	else if (keyPressed == Keys::E_KEY) ZoomIn();
 }

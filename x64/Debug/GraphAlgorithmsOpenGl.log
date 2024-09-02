@@ -1,4 +1,8 @@
 ﻿  Camera.cpp
+  MappedGraph.cpp
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\MappedGraph.cpp(64,23): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\MappedGraph.cpp(69,33): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\MappedGraph.cpp(77,30): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
   main.cpp
   Generating Code...
   GraphAlgorithmsOpenGl.vcxproj -> C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\GraphAlgorithmsOpenGl.exe

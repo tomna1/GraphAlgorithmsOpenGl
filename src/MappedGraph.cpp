@@ -6,13 +6,13 @@
 MappedGraph::MappedGraph() {
 	m_nodes = {};
 	m_edges = {};
-	m_edges.resize(5);
+	m_edges.resize(2);
 }
 // Initialises a graph with the nodes in the array and no edges.
 MappedGraph::MappedGraph(const std::vector<GraphNode> &nodes)
 	: m_nodes(nodes)
 {
-	m_edges.resize(5);
+	m_edges.resize(2);
 }
 // Initialises a graph with nodes and edges.
 MappedGraph::MappedGraph(const std::vector<GraphNode> &nodes,

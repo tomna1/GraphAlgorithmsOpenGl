@@ -127,7 +127,7 @@ int main(void) {
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
-        /* Render here */
+        // Clear what was previously drawn on the window.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Timing stuff
@@ -165,7 +165,7 @@ int main(void) {
 }
 
 // ESC to exit, TAB to go into wireframe mode and LEFT_SHIFT to go back
-// into fill mode. 
+// into fill mode. WASD to move the camera, Q to zoom out and E to zoom in.
 void processInput(GLFWwindow *window, Camera *cam) {
     // If the esc key is pressed then the window closes.
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
@@ -183,15 +183,15 @@ void processInput(GLFWwindow *window, Camera *cam) {
     }
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        cam->ProcessKeyboardMovement(W, deltaTime);
+        cam->ProcessKeyboardMovement(Keys::W_KEY, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        cam->ProcessKeyboardMovement(S, deltaTime);
+        cam->ProcessKeyboardMovement(Keys::S_KEY, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        cam->ProcessKeyboardMovement(A, deltaTime);
+        cam->ProcessKeyboardMovement(Keys::A_KEY, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        cam->ProcessKeyboardMovement(D, deltaTime);
+        cam->ProcessKeyboardMovement(Keys::D_KEY, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-        cam->ProcessKeyboardMovement(Q, deltaTime);
+        cam->ProcessKeyboardMovement(Keys::Q_KEY, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-        cam->ProcessKeyboardMovement(E, deltaTime);
+        cam->ProcessKeyboardMovement(Keys::E_KEY, deltaTime);
 }
