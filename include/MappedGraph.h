@@ -15,14 +15,13 @@ class MappedGraph {
 private:
 	// All the nodes associated with the graph.
 	std::vector<GraphNode> m_nodes;
-	
-	// MAYBE THE PAIR IN THIS ARRAY SHOULD BE A PAIR WHICH WOULD BE THE INDEX OF
-	// THE NODE IN M_NODES IT IS CONNECTED TO INSTEAD OF THAT NODE.
 
 	// Each node has a list which contains what other nodes it is connected to
 	// and the weight of each connection. The first list of edges relates to the
-	// first node in the nodes dynamic array.
-	std::vector<std::vector<std::pair<GraphNode, int>>> m_edges;
+	// first node in the nodes dynamic array. The first int in the pair is the 
+	// index of the node in the m_nodes array it is connected to and the second int
+	// is the edge weight
+	std::vector<std::vector<std::pair<int, int>>> m_edges;
 public:
 	// Initialises a graph with no nodes and no edges.
 	MappedGraph();
@@ -30,17 +29,17 @@ public:
 	MappedGraph(const std::vector<GraphNode> &nodes);
 	// Initialises a graph with nodes and edges.
 	MappedGraph(const std::vector<GraphNode> &nodes,
-		const std::vector<std::vector<std::pair<GraphNode, int>>> &edges);
+		const std::vector<std::vector<std::pair<int, int>>> &edges);
 	// Copy constructor.
 	MappedGraph(const MappedGraph &rhs);
 	// Destructor.
 	~MappedGraph();
 private:
 	// Returns the index of the specified node in the m_nodes array. Will
-	// return -1 if not found.
+	// return -1 if not found. O(n)
 	int getNodeIndex(const GraphNode &node);
 	// Returns the index of the specified edge in the m_edges array. Returns 
-	// -1 if the edge has not been found.
+	// -1 if the edge has not been found. O(n)
 	int getEdgeIndex(const GraphNode &node, const GraphNode &rhs);
 	// Returns the node at m_nodes[index]. NO ERROR
 	// CHECKING SO MAKE SURE TO INPUT CORRECT INDEX.
@@ -49,37 +48,43 @@ private:
 	// INDEX.
 	GraphNode &getNode(const int nodeIndex, const int edgeIndex);
 public:
-	// Returns the amount of nodes stored in the graph.
+	// Returns the amount of nodes stored in the graph. O(n)
 	int getNodeCount();
-	// Returns the amount of edges stored in the graph.
+	// Returns the amount of edges stored in the graph. O(n)
 	int getEdgeCount();
 	// Gets the amount of edges a specific node in the graph has. Will return 
-	// -1 if the node is not found in the graph.
+	// -1 if the node is not found in the graph. O(n)
 	int getEdgeCount(const GraphNode &node);
 	// Gets the weight between of an edge between 2 nodes. If there is no edge
-	// then will return -1.
+	// then will return -1. O(n)
 	int getEdgeWeight(const GraphNode &node, const GraphNode &rhs);
 
-	// Checks if the graph has a certain node
+	// Checks if the graph has a certain node. O(n)
 	bool hasNode(const GraphNode &node);
-	// Checks if the graph has a certain edge between nodes.
+	// Checks if the graph has a certain edge between nodes. O(n)
 	bool hasEdge(const GraphNode &node, const GraphNode &rhs);
+private:
+	// Checks if the graph has a certain edge between a node and
+	// m_nodes[nodeIndex].
+	bool hasEdge(const GraphNode &node, int nodeIndex);
 
-
+public:
 	// Adds Node to the graph. Returns true if nodes has been successfully added
-	// and false if the nodes has failed to be added.
+	// and false if the nodes has failed to be added. O(n) (checks if the node 
+	// has already been added)
 	bool addNode(const GraphNode &node);
 	// Adds a bidirectional edge between 2 nodes. Returns true if the edge has 
 	// been successfully added and false if the edge has failed to be added.
 	// Both specified nodes have to be in the graph for the edge to be added.
+	// O(n) (checks if nodes are already in graph)
 	bool addEdge(const GraphNode &node, const GraphNode &rhs, int weight);
 	// Adds all the nodes to the graph. Will not add duplicate nodes. Returns
 	// true if all nodes not already in the graph have been added and false
 	// if all nodes not already in the graph have not all been successfully
-	// added.
+	// added. 
 	bool addNodes(const std::vector<GraphNode> &nodes);
 	// Adds all the edges to a node.
-	bool addEdges(const GraphNode &node, const std::vector<std::pair<GraphNode, int>> &edges);
+	bool addEdges(const GraphNode &node, const std::vector<std::pair<int, int>> &edges);
 
 	// Removes a nodes and all edges associated with that node.
 	bool removeNode(const GraphNode &node);
@@ -94,7 +99,7 @@ public:
 	// Print out and edge to the standard output. Example: Edge(Node(1, 2), 5)
 	// where 1 is the x coordinate of the node, 2 is the y coordinate and 5 is 
 	// the edge weight
-	void printEdge(const std::pair<GraphNode, int> &edge);
+	void printEdge(const std::pair<int, int> &edge);
 	// Print out a node to the standard output. Example: Node(5, 6) where 5 is
 	// the x coordinate of the node and 6 is the y coordinate.
 	void printNodes();
