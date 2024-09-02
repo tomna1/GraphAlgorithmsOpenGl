@@ -1,6 +1,10 @@
 #ifndef GRAPHNODE_H
 #define GRAPHNODE_H
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 // A node with x and y values which represents the position of the node
 // on a 2D plane.
 class GraphNode {
@@ -35,6 +39,10 @@ public:
 	// Prints out a Node to the standard output. Example: Node(1, 2) where 1
 	// is the x coordinate of the node and 2 is the y coordinate.
 	void printNode() const;
+
+	// Uses the position coordinate of the graphnode to generate a model 
+	// matrix.
+	glm::mat4 generateModelMatrix() const;
 };
 
 #endif

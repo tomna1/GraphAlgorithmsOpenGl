@@ -13,6 +13,8 @@
 #include "ShaderProgram.h"
 #include "setup.h"
 #include "Camera.h"
+#include "MappedGraph.h"
+#include "GraphNode.h"
 
 
 // timing
@@ -36,6 +38,14 @@ int main(void) {
 
     // Camera setup
     Camera cam = Camera();
+
+    // GraphNode setup
+    GraphNode n[3];
+
+    n[0] = GraphNode();
+    n[1] = GraphNode(1, 5);
+    n[2] = GraphNode(-2, -7);
+
 
     // model matrix consists of translations, scaling and rotations applied
     // to all objects to place then in the correct global world space.
@@ -138,6 +148,7 @@ int main(void) {
         processInput(window, &cam);
 
         // Draws 10 rainbow cubes in various places and rotations
+        /*
         for (unsigned int i = 0; i < 10; i++)
         {
             // create 10 cubes at different positions and rotations
@@ -147,6 +158,14 @@ int main(void) {
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             s1.setMatrix4("model", model);
 
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+        */
+
+        // Draw all the nodes in the graph.
+        for (int i = 0; i < 3; i++) {
+            glm::mat4 model = n[i].generateModelMatrix();
+            s1.setMatrix4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
        
