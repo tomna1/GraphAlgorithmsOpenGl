@@ -1,9 +1,12 @@
 #ifndef GRAPHNODE_H
 #define GRAPHNODE_H
 
+#include <GL/glew.h>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
 
 // A node with x and y values which represents the position of the node
 // on a 2D plane.
@@ -11,7 +14,6 @@ class GraphNode {
 private:
 	int m_x;
 	int m_y;
-
 public:
 	// Creates a node with x = 0 and y = 0.
 	GraphNode();

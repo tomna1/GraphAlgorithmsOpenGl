@@ -1,3 +1,6 @@
+#ifndef SHADER_PROGRAM_H
+#define SHADER_PROGRAM_H
+
 #include <string>
 
 #include <GL/glew.h>
@@ -47,3 +50,5 @@ private:
 	// Compiles the shader given the source code and type of shader it is
 	GLuint compileShader(GLuint type, const char *source);
 };
+
+#endif

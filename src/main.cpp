@@ -1,5 +1,3 @@
-#define GLEW_STATIC
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -15,6 +13,7 @@
 #include "Camera.h"
 #include "MappedGraph.h"
 #include "GraphNode.h"
+#include "VertexArray.h"
 
 
 // timing
@@ -26,6 +25,7 @@ float lastFrame = 0.0f;
 * should be called every render loop.
 */
 void processInput(GLFWwindow *window, Camera *cam);
+
 
 // THERE IS VERY MINIMAL ERROR HANDLING IN THIS PRORGAM SO IF SOMETHING GOES
 // WRONG, EVERYTHING WILL GO WRONG. IT IS NOT A BUG, IT IS A FEATURE.
@@ -39,18 +39,10 @@ int main(void) {
     // Camera setup
     Camera cam = Camera();
 
-    // GraphNode setup
-    GraphNode n[3];
-
-    n[0] = GraphNode();
-    n[1] = GraphNode(1, 5);
-    n[2] = GraphNode(-2, -7);
-
-
     // model matrix consists of translations, scaling and rotations applied
     // to all objects to place then in the correct global world space.
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.5f, 0.0f));
+    // model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.5f, 0.0f));
 
     // A projection matrix does some stuff with perspective honestly im not sure.
     glm::mat4 projection = glm::mat4(1.0f);
@@ -119,23 +111,36 @@ int main(void) {
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
 
-    GLuint vertexArrayObject;
-    glGenVertexArrays(1, &vertexArrayObject);
-    glBindVertexArray(vertexArrayObject);
+    float GraphNodeVertices[] = {
+        // just a simple hexagon for now.
+        -0.5f,  0.25f,
+         0.0f,  0.5f,
+         0.5f,  0.25f,
 
-    GLuint buffer;
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, 6 * 36 * sizeof(float), &positions, GL_STATIC_DRAW);
+        -0.5f, -0.25f,
+         0.0f, -0.5f,
+         0.5f, -0.25f,
+
+         -0.5f, -0.25f,
+         -0.5f,  0.25f,
+          0.5f,  0.25f,
+
+         -0.5f, -0.25f,
+          0.5f, -0.25f,
+          0.5f,  0.25f
+    };
+
+    VertexArray va = VertexArray();
+
+    VertexBuffer vb(GraphNodeVertices, 12 * 2 * sizeof(float));
+    vb.Bind();
+
+    VertexArrayLayout layout1 = VertexArrayLayout();
+    layout1.addAttribute(VertexAttribute{GL_FLOAT, 2, GL_FALSE});
+    va.addLayout(vb, layout1);
     
-    // Position attributes.
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
-    glEnableVertexAttribArray(0);
-    // Colour attributes.
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
 
-    /* Loop until the user closes the window */
+    // Loop until the user closes the window.
     while (!glfwWindowShouldClose(window)) {
         // Clear what was previously drawn on the window.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -148,6 +153,7 @@ int main(void) {
         processInput(window, &cam);
 
         // Draws 10 rainbow cubes in various places and rotations
+        
         /*
         for (unsigned int i = 0; i < 10; i++)
         {
@@ -159,22 +165,17 @@ int main(void) {
             s1.setMatrix4("model", model);
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
-        */
+        }*/
 
-        // Draw all the nodes in the graph.
-        for (int i = 0; i < 3; i++) {
-            glm::mat4 model = n[i].generateModelMatrix();
-            s1.setMatrix4("model", model);
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
+        vb.Bind();
+        vb.DrawTriangles(0, 12);
        
         s1.setMatrix4("view", cam.getViewMatrix());
 
-        /* Swap front and back buffers */
+        // Swap front and back buffers 
         glfwSwapBuffers(window);
 
-        /* Poll for and process events */
+        // Poll for and process events 
         glfwPollEvents();
     }
 
@@ -214,3 +215,4 @@ void processInput(GLFWwindow *window, Camera *cam) {
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
         cam->ProcessKeyboardMovement(Keys::E_KEY, deltaTime);
 }
+

@@ -66,3 +66,4 @@ glm::mat4 GraphNode::generateModelMatrix() const {
 	model = glm::translate(model, glm::vec3(m_x, m_y, 0));
 	return model;
 }
+
