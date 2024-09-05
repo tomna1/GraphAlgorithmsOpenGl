@@ -14,6 +14,8 @@
 #include "MappedGraph.h"
 #include "GraphNode.h"
 #include "VertexArray.h"
+#include "IndexBuffer.h"
+#include "Renderer.h"
 
 
 // timing
@@ -33,8 +35,7 @@ int main(void) {
     GLFWwindow* window = setUp();
 
     // Shader setup
-    ShaderProgram s1("res\\shaders\\vertexShader.shader", "res\\shaders\\fragmentShader.shader");
-    s1.use();
+    ShaderProgram shader1("res\\shaders\\vertexShader.shader", "res\\shaders\\fragmentShader.shader");
 
     // Camera setup
     Camera cam = Camera();
@@ -48,9 +49,9 @@ int main(void) {
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(glm::radians(45.0f), 960.0f / 720.0f, 0.1f, 100.0f);
 
-    s1.setMatrix4("model", model);
-    s1.setMatrix4("view", cam.getViewMatrix());
-    s1.setMatrix4("projection", projection);
+    shader1.setMatrix4("model", model);
+    shader1.setMatrix4("view", cam.getViewMatrix());
+    shader1.setMatrix4("projection", projection);
 
     // cube vertices array
     float positions[] = {
@@ -113,37 +114,38 @@ int main(void) {
 
     float GraphNodeVertices[] = {
         // just a simple hexagon for now.
-        -0.5f,  0.25f,
-         0.0f,  0.5f,
-         0.5f,  0.25f,
-
-        -0.5f, -0.25f,
-         0.0f, -0.5f,
-         0.5f, -0.25f,
-
-         -0.5f, -0.25f,
-         -0.5f,  0.25f,
-          0.5f,  0.25f,
-
-         -0.5f, -0.25f,
-          0.5f, -0.25f,
-          0.5f,  0.25f
+        -0.5f,  0.25f, // top left
+         0.0f,  0.5f, // top middle
+         0.5f,  0.25f, // top right
+         0.5f, -0.25f, // bottom right
+         0.0f, -0.5f, // bottom middle
+        -0.5f, -0.25f // bottom left
+    };
+    unsigned int GNindices[] = {
+        0, 1, 2, // top triangle
+        3, 4, 5, // bottom triangle
+        5, 0, 2, // square p1
+        2, 3, 5  // square p2
     };
 
     VertexArray va = VertexArray();
+    va.Bind();
 
-    VertexBuffer vb(GraphNodeVertices, 12 * 2 * sizeof(float));
+    VertexBuffer vb = VertexBuffer(GraphNodeVertices, 6 * 2 * sizeof(float));
     vb.Bind();
 
     VertexArrayLayout layout1 = VertexArrayLayout();
     layout1.addAttribute(VertexAttribute{GL_FLOAT, 2, GL_FALSE});
     va.addLayout(vb, layout1);
-    
+
+    IndexBuffer ib = IndexBuffer(GNindices, 12);
+    ib.Bind();
+
+    Renderer renderer = Renderer();
 
     // Loop until the user closes the window.
     while (!glfwWindowShouldClose(window)) {
-        // Clear what was previously drawn on the window.
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        renderer.Clear();
 
         // Timing stuff
         float currentFrame = static_cast<float>(glfwGetTime());
@@ -152,26 +154,7 @@ int main(void) {
 
         processInput(window, &cam);
 
-        // Draws 10 rainbow cubes in various places and rotations
-        
-        /*
-        for (unsigned int i = 0; i < 10; i++)
-        {
-            // create 10 cubes at different positions and rotations
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, cubePositions[i]);
-            float angle = 20.0f * i;
-            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            s1.setMatrix4("model", model);
-
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }*/
-
-        vb.Bind();
-        vb.DrawTriangles(0, 12);
-        
-        // update the camera view.
-        s1.setMatrix4("view", cam.getViewMatrix());
+        renderer.Draw(va, ib, shader1, cam);    
 
         // Swap front and back buffers 
         glfwSwapBuffers(window);
@@ -180,7 +163,7 @@ int main(void) {
         glfwPollEvents();
     }
 
-    s1.destroy();
+    shader1.destroy();
     glfwTerminate();
     return 0;
 }

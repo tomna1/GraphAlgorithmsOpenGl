@@ -1,7 +1,9 @@
 #include "VertexArray.h"
 
+#include <iostream>
+
 VertexArray::VertexArray() {
-	glGenBuffers(1, &m_renderer_ID);
+	glGenVertexArrays(1, &m_renderer_ID);
 	m_attributes = {};
 }
 

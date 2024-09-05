@@ -1,5 +1,5 @@
-#ifndef VERTEX_BUFFER_H
-#define VERTEX_BUFFER_H
+#ifndef INDEX_BUFFER_H
+#define INDEX_BUFFER_H
 
 #include <GL/glew.h>
 
