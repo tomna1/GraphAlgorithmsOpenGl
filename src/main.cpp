@@ -169,7 +169,8 @@ int main(void) {
 
         vb.Bind();
         vb.DrawTriangles(0, 12);
-       
+        
+        // update the camera view.
         s1.setMatrix4("view", cam.getViewMatrix());
 
         // Swap front and back buffers 
