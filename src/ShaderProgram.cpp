@@ -3,19 +3,19 @@
 
 #include "ShaderProgram.h"
 
-void ShaderProgram::use() {
+void ShaderProgram::Use() {
     glUseProgram(m_id);
 }
 
-void ShaderProgram::destroy() {
+void ShaderProgram::Destroy() {
     glDeleteProgram(m_id);
 }
 
-GLuint ShaderProgram::getID() {
+GLuint ShaderProgram::GetID() {
     return m_id;
 }
 
-bool ShaderProgram::setBool(const std::string &name, bool value) const {
+bool ShaderProgram::SetBool(const std::string &name, bool value) const {
     GLint location = glGetUniformLocation(m_id, name.c_str());
     if (location == -1) {
         std::cerr << "Uniform variable \"" << name << "\" could not be found."
@@ -27,7 +27,7 @@ bool ShaderProgram::setBool(const std::string &name, bool value) const {
     return true;
 }
 
-bool ShaderProgram::setInt(const std::string &name, int value) const {
+bool ShaderProgram::SetInt(const std::string &name, int value) const {
     GLint location = glGetUniformLocation(m_id, name.c_str());
     if (location == -1) {
         std::cerr << "Uniform variable \"" << name << "\" could not be found."
@@ -39,7 +39,7 @@ bool ShaderProgram::setInt(const std::string &name, int value) const {
     return true;
 }
 
-bool ShaderProgram::setFloat(const std::string &name, float value) const {
+bool ShaderProgram::SetFloat(const std::string &name, float value) const {
     GLint location = glGetUniformLocation(m_id, name.c_str());
     if (location == -1) {
         std::cerr << "Uniform variable \"" << name << "\" could not be found."
@@ -51,7 +51,7 @@ bool ShaderProgram::setFloat(const std::string &name, float value) const {
     return true;
 }
 
-bool ShaderProgram::setMatrix4(const std::string &name, glm::mat4 trans) const {
+bool ShaderProgram::SetMatrix4(const std::string &name, glm::mat4 trans) const {
     GLint location = glGetUniformLocation(m_id, name.c_str());
     if (location == -1) {
         std::cerr << "Uniform variable \"" << name << "\" could not be found."
@@ -64,24 +64,24 @@ bool ShaderProgram::setMatrix4(const std::string &name, glm::mat4 trans) const {
 }
 
 ShaderProgram::ShaderProgram(const char *vertexPath, const char *fragPath) {
-    setUpShaderProgram(vertexPath, fragPath);
+    SetUpShaderProgram(vertexPath, fragPath);
 }
 
 // Main function to set up the shader program.
-GLuint ShaderProgram::setUpShaderProgram(const char *vertexPath, const char *fragPath) {
+GLuint ShaderProgram::SetUpShaderProgram(const char *vertexPath, const char *fragPath) {
     // expected filepath: res\shaders\vertexShader.shader
     // expected filepath: res\shaders\fragmentShader.shader
 
-    std::string vertexShader = readShaderFromFile(vertexPath);
-    std::string fragmentShader = readShaderFromFile(fragPath);
-    GLuint shaderProgram = createShaderProgram(vertexShader.c_str(), fragmentShader.c_str());
+    std::string vertexShader = ReadShaderFromFile(vertexPath);
+    std::string fragmentShader = ReadShaderFromFile(fragPath);
+    GLuint shaderProgram = CreateShaderProgram(vertexShader.c_str(), fragmentShader.c_str());
     glUseProgram(shaderProgram);
     return shaderProgram;
 }
 
 
 // Returns the source code of the shader in the specified file
-std::string ShaderProgram::readShaderFromFile(const char *fileName) {
+std::string ShaderProgram::ReadShaderFromFile(const char *fileName) {
     std::ifstream file;
     file.open(fileName);
 
@@ -103,10 +103,10 @@ std::string ShaderProgram::readShaderFromFile(const char *fileName) {
 }
 
 // Creates a shader program given the source code of the vertex and fragment shader
-GLuint ShaderProgram::createShaderProgram(const char *vertexShader, const char *fragmentShader) {
+GLuint ShaderProgram::CreateShaderProgram(const char *vertexShader, const char *fragmentShader) {
     GLuint shaderProgram = glCreateProgram();
-    GLuint vs = compileShader(GL_VERTEX_SHADER, vertexShader);
-    GLuint fs = compileShader(GL_FRAGMENT_SHADER, fragmentShader);
+    GLuint vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
+    GLuint fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
 
     glAttachShader(shaderProgram, vs);
     glAttachShader(shaderProgram, fs);
@@ -129,7 +129,7 @@ GLuint ShaderProgram::createShaderProgram(const char *vertexShader, const char *
 
 
 // Compiles the shader given the source code and type of shader it is
-GLuint ShaderProgram::compileShader(GLuint type, const char *source) {
+GLuint ShaderProgram::CompileShader(GLuint type, const char *source) {
     // check the type is a valid type.
     if ((type != GL_COMPUTE_SHADER)         &&
         (type != GL_VERTEX_SHADER)          &&

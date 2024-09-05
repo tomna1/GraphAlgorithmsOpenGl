@@ -28,7 +28,7 @@ MappedGraph::~MappedGraph() {
 	// TODO: THIS.
 }
 
-int MappedGraph::getNodeIndex(const GraphNode &node) {
+int MappedGraph::GetNodeIndex(const GraphNode &node) {
 	for (int i = 0; i < m_nodes.size(); i++) {
 		if (m_nodes[i] == node) {
 			return i;
@@ -36,8 +36,8 @@ int MappedGraph::getNodeIndex(const GraphNode &node) {
 	}
 	return -1;
 }
-int MappedGraph::getEdgeIndex(const GraphNode &node, const GraphNode &rhs) {
-	int index = getNodeIndex(node);
+int MappedGraph::GetEdgeIndex(const GraphNode &node, const GraphNode &rhs) {
+	int index = GetNodeIndex(node);
 	if (index == -1) {
 		return -1;
 	}
@@ -49,11 +49,11 @@ int MappedGraph::getEdgeIndex(const GraphNode &node, const GraphNode &rhs) {
 	}
 	return -1;
 }
-GraphNode &MappedGraph::getNode(const int index) {
+GraphNode &MappedGraph::GetNode(const int index) {
 	// if (index > m_nodes.size() - 1) return;
 	return m_nodes[index];
 }
-GraphNode &MappedGraph::getNode(const int nodeIndex, const int edgeIndex) {
+GraphNode &MappedGraph::GetNode(const int nodeIndex, const int edgeIndex) {
 	// if (nodeIndex > m_nodes.size() - 1) return;
 	// if (edgeIndex > m_edges[nodeIndex].size() - 1) return;
 	int index = m_edges[nodeIndex][edgeIndex].first;
@@ -61,43 +61,43 @@ GraphNode &MappedGraph::getNode(const int nodeIndex, const int edgeIndex) {
 }
 
 
-int MappedGraph::getNodeCount() {
+int MappedGraph::GetNodeCount() {
 	return m_nodes.size();
 }
-int MappedGraph::getEdgeCount() {
+int MappedGraph::GetEdgeCount() {
 	int edgeCount = 0;
 	for (int i = 0; i < m_edges.size(); i++) {
 		edgeCount += m_edges[i].size();
 	}
 	return edgeCount;
 }
-int MappedGraph::getEdgeCount(const GraphNode &node) {
-	int index = getNodeIndex(node);
+int MappedGraph::GetEdgeCount(const GraphNode &node) {
+	int index = GetNodeIndex(node);
 	if (index == -1) return -1;
 
 	return m_edges[index].size();
 }
-int MappedGraph::getEdgeWeight(const GraphNode &node, const GraphNode &rhs) {
-	int index = getNodeIndex(node);
+int MappedGraph::GetEdgeWeight(const GraphNode &node, const GraphNode &rhs) {
+	int index = GetNodeIndex(node);
 	if (index == -1) return -1;
 
-	int edgeIndex = getEdgeIndex(node, rhs);
+	int edgeIndex = GetEdgeIndex(node, rhs);
 	if (edgeIndex == -1) return -1;
 
 	return m_edges[index][edgeIndex].second;
 }
 
 
-bool MappedGraph::hasNode(const GraphNode &node) {
+bool MappedGraph::HasNode(const GraphNode &node) {
 	for (int i = 0; i < m_nodes.size(); i++) {
 		if (m_nodes[i] == node) return true;
 	}
 	return false;
 }
-bool MappedGraph::hasEdge(const GraphNode &node, const GraphNode &rhs) {
-	int index = getNodeIndex(node);
+bool MappedGraph::HasEdge(const GraphNode &node, const GraphNode &rhs) {
+	int index = GetNodeIndex(node);
 	if (index == -1) return false;
-	int index2 = getNodeIndex(rhs);
+	int index2 = GetNodeIndex(rhs);
 	if (index2 == -1) return false;
 
 	for (int i = 0; i < m_edges[index].size(); i++) {
@@ -107,8 +107,8 @@ bool MappedGraph::hasEdge(const GraphNode &node, const GraphNode &rhs) {
 	}
 	return false;
 }
-bool MappedGraph::hasEdge(const GraphNode &node, int nodeIndex) {
-	int index = getNodeIndex(node);
+bool MappedGraph::HasEdge(const GraphNode &node, int nodeIndex) {
+	int index = GetNodeIndex(node);
 	if (index == -1) return false;
 
 	for (int i = 0; i < m_edges[index].size(); i++) {
@@ -117,7 +117,7 @@ bool MappedGraph::hasEdge(const GraphNode &node, int nodeIndex) {
 	return false;
 }
 
-bool MappedGraph::addNode(const GraphNode &node) {
+bool MappedGraph::AddNode(const GraphNode &node) {
 	m_nodes.push_back(node);
 
 	if (m_nodes.size() >= m_edges.capacity()) {
@@ -125,18 +125,18 @@ bool MappedGraph::addNode(const GraphNode &node) {
 	}
 	return true;
 }
-bool MappedGraph::addEdge(const GraphNode &node, const GraphNode &to, int weight) {
-	int index = getNodeIndex(node);
+bool MappedGraph::AddEdge(const GraphNode &node, const GraphNode &to, int weight) {
+	int index = GetNodeIndex(node);
 	if (index == -1) return false;
 
-	int index2 = getNodeIndex(to);
+	int index2 = GetNodeIndex(to);
 	if (index2 == -1) return false;
 
 	m_edges[index].push_back({ index2, weight });
 	m_edges[index2].push_back({ index, weight });
 	return true;
 }
-bool MappedGraph::addNodes(const std::vector<GraphNode> &nodes) {
+bool MappedGraph::AddNodes(const std::vector<GraphNode> &nodes) {
 	for (int i = 0; i < nodes.size(); i++) {
 		m_nodes.push_back(nodes[i]);
 		m_edges.push_back({});
@@ -145,12 +145,12 @@ bool MappedGraph::addNodes(const std::vector<GraphNode> &nodes) {
 	m_edges.resize(m_edges.capacity() + nodes.size());
 	return true;
 }
-bool MappedGraph::addEdges(const GraphNode &node, const std::vector<std::pair<int, int>> &edges) {
-	int index = getNodeIndex(node);
+bool MappedGraph::AddEdges(const GraphNode &node, const std::vector<std::pair<int, int>> &edges) {
+	int index = GetNodeIndex(node);
 	if (index == -1) return false;
 
 	for (int i = 0; i < edges.size(); i++) {
-		if (!hasEdge(node, edges[i].first)) {
+		if (!HasEdge(node, edges[i].first)) {
 			m_edges[index].push_back(edges[i]);
 		}
 		else return false;
@@ -159,13 +159,13 @@ bool MappedGraph::addEdges(const GraphNode &node, const std::vector<std::pair<in
 }
 
 
-bool MappedGraph::removeNode(const GraphNode &node) {
-	int index = getNodeIndex(node);
+bool MappedGraph::RemoveNode(const GraphNode &node) {
+	int index = GetNodeIndex(node);
 	if (index == -1) return false;
 
 	// remove all edges associated with the node
 	while (m_edges[index].size() > 0) {
-		removeEdge(node, getNode(index, 0));
+		RemoveEdge(node, GetNode(index, 0));
 	}
 
 	// remove the node from m_nodes array
@@ -178,22 +178,22 @@ bool MappedGraph::removeNode(const GraphNode &node) {
 
 	return true;
 }
-bool MappedGraph::removeEdge(const GraphNode &node, const GraphNode &rhs) {
-	int index = getNodeIndex(node);
+bool MappedGraph::RemoveEdge(const GraphNode &node, const GraphNode &rhs) {
+	int index = GetNodeIndex(node);
 	if (index == -1) return false;
 
-	int index2 = getNodeIndex(rhs);
+	int index2 = GetNodeIndex(rhs);
 	if (index2 == -1) return false;
 
-	if (!hasEdge(node, rhs)) {
+	if (!HasEdge(node, rhs)) {
 		return false;
 	}
 
-	int edgeIndex = getEdgeIndex(node, rhs);
+	int edgeIndex = GetEdgeIndex(node, rhs);
 	std::vector<std::pair<int, int>>::iterator it = m_edges[index].begin();
 	m_edges[index].erase(it + edgeIndex);
 
-	int edgeIndex2 = getEdgeIndex(rhs, node);
+	int edgeIndex2 = GetEdgeIndex(rhs, node);
 	it = m_edges[index2].begin();
 	m_edges[index2].erase(it + edgeIndex2);
 
@@ -201,55 +201,55 @@ bool MappedGraph::removeEdge(const GraphNode &node, const GraphNode &rhs) {
 }
 
 
-bool MappedGraph::changeEdgeWeight(const GraphNode &node, const GraphNode &rhs, const int newWeight) {
-	int index = getNodeIndex(node);
+bool MappedGraph::ChangeEdgeWeight(const GraphNode &node, const GraphNode &rhs, const int newWeight) {
+	int index = GetNodeIndex(node);
 	if (index == -1) return false;
 
-	int index2 = getNodeIndex(rhs);
+	int index2 = GetNodeIndex(rhs);
 	if (index2 == -1) return false;
 
-	int edgeIndex = getEdgeIndex(node, rhs);
+	int edgeIndex = GetEdgeIndex(node, rhs);
 	if (edgeIndex == -1) return false;
 
 	std::pair<int, int> newPair = std::make_pair(index2, newWeight);
 	m_edges[index][edgeIndex] = newPair;
 
-	int edgeIndex2 = getEdgeIndex(rhs, node);
+	int edgeIndex2 = GetEdgeIndex(rhs, node);
 	std::pair<int, int> newPair2 = std::make_pair(index, newWeight);
 	m_edges[index2][edgeIndex2] = newPair2;
 
 	return true;
 }
 
-void MappedGraph::printEdge(const std::pair<int, int> &edge) {
+void MappedGraph::PrintEdge(const std::pair<int, int> &edge) {
 	
-	std::cout << "Edge(Node(" << m_nodes[edge.first].getX() << ", " << m_nodes[edge.first].getY()
+	std::cout << "Edge(Node(" << m_nodes[edge.first].GetX() << ", " << m_nodes[edge.first].GetY()
 		<< "), " << edge.second << ')' << std::endl;
 }
-void MappedGraph::printNodes() {
+void MappedGraph::PrintNodes() {
 	std::cout << "Printing nodes of graph." << std::endl;
 	for (int i = 0; i < m_nodes.size(); i++) {
-		m_nodes[i].printNode();
+		m_nodes[i].PrintNode();
 	}
 }
-void MappedGraph::printEdges(const GraphNode &node) {
-	int index = getNodeIndex(node);
+void MappedGraph::PrintEdges(const GraphNode &node) {
+	int index = GetNodeIndex(node);
 	if (index == -1) return;
 
 	std::cout << "Printing edges of ";
-	node.printNode();
+	node.PrintNode();
 
 	for (int i = 0; i < m_edges[index].size(); i++) {
-		printEdge(m_edges[index][i]);
+		PrintEdge(m_edges[index][i]);
 	}
 }
-void MappedGraph::printAllEdges() {
+void MappedGraph::PrintAllEdges() {
 	std::cout << "Printing all Edges of the graph" << std::endl;
 	for (int i = 0; i < m_nodes.size(); i++) {
 		std::cout << "Printing Edges of ";
-		m_nodes[i].printNode();
+		m_nodes[i].PrintNode();
 		for (int j = 0; j < m_edges[i].size(); j++) {
-			printEdge(m_edges[i][j]);
+			PrintEdge(m_edges[i][j]);
 		}
 	}
 }
@@ -290,7 +290,7 @@ int getShortestUnvistedIndex(std::vector<DNode> vec) {
 }
 // Returns a list of nodes which indicates the shortest path between 2 nodes.
 // D indicates this uses Djikstra's shortest path algorithm.
-std::vector<GraphNode> MappedGraph::findShortestPathD(GraphNode &start, const GraphNode &end) {
+std::vector<GraphNode> MappedGraph::FindShortestPathD(GraphNode &start, const GraphNode &end) {
 	// Djikstra's algorithm works by:
 	// 1. Marking the distances from the start for all nodes connected to the
 	// current node. 
@@ -319,7 +319,7 @@ std::vector<GraphNode> MappedGraph::findShortestPathD(GraphNode &start, const Gr
 	int index, index2;
 
 	while ((*currentNode) != end) {
-		index = getNodeIndex(*currentNode);
+		index = GetNodeIndex(*currentNode);
 		// Mark the distances from start for all connected nodes.
 		for (int i = 0; i < m_edges[index].size(); i++) {
 			index2 = m_edges[index][i].first;
@@ -346,7 +346,7 @@ std::vector<GraphNode> MappedGraph::findShortestPathD(GraphNode &start, const Gr
 
 	while ((*currentNode) != start) {
 		output.insert(output.begin(), (*currentNode));
-		currentNode = &m_nodes[nodesInfo[getNodeIndex(*currentNode)].previousNodeIndex];
+		currentNode = &m_nodes[nodesInfo[GetNodeIndex(*currentNode)].previousNodeIndex];
 	}
 	output.insert(output.begin(), (*currentNode));
 

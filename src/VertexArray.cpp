@@ -19,16 +19,16 @@ void VertexArray::Unbind() const {
 	glBindVertexArray(0);
 }
 
-void VertexArray::addLayout(const VertexBuffer &vb, const VertexArrayLayout &layout) {
+void VertexArray::AddLayout(const VertexBuffer &vb, const VertexArrayLayout &layout) {
 	vb.Bind();
 
-	const std::vector<VertexAttribute> &elements = layout.getElements();
+	const std::vector<VertexAttribute> &elements = layout.GetElements();
 	// Specifies the amount of bytes to a certain attribute in the layout.
 	unsigned int offset = 0;
 	for (int i = 0; i < elements.size(); i++) {
 		const VertexAttribute &element = elements[i];
-		glVertexAttribPointer(i, element.count, element.type, element.normalised, layout.getStride(), (const void *)offset);
+		glVertexAttribPointer(i, element.count, element.type, element.normalised, layout.GetStride(), (const void *)offset);
 		glEnableVertexAttribArray(i);
-		offset += element.count * VertexAttribute::getSizeOfType(element.type);
+		offset += element.count * VertexAttribute::GetSizeOfType(element.type);
 	}
 }

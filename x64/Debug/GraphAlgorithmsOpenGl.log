@@ -1,2 +1,18 @@
-﻿  main.cpp
+﻿  Camera.cpp
+  GraphNode.cpp
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\GraphNode.cpp(50,18): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\GraphNode.cpp(57,18): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+  IndexBuffer.cpp
+  MappedGraph.cpp
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\MappedGraph.cpp(65,23): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\MappedGraph.cpp(70,33): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\MappedGraph.cpp(78,30): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  Renderer.cpp
+  ShaderProgram.cpp
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\ShaderProgram.cpp(50,27): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+  VertexArray.cpp
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\VertexArray.cpp(30,117): warning C4312: 'type cast': conversion from 'unsigned int' to 'const void *' of greater size
+  VertexArrayLayout.cpp
+  main.cpp
+  Generating Code...
   GraphAlgorithmsOpenGl.vcxproj -> C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\GraphAlgorithmsOpenGl.exe

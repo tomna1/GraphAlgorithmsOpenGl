@@ -24,27 +24,27 @@ public:
 	bool operator!=(const GraphNode &rhs);
 
 	// Set the x value of the node to a certain value.
-	bool setX(int x);
+	bool SetX(int x);
 	// Set the y value of the node to a certain value.
-	bool setY(int y);
+	bool SetY(int y);
 
 	// Get the x value of the node.
-	int getX() const;
+	int GetX() const;
 	// Get the y value of the node.
-	int getY() const;
+	int GetY() const;
 
 	// Returns the distance to another node. Calculated using pythagoras'
 	// theorem
-	int distanceToNode(const GraphNode&) const;
+	int DistanceToNode(const GraphNode&) const;
 	// Returns the distance to a point. Calculated using pythagoras' theorem.
-	int distanceToPoint(int x, int y) const;
+	int DistanceToPoint(int x, int y) const;
 	// Prints out a Node to the standard output. Example: Node(1, 2) where 1
 	// is the x coordinate of the node and 2 is the y coordinate.
-	void printNode() const;
+	void PrintNode() const;
 
 	// Uses the position coordinate of the graphnode to generate a model 
 	// matrix.
-	glm::mat4 generateModelMatrix() const;
+	glm::mat4 GenerateModelMatrix() const;
 };
 
 #endif

@@ -13,7 +13,7 @@ struct VertexAttribute {
 	// Specifies whether the data should be normalised or not (GL_FALSE OR GL_TRUE).
 	unsigned char normalised;
 
-	static unsigned int getSizeOfType(unsigned int type) {
+	static unsigned int GetSizeOfType(unsigned int type) {
 		switch (type) {
 		case GL_FLOAT: return 4;
 		case GL_UNSIGNED_INT: return 4;
@@ -36,15 +36,15 @@ public:
 	~VertexArrayLayout();
 
 	// Returns the elements of the layout.
-	std::vector<VertexAttribute> getElements() const;
+	std::vector<VertexAttribute> GetElements() const;
 
 	// Gets the stride specified by the vertex layout. The stride is the amount
 	// of bytes between each consecutive vertex.
-	unsigned int getStride() const;
+	unsigned int GetStride() const;
 	
 	// Adds an attribute to this vertex array layout.
 	// attibute is the attribute to add.
-	void addAttribute(const VertexAttribute &attribute);
+	void AddAttribute(const VertexAttribute &attribute);
 };
 
 #endif

@@ -24,7 +24,7 @@ public:
 
 	// Adds an attribute to this vertex array. VB is the buffer whose attributes
 	// will be specified and layout is the layout to add.
-	void addLayout(const VertexBuffer &vb, const VertexArrayLayout &layout);
+	void AddLayout(const VertexBuffer &vb, const VertexArrayLayout &layout);
 };
 
 

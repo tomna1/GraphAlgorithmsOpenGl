@@ -8,15 +8,15 @@ VertexArrayLayout::VertexArrayLayout() {
 VertexArrayLayout::~VertexArrayLayout() {
 }
 
-std::vector<VertexAttribute> VertexArrayLayout::getElements() const {
+std::vector<VertexAttribute> VertexArrayLayout::GetElements() const {
 	return m_elements;
 }
 
-unsigned int VertexArrayLayout::getStride() const {
+unsigned int VertexArrayLayout::GetStride() const {
 	return m_stride;
 }
 
-void VertexArrayLayout::addAttribute(const VertexAttribute &attribute) {
+void VertexArrayLayout::AddAttribute(const VertexAttribute &attribute) {
 	m_elements.push_back(attribute);
-	m_stride += (attribute.count * VertexAttribute::getSizeOfType(attribute.type));
+	m_stride += (attribute.count * VertexAttribute::GetSizeOfType(attribute.type));
 }

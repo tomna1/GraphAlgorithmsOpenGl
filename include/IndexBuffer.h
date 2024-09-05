@@ -27,7 +27,7 @@ public:
 	// Unbinds the current buffer.
 	void Unbind() const;
 
-	unsigned int getCount() const;
+	unsigned int GetCount() const;
 };
 
 #endif

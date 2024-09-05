@@ -48,7 +48,7 @@ public:
 	Camera(glm::vec3 position, float speed);
 
 	// Gets the view matrix defined by the position of teh camera.
-	glm::mat4 getViewMatrix();
+	glm::mat4 GetViewMatrix();
 
 	// Will move the camera or zoom it in or out depending on the key pressed
 	// and the length of time between the last frame.

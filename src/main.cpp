@@ -49,9 +49,9 @@ int main(void) {
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(glm::radians(45.0f), 960.0f / 720.0f, 0.1f, 100.0f);
 
-    shader1.setMatrix4("model", model);
-    shader1.setMatrix4("view", cam.getViewMatrix());
-    shader1.setMatrix4("projection", projection);
+    shader1.SetMatrix4("model", model);
+    shader1.SetMatrix4("view", cam.GetViewMatrix());
+    shader1.SetMatrix4("projection", projection);
 
     // cube vertices array
     float positions[] = {
@@ -135,8 +135,8 @@ int main(void) {
     vb.Bind();
 
     VertexArrayLayout layout1 = VertexArrayLayout();
-    layout1.addAttribute(VertexAttribute{GL_FLOAT, 2, GL_FALSE});
-    va.addLayout(vb, layout1);
+    layout1.AddAttribute(VertexAttribute{GL_FLOAT, 2, GL_FALSE});
+    va.AddLayout(vb, layout1);
 
     IndexBuffer ib = IndexBuffer(GNindices, 12);
     ib.Bind();
@@ -163,7 +163,7 @@ int main(void) {
         glfwPollEvents();
     }
 
-    shader1.destroy();
+    shader1.Destroy();
     glfwTerminate();
     return 0;
 }

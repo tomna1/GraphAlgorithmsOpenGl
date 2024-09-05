@@ -9,6 +9,6 @@ void Renderer::Draw(const VertexArray &va, const IndexBuffer &ib, ShaderProgram 
 	// shader.use();
 	va.Bind();
 	ib.Bind();
-	shader.setMatrix4("view", cam.getViewMatrix());
-	glDrawElements(GL_TRIANGLES, ib.getCount(), GL_UNSIGNED_INT, nullptr);
+	shader.SetMatrix4("view", cam.GetViewMatrix());
+	glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
 }
