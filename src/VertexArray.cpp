@@ -27,6 +27,7 @@ void VertexArray::Unbind() const {
 
 void VertexArray::AddLayout(const VertexBuffer &vb, const VertexArrayLayout &layout) {
 	vb.Bind();
+	Bind();
 
 	const std::vector<VertexAttribute> &elements = layout.GetElements();
 	// Specifies the amount of bytes to a certain attribute in the layout.

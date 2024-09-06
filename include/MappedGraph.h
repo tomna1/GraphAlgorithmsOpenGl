@@ -42,10 +42,10 @@ private:
 	int GetEdgeIndex(const GraphNode &node, const GraphNode &rhs);
 	// Returns the node at m_nodes[index]. NO ERROR
 	// CHECKING SO MAKE SURE TO INPUT CORRECT INDEX.
-	GraphNode &GetNode(const int index);
+	GraphNode GetNode(const int index);
 	// Returns the node at m_edges[nodeIndex][edgeIndex]. NO ERROR CHECKING SO MAKE SURE TO INPUT CORRECT
 	// INDEX.
-	GraphNode &GetNode(const int nodeIndex, const int edgeIndex);
+	GraphNode GetNode(const int nodeIndex, const int edgeIndex);
 public:
 	// Returns the amount of nodes stored in the graph. O(n)
 	int GetNodeCount();

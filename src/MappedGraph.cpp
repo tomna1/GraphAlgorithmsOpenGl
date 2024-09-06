@@ -49,11 +49,11 @@ int MappedGraph::GetEdgeIndex(const GraphNode &node, const GraphNode &rhs) {
 	}
 	return -1;
 }
-GraphNode &MappedGraph::GetNode(const int index) {
+GraphNode MappedGraph::GetNode(const int index) {
 	// if (index > m_nodes.size() - 1) return;
 	return m_nodes[index];
 }
-GraphNode &MappedGraph::GetNode(const int nodeIndex, const int edgeIndex) {
+GraphNode MappedGraph::GetNode(const int nodeIndex, const int edgeIndex) {
 	// if (nodeIndex > m_nodes.size() - 1) return;
 	// if (edgeIndex > m_edges[nodeIndex].size() - 1) return;
 	int index = m_edges[nodeIndex][edgeIndex].first;

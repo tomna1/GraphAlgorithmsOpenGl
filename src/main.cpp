@@ -129,10 +129,8 @@ int main(void) {
     };
 
     VertexArray va = VertexArray();
-    va.Bind();
 
     VertexBuffer vb = VertexBuffer(GraphNodeVertices, 6 * 2 * sizeof(float));
-    vb.Bind();
 
     VertexArrayLayout layout1 = VertexArrayLayout();
     layout1.AddAttribute(VertexAttribute{GL_FLOAT, 2, GL_FALSE});
@@ -159,7 +157,7 @@ int main(void) {
         shader1.SetMatrix4("view", cam.GetViewMatrix());
 
         // Draw the vb.
-        renderer.Draw(va, ib, shader1, cam);
+        renderer.Draw(va, ib, shader1);
 
         // Swap front and back buffers 
         glfwSwapBuffers(window);

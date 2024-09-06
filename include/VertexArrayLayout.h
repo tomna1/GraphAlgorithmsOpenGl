@@ -52,6 +52,12 @@ public:
 	// of bytes between each consecutive vertex.
 	unsigned int GetStride() const;
 	
+	// Adds an attribute to the vertex layout. type is type of attribute 
+	// (GL_FLOAT, GL_UNSIGNED_CHAR). count is numbers of components in attribute
+	// and must be 1, 2, 3 or 4. normalised specifies whether the data should
+	// be normalised or not.
+	void AddAttribute(unsigned int type, int count, unsigned char normalised);
+
 	// Adds an attribute to this vertex array layout.
 	// attibute is the attribute to add.
 	void AddAttribute(const VertexAttribute &attribute);
