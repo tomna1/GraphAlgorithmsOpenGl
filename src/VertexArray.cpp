@@ -7,6 +7,12 @@ VertexArray::VertexArray() {
 	m_attributes = {};
 }
 
+VertexArray::VertexArray(const VertexBuffer &vb, const VertexArrayLayout &layout) {
+	glGenVertexArrays(1, &m_renderer_ID);
+
+	AddLayout(vb, layout);
+}
+
 VertexArray::~VertexArray() {
 	glDeleteVertexArrays(1, &m_renderer_ID);
 }

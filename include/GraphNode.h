@@ -7,6 +7,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "VertexArray.h"
+#include "IndexBuffer.h"
+
 
 // A node with x and y values which represents the position of the node
 // on a 2D plane.
@@ -14,13 +17,14 @@ class GraphNode {
 private:
 	int m_x;
 	int m_y;
+	
 public:
 	// Creates a node with x = 0 and y = 0.
 	GraphNode();
 	// Creates a node with the respective x and y values.
 	GraphNode(int x, int y);
 
-	bool operator==(const GraphNode& rhs);
+	bool operator==(const GraphNode &rhs);
 	bool operator!=(const GraphNode &rhs);
 
 	// Set the x value of the node to a certain value.
@@ -32,6 +36,18 @@ public:
 	int GetX() const;
 	// Get the y value of the node.
 	int GetY() const;
+
+	// Sets the vertex array of the graphnode.
+	void SetVertexArray(const VertexArray &va);
+	// Sets the index buffer of the graphnode.
+	void SetIndexBuffer(const IndexBuffer &ib);
+
+	// Gets the Vertex Array currently being used by the graphnode. Returns 
+	// nullptr if a vertex array is not being used.
+	VertexArray &GetVertexArray();
+	// Gets the IndexBuffer stored by the graphnode. Returns nullptr if a
+	// index buffer is not being used.
+	IndexBuffer &GetIndexBuffer();
 
 	// Returns the distance to another node. Calculated using pythagoras'
 	// theorem

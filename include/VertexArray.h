@@ -15,6 +15,7 @@ private:
 	std::vector<VertexAttribute> m_attributes;
 public:
 	VertexArray();
+	VertexArray(const VertexBuffer &vb, const VertexArrayLayout &layout);
 	~VertexArray();
 
 	// Binds this array to be the current vertex array

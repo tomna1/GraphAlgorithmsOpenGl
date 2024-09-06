@@ -41,7 +41,6 @@ int GraphNode::GetY() const {
 	return m_y;
 }
 
-
 int GraphNode::DistanceToNode(const GraphNode& rhs) const {
 	// Use pythagoras' theorem. a^^2 + b^^2 = c^^2
 
