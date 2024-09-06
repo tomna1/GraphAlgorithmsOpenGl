@@ -47,7 +47,7 @@ public:
 	// or MIN_Z_DISTANCE.
 	Camera(glm::vec3 position, float speed);
 
-	// Gets the view matrix defined by the position of teh camera.
+	// Gets the view matrix defined by the position of the camera.
 	glm::mat4 GetViewMatrix();
 
 	// Will move the camera or zoom it in or out depending on the key pressed

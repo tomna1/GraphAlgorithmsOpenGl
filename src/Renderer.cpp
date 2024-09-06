@@ -6,9 +6,8 @@ void Renderer::Clear() {
 }
 
 void Renderer::Draw(const VertexArray &va, const IndexBuffer &ib, ShaderProgram &shader, Camera &cam) const {
-	// shader.use();
+	shader.Use();
 	va.Bind();
 	ib.Bind();
-	shader.SetMatrix4("view", cam.GetViewMatrix());
 	glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
 }

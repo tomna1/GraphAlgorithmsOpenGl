@@ -152,9 +152,14 @@ int main(void) {
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
+        // Updates the camera and processes additional input
         processInput(window, &cam);
 
-        renderer.Draw(va, ib, shader1, cam);    
+        // shader unform setters
+        shader1.SetMatrix4("view", cam.GetViewMatrix());
+
+        // Draw the vb.
+        renderer.Draw(va, ib, shader1, cam);
 
         // Swap front and back buffers 
         glfwSwapBuffers(window);
