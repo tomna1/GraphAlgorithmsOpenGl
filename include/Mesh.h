@@ -2,15 +2,18 @@
 #define MESH_H
 
 #include "VertexArray.h"
-#include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 class Mesh {
 private:
-	float *m_vertices;
-	unsigned int *m_indices;
 
-	unsigned int m_verticesSize;
-	unsigned int m_indicesSize;
+	// A configured va should contain all information about the vertex data of the mesh.
+	VertexArray m_va;
+	// The index buffer is used to draw the mesh.
+	IndexBuffer m_ib;
+
+public:
+	Mesh(VertexArray &va, IndexBuffer &ib);
 };
 
 #endif

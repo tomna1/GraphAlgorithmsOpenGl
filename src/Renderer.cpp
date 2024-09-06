@@ -5,7 +5,7 @@ void Renderer::Clear() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::Draw(const VertexArray &va, const IndexBuffer &ib, ShaderProgram &shader, Camera &cam) const {
+void Renderer::Draw(const VertexArray &va, const IndexBuffer &ib, ShaderProgram &shader) const {
 	shader.Use();
 	va.Bind();
 	ib.Bind();
