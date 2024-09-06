@@ -3,9 +3,17 @@
 
 #include "GraphNode.h"
 
+VertexArray *GraphNode::va = nullptr;
+IndexBuffer *GraphNode::ib = nullptr;
+
 GraphNode::GraphNode() {
 	m_x = 0;
 	m_y = 0;
+
+	if (va == nullptr) {
+		va = new VertexArray();
+		// TODO: SET VERTEX ARRAYT AND INDEX BUFFER TO CORRECT VALUES.
+	}
 }
 GraphNode::GraphNode(int x, int y) {
 	m_x = x;

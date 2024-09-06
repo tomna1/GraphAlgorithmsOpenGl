@@ -9,6 +9,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+/**
+* A Shader program currently consists of a vertex shader and a fragment shader.
+* Uniform variables can be set during runtime using the setter methods.
+*/
 class ShaderProgram {
 private:
 	GLuint m_id;

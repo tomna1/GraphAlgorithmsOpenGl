@@ -9,7 +9,6 @@
 /**
 * A graph of nodes and edges where the nodes have a mapped position (x and y
 * coordinate in a 2D space.
-*
 */
 class MappedGraph {
 private:

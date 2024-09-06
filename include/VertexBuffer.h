@@ -4,8 +4,9 @@
 #include <GL/glew.h>
 
 /**
-* A vertex buffer holds vertex data. The vertices stored in the vertex buffer
-* can be configured using a vertex array and can be drawn using glDrawArrays()
+* A vertex buffer holds raw vertex data about a mesh. A vertex can consist of position
+* data, colour data or other data. A vertex Array can be used to configure how to 
+* vertex buffer should be interpreted by opengl.
 */
 class VertexBuffer {
 private:

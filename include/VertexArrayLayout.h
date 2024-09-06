@@ -5,6 +5,11 @@
 
 #include <vector>
 
+/**
+* A vertex attribute is one part of a vertex that are stored in the vertex buffer.
+* A vertex attribute consits of a type, the amount of components within the attribute
+* and whether the data is already normalised or not.
+*/
 struct VertexAttribute {
 	// The type of the attribute (GL_FLOAT, GL_UNSIGNED_INT)
 	unsigned int type;
@@ -23,6 +28,11 @@ struct VertexAttribute {
 	}
 };
 
+/**
+* A vertex array layout is used to configure the layout of a vertex array.
+* Vertex attributes can be added to the layout and once all attributes are
+* added, the layout can be added to a vertex array.
+*/
 class VertexArrayLayout {
 private:
 	// The amount of bytes between each consecutive vertex in the vertex buffer.

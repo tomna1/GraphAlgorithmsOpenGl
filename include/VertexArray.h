@@ -6,6 +6,11 @@
 #include "VertexBuffer.h"
 #include "VertexArrayLayout.h"
 
+/**
+* A vertex array contains information about how verices are stored in the vertex buffer.
+* The AddLayout method can be used to add a layout to the vertex array. A layout
+* contains information about each vertex attribute within the vertex buffer.
+*/
 class VertexArray {
 private:
 	// The unique ID given to this vertex array by opengl.

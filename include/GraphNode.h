@@ -17,6 +17,9 @@ class GraphNode {
 private:
 	int m_x;
 	int m_y;
+public:
+	static VertexArray *va;
+	static IndexBuffer *ib;
 	
 public:
 	// Creates a node with x = 0 and y = 0.
@@ -36,18 +39,6 @@ public:
 	int GetX() const;
 	// Get the y value of the node.
 	int GetY() const;
-
-	// Sets the vertex array of the graphnode.
-	void SetVertexArray(const VertexArray &va);
-	// Sets the index buffer of the graphnode.
-	void SetIndexBuffer(const IndexBuffer &ib);
-
-	// Gets the Vertex Array currently being used by the graphnode. Returns 
-	// nullptr if a vertex array is not being used.
-	VertexArray &GetVertexArray();
-	// Gets the IndexBuffer stored by the graphnode. Returns nullptr if a
-	// index buffer is not being used.
-	IndexBuffer &GetIndexBuffer();
 
 	// Returns the distance to another node. Calculated using pythagoras'
 	// theorem
