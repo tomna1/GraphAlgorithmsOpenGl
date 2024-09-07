@@ -40,7 +40,6 @@ int main(void) {
     // model matrix consists of translations, scaling and rotations applied
     // to all objects to place then in the correct global world space.
     glm::mat4 model = glm::mat4(1.0f);
-    // model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.5f, 0.0f));
 
     // A projection matrix does some stuff with perspective honestly im not sure.
     // TODO: maybe i should put this in my camera class idk.
@@ -67,11 +66,11 @@ int main(void) {
         2, 3, 5  // square p2
     };
 
-    hexagonVertices.resize(0);
-    hexagonIndices.resize(0);
-
     // I am going to use the hexagon mesh to draw the graphnodes.
     Mesh2D hexagonMesh = Mesh2D(hexagonVertices, hexagonIndices);
+
+    hexagonVertices.resize(0);
+    hexagonIndices.resize(0);
 
     // Loop until the user closes the window.
     while (!glfwWindowShouldClose(window)) {

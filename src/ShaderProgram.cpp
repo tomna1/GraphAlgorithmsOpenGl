@@ -11,12 +11,12 @@ ShaderProgram::~ShaderProgram() {
 }
 
 
-void ShaderProgram::Use() {
+void ShaderProgram::Use() const {
     glUseProgram(m_id);
 }
 
 
-GLuint ShaderProgram::GetID() {
+GLuint ShaderProgram::GetID() const {
     return m_id;
 }
 

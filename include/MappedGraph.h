@@ -36,36 +36,36 @@ public:
 private:
 	// Returns the index of the specified node in the m_nodes array. Will
 	// return -1 if not found. O(n)
-	int GetNodeIndex(const GraphNode &node);
+	int GetNodeIndex(const GraphNode &node) const;
 	// Returns the index of the specified edge in the m_edges array. Returns 
 	// -1 if the edge has not been found. O(n)
-	int GetEdgeIndex(const GraphNode &node, const GraphNode &rhs);
+	int GetEdgeIndex(const GraphNode &node, const GraphNode &rhs) const;
 	// Returns the node at m_nodes[index]. NO ERROR
 	// CHECKING SO MAKE SURE TO INPUT CORRECT INDEX.
-	GraphNode GetNode(const int index);
+	GraphNode GetNode(const int index) const;
 	// Returns the node at m_edges[nodeIndex][edgeIndex]. NO ERROR CHECKING SO MAKE SURE TO INPUT CORRECT
 	// INDEX.
-	GraphNode GetNode(const int nodeIndex, const int edgeIndex);
+	GraphNode GetNode(const int nodeIndex, const int edgeIndex) const;
 public:
 	// Returns the amount of nodes stored in the graph. O(n)
-	int GetNodeCount();
+	int GetNodeCount() const;
 	// Returns the amount of edges stored in the graph. O(n)
-	int GetEdgeCount();
+	int GetEdgeCount() const;
 	// Gets the amount of edges a specific node in the graph has. Will return 
 	// -1 if the node is not found in the graph. O(n)
-	int GetEdgeCount(const GraphNode &node);
+	int GetEdgeCount(const GraphNode &node) const;
 	// Gets the weight between of an edge between 2 nodes. If there is no edge
 	// then will return -1. O(n)
-	int GetEdgeWeight(const GraphNode &node, const GraphNode &rhs);
+	int GetEdgeWeight(const GraphNode &node, const GraphNode &rhs) const;
 
 	// Checks if the graph has a certain node. O(n)
-	bool HasNode(const GraphNode &node);
+	bool HasNode(const GraphNode &node) const;
 	// Checks if the graph has a certain edge between nodes. O(n)
-	bool HasEdge(const GraphNode &node, const GraphNode &rhs);
+	bool HasEdge(const GraphNode &node, const GraphNode &rhs) const;
 private:
 	// Checks if the graph has a certain edge between a node and
 	// m_nodes[nodeIndex].
-	bool HasEdge(const GraphNode &node, int nodeIndex);
+	bool HasEdge(const GraphNode &node, int nodeIndex) const;
 
 public:
 	// Adds Node to the graph. Returns true if nodes has been successfully added
@@ -98,26 +98,26 @@ public:
 	// Print out and edge to the standard output. Example: Edge(Node(1, 2), 5)
 	// where 1 is the x coordinate of the node, 2 is the y coordinate and 5 is 
 	// the edge weight
-	void PrintEdge(const std::pair<int, int> &edge);
+	void PrintEdge(const std::pair<int, int> &edge) const;
 	// Print out a node to the standard output. Example: Node(5, 6) where 5 is
 	// the x coordinate of the node and 6 is the y coordinate.
-	void PrintNodes();
+	void PrintNodes() const;
 	// Prints out all the edges of a certain node in the graph. Example:
 	// Printing Edges of Node(3, 3)
 	// Edge(Node(1, 2), 5)
 	// Edge(Node(6, 8), 34)
-	void PrintEdges(const GraphNode &node);
+	void PrintEdges(const GraphNode &node) const;
 	// Prints out every single edge associated with the graph. Example:
 	// Printing all nodes of graph
 	// Printing Edges of Node(1, 1)
 	// Edge(Node(5, 6), 4)
 	// Printing Edges of Node(5, 6)
 	// Edge(Node(1, 1), 4)
-	void PrintAllEdges();
+	void PrintAllEdges() const;
 
 	// Returns a list of nodes which indicate the shortest path between 2 nodes.
 	// A indicates this algorithm is the A* algorithm
-	std::vector<GraphNode> FindShortestPathA(const GraphNode &start, const GraphNode &end);
+	std::vector<GraphNode> FindShortestPathA(const GraphNode &start, const GraphNode &end) const;
 
 	// Returns a list of nodes which indicates the shortest path between 2 nodes.
 	// D indicates this uses Djikstra's shortest path algorithm.

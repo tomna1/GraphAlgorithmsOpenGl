@@ -18,8 +18,8 @@ public:
 	// Creates a node with the respective x and y values.
 	GraphNode(int x, int y);
 
-	bool operator==(const GraphNode &rhs);
-	bool operator!=(const GraphNode &rhs);
+	bool operator==(const GraphNode &rhs) const;
+	bool operator!=(const GraphNode &rhs) const;
 
 	// Set the x value of the node to a certain value.
 	bool SetX(int x);

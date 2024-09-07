@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-void Renderer::Clear() {
+void Renderer::Clear() const {
 	// Clear what was previously drawn on the window.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

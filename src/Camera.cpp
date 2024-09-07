@@ -35,7 +35,7 @@ Camera::Camera(glm::vec3 position, float speed) {
 	else m_cameraSpeed = speed;
 }
 
-glm::mat4 Camera::GetViewMatrix() {
+glm::mat4 Camera::GetViewMatrix() const {
 	// view matrix does some stuff that should simulate a camera hopefully.
 	glm::mat4 view = glm::mat4(1.0f);
 	view = glm::translate(view, m_cameraPos);

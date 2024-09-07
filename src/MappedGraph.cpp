@@ -28,7 +28,7 @@ MappedGraph::~MappedGraph() {
 	// TODO: THIS.
 }
 
-int MappedGraph::GetNodeIndex(const GraphNode &node) {
+int MappedGraph::GetNodeIndex(const GraphNode &node) const {
 	for (int i = 0; i < m_nodes.size(); i++) {
 		if (m_nodes[i] == node) {
 			return i;
@@ -36,7 +36,7 @@ int MappedGraph::GetNodeIndex(const GraphNode &node) {
 	}
 	return -1;
 }
-int MappedGraph::GetEdgeIndex(const GraphNode &node, const GraphNode &rhs) {
+int MappedGraph::GetEdgeIndex(const GraphNode &node, const GraphNode &rhs) const{
 	int index = GetNodeIndex(node);
 	if (index == -1) {
 		return -1;
@@ -49,11 +49,11 @@ int MappedGraph::GetEdgeIndex(const GraphNode &node, const GraphNode &rhs) {
 	}
 	return -1;
 }
-GraphNode MappedGraph::GetNode(const int index) {
+GraphNode MappedGraph::GetNode(const int index) const {
 	// if (index > m_nodes.size() - 1) return;
 	return m_nodes[index];
 }
-GraphNode MappedGraph::GetNode(const int nodeIndex, const int edgeIndex) {
+GraphNode MappedGraph::GetNode(const int nodeIndex, const int edgeIndex) const {
 	// if (nodeIndex > m_nodes.size() - 1) return;
 	// if (edgeIndex > m_edges[nodeIndex].size() - 1) return;
 	int index = m_edges[nodeIndex][edgeIndex].first;
@@ -61,23 +61,23 @@ GraphNode MappedGraph::GetNode(const int nodeIndex, const int edgeIndex) {
 }
 
 
-int MappedGraph::GetNodeCount() {
+int MappedGraph::GetNodeCount() const {
 	return m_nodes.size();
 }
-int MappedGraph::GetEdgeCount() {
+int MappedGraph::GetEdgeCount() const {
 	int edgeCount = 0;
 	for (int i = 0; i < m_edges.size(); i++) {
 		edgeCount += m_edges[i].size();
 	}
 	return edgeCount;
 }
-int MappedGraph::GetEdgeCount(const GraphNode &node) {
+int MappedGraph::GetEdgeCount(const GraphNode &node) const {
 	int index = GetNodeIndex(node);
 	if (index == -1) return -1;
 
 	return m_edges[index].size();
 }
-int MappedGraph::GetEdgeWeight(const GraphNode &node, const GraphNode &rhs) {
+int MappedGraph::GetEdgeWeight(const GraphNode &node, const GraphNode &rhs) const {
 	int index = GetNodeIndex(node);
 	if (index == -1) return -1;
 
@@ -88,13 +88,13 @@ int MappedGraph::GetEdgeWeight(const GraphNode &node, const GraphNode &rhs) {
 }
 
 
-bool MappedGraph::HasNode(const GraphNode &node) {
+bool MappedGraph::HasNode(const GraphNode &node) const {
 	for (int i = 0; i < m_nodes.size(); i++) {
 		if (m_nodes[i] == node) return true;
 	}
 	return false;
 }
-bool MappedGraph::HasEdge(const GraphNode &node, const GraphNode &rhs) {
+bool MappedGraph::HasEdge(const GraphNode &node, const GraphNode &rhs) const {
 	int index = GetNodeIndex(node);
 	if (index == -1) return false;
 	int index2 = GetNodeIndex(rhs);
@@ -107,7 +107,7 @@ bool MappedGraph::HasEdge(const GraphNode &node, const GraphNode &rhs) {
 	}
 	return false;
 }
-bool MappedGraph::HasEdge(const GraphNode &node, int nodeIndex) {
+bool MappedGraph::HasEdge(const GraphNode &node, int nodeIndex) const {
 	int index = GetNodeIndex(node);
 	if (index == -1) return false;
 
@@ -221,18 +221,18 @@ bool MappedGraph::ChangeEdgeWeight(const GraphNode &node, const GraphNode &rhs, 
 	return true;
 }
 
-void MappedGraph::PrintEdge(const std::pair<int, int> &edge) {
+void MappedGraph::PrintEdge(const std::pair<int, int> &edge) const {
 	
 	std::cout << "Edge(Node(" << m_nodes[edge.first].GetX() << ", " << m_nodes[edge.first].GetY()
 		<< "), " << edge.second << ')' << std::endl;
 }
-void MappedGraph::PrintNodes() {
+void MappedGraph::PrintNodes() const {
 	std::cout << "Printing nodes of graph." << std::endl;
 	for (int i = 0; i < m_nodes.size(); i++) {
 		m_nodes[i].PrintNode();
 	}
 }
-void MappedGraph::PrintEdges(const GraphNode &node) {
+void MappedGraph::PrintEdges(const GraphNode &node) const {
 	int index = GetNodeIndex(node);
 	if (index == -1) return;
 
@@ -243,7 +243,7 @@ void MappedGraph::PrintEdges(const GraphNode &node) {
 		PrintEdge(m_edges[index][i]);
 	}
 }
-void MappedGraph::PrintAllEdges() {
+void MappedGraph::PrintAllEdges() const {
 	std::cout << "Printing all Edges of the graph" << std::endl;
 	for (int i = 0; i < m_nodes.size(); i++) {
 		std::cout << "Printing Edges of ";

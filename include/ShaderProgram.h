@@ -21,11 +21,11 @@ public:
 	~ShaderProgram();
 
 	// Activate the shader program.
-	void Use();
+	void Use() const;
 
 	// Gets the id of the shader program. Shader Program must first have been
 	// setup using the setUpShaderProgram method.
-	GLuint GetID();
+	GLuint GetID() const;
 
 	// Utility uniform functions.
 	

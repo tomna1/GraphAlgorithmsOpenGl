@@ -12,13 +12,13 @@ GraphNode::GraphNode(int x, int y) {
 	m_y = y;
 }
 
-bool GraphNode::operator==(const GraphNode &rhs) {
+bool GraphNode::operator==(const GraphNode &rhs) const {
 	if ((m_x == rhs.m_x) && (m_y == rhs.m_y)) {
 		return true;
 	}
 	return false;
 }
-bool GraphNode::operator!=(const GraphNode &rhs) {
+bool GraphNode::operator!=(const GraphNode &rhs) const {
 	if ((m_x != rhs.m_x) || (m_y != rhs.m_y)) {
 		return true;
 	}
