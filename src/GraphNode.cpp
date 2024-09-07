@@ -60,9 +60,4 @@ void GraphNode::PrintNode() const {
 	std::cout << "Node(" << m_x << ", " << m_y << ')' << std::endl;
 }
 
-glm::mat4 GraphNode::GenerateModelMatrix() const {
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(m_x, m_y, 0));
-	return model;
-}
 

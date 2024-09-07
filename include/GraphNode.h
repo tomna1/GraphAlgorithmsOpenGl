@@ -39,10 +39,6 @@ public:
 	// Prints out a Node to the standard output. Example: Node(1, 2) where 1
 	// is the x coordinate of the node and 2 is the y coordinate.
 	void PrintNode() const;
-
-	// Uses the position coordinate of the graphnode to generate a model 
-	// matrix.
-	glm::mat4 GenerateModelMatrix() const;
 };
 
 #endif

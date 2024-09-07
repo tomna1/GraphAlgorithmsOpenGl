@@ -88,7 +88,9 @@ int main(void) {
         shader1.SetMatrix4("view", cam.GetViewMatrix());
 
         // Draw the hexagon mesh.
-        renderer.Draw(hexagonMesh, shader1);
+        renderer.Draw(hexagonMesh, shader1, 0, 0);
+
+        renderer.Draw(hexagonMesh, shader1, 10, 10);
 
         // Swap front and back buffers 
         glfwSwapBuffers(window);

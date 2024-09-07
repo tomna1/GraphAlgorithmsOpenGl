@@ -1,6 +1,10 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "ShaderProgram.h"
 #include "Mesh.h"
 
@@ -15,7 +19,7 @@ public:
 	void Clear() const;
 
 	// Draws a mesh onto the screen.
-	void Draw(const Mesh2D &mesh, ShaderProgram &shader) const;
+	void Draw(const Mesh2D &mesh, ShaderProgram &shader, int posX, int posY) const;
 };
 
 #endif

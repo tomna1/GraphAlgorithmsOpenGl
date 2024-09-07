@@ -1,2 +1,11 @@
-﻿  main.cpp
+﻿  GraphNode.cpp
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\GraphNode.cpp(49,18): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\GraphNode.cpp(56,18): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+  MappedGraph.cpp
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\MappedGraph.cpp(65,23): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\MappedGraph.cpp(70,33): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\MappedGraph.cpp(78,30): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  Renderer.cpp
+  main.cpp
+  Generating Code...
   GraphAlgorithmsOpenGl.vcxproj -> C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\GraphAlgorithmsOpenGl.exe
