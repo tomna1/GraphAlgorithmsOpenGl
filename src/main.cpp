@@ -13,9 +13,8 @@
 #include "Camera.h"
 #include "MappedGraph.h"
 #include "GraphNode.h"
-#include "VertexArray.h"
-#include "IndexBuffer.h"
 #include "Renderer.h"
+#include "Mesh.h"
 
 
 // timing
@@ -53,93 +52,25 @@ int main(void) {
     shader1.SetMatrix4("view", cam.GetViewMatrix());
     shader1.SetMatrix4("projection", projection);
 
-    // cube vertices array
-    float positions[] = {
-         // positions         // colour
-        -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.5f, 0.5f, 0.5f,
-        -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
-
-        -0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.5f, 0.5f, 0.5f,
-        -0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.5f, 0.5f, 0.5f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  0.5f, 0.5f, 0.5f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-
-        -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.5f, 0.5f, 0.5f,
-        -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
-
-        -0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.5f, 0.5f, 0.5f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f
+    std::vector<glm::vec2> hexagonVertices = {
+        {-0.5f,  0.25f}, // top left
+        {0.0f,  0.5f}, // top middle
+        {0.5f,  0.25f}, // top right
+        {0.5f, -0.25f}, // bottom right
+        {0.0f, -0.5f}, // bottom middle
+        {-0.5f, -0.25f} // bottom left
     };
 
-    glm::vec3 cubePositions[] = {
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        glm::vec3(2.0f,  5.0f, -15.0f),
-        glm::vec3(-1.5f, -2.2f, -2.5f),
-        glm::vec3(-3.8f, -2.0f, -12.3f),
-        glm::vec3(2.4f, -0.4f, -3.5f),
-        glm::vec3(-1.7f,  3.0f, -7.5f),
-        glm::vec3(1.3f, -2.0f, -2.5f),
-        glm::vec3(1.5f,  2.0f, -2.5f),
-        glm::vec3(1.5f,  0.2f, -1.5f),
-        glm::vec3(-1.3f,  1.0f, -1.5f)
-    };
-
-    float GraphNodeVertices[] = {
-        // just a simple hexagon for now.
-        -0.5f,  0.25f, // top left
-         0.0f,  0.5f, // top middle
-         0.5f,  0.25f, // top right
-         0.5f, -0.25f, // bottom right
-         0.0f, -0.5f, // bottom middle
-        -0.5f, -0.25f // bottom left
-    };
-    unsigned int GNindices[] = {
+    std::vector<unsigned int> hexagonIndices = {
         0, 1, 2, // top triangle
         3, 4, 5, // bottom triangle
         5, 0, 2, // square p1
         2, 3, 5  // square p2
     };
 
-    VertexArray va = VertexArray();
-
-    VertexBuffer vb = VertexBuffer(GraphNodeVertices, 6 * 2 * sizeof(float));
-
-    VertexArrayLayout layout1 = VertexArrayLayout();
-    layout1.AddAttribute(VertexAttribute{GL_FLOAT, 2, GL_FALSE});
-    va.AddLayout(vb, layout1);
-
-    IndexBuffer ib = IndexBuffer(GNindices, 12);
-    ib.Bind();
-
     Renderer renderer = Renderer();
+
+    Mesh2D hexagonMesh = Mesh2D(hexagonVertices, hexagonIndices);
 
     // Loop until the user closes the window.
     while (!glfwWindowShouldClose(window)) {
@@ -156,8 +87,8 @@ int main(void) {
         // shader unform setters
         shader1.SetMatrix4("view", cam.GetViewMatrix());
 
-        // Draw the vb.
-        renderer.Draw(va, ib, shader1);
+        // Draw the hexagon mesh.
+        renderer.Draw(hexagonMesh, shader1);
 
         // Swap front and back buffers 
         glfwSwapBuffers(window);

@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\MappedGraph.cpp" />
     <ClCompile Include="src\GraphNode.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -34,22 +33,15 @@
     <ClCompile Include="src\vendor\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="src\vendor\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\VertexArray.cpp" />
-    <ClCompile Include="src\VertexArrayLayout.cpp" />
-    <ClCompile Include="src\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Camera.h" />
-    <ClInclude Include="include\IndexBuffer.h" />
     <ClInclude Include="include\MappedGraph.h" />
     <ClInclude Include="include\GraphNode.h" />
     <ClInclude Include="include\Mesh.h" />
     <ClInclude Include="include\Renderer.h" />
     <ClInclude Include="include\Setup.h" />
     <ClInclude Include="include\ShaderProgram.h" />
-    <ClInclude Include="include\VertexArray.h" />
-    <ClInclude Include="include\VertexArrayLayout.h" />
-    <ClInclude Include="include\VertexBuffer.h" />
     <ClInclude Include="src\vendor\imgui\imconfig.h" />
     <ClInclude Include="src\vendor\imgui\imgui.h" />
     <ClInclude Include="src\vendor\imgui\imgui_impl_opengl3.h" />

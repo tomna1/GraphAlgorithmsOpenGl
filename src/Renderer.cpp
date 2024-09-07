@@ -5,9 +5,10 @@ void Renderer::Clear() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::Draw(const VertexArray &va, const IndexBuffer &ib, ShaderProgram &shader) const {
+void Renderer::Draw(const Mesh2D &mesh, ShaderProgram &shader) const {
 	shader.Use();
-	va.Bind();
-	ib.Bind();
-	glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
+	glBindVertexArray(mesh.GetVertexArrayID());
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.GetIndexBufferID());
+
+	glDrawElements(GL_TRIANGLES, mesh.GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
 }

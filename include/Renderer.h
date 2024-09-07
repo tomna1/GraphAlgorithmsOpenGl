@@ -1,10 +1,8 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include "VertexArray.h"
 #include "ShaderProgram.h"
-#include "Camera.h"
-#include "IndexBuffer.h"
+#include "Mesh.h"
 
 /**
 * The renderer is used to draw objects to the screen. Currently can only
@@ -14,8 +12,8 @@
 class Renderer {
 public:
 	void Clear();
-	
-	void Draw(const VertexArray &va, const IndexBuffer &ib, ShaderProgram &shader) const;
+
+	void Draw(const Mesh2D &mesh, ShaderProgram &shader) const;
 };
 
 #endif
