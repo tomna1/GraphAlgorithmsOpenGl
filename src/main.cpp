@@ -97,7 +97,6 @@ int main(void) {
         glfwPollEvents();
     }
 
-    shader1.Destroy();
     glfwTerminate();
     return 0;
 }

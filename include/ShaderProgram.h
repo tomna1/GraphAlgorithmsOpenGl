@@ -18,12 +18,10 @@ private:
 	GLuint m_id;
 public:
 	ShaderProgram(const char *vertexPath, const char *fragPath);
+	~ShaderProgram();
 
 	// Activate the shader program.
 	void Use();
-
-	// Delete the shader program and all of its shader.
-	void Destroy();
 
 	// Gets the id of the shader program. Shader Program must first have been
 	// setup using the setUpShaderProgram method.

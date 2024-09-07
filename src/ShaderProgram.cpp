@@ -3,17 +3,23 @@
 
 #include "ShaderProgram.h"
 
+ShaderProgram::ShaderProgram(const char *vertexPath, const char *fragPath) {
+    SetUpShaderProgram(vertexPath, fragPath);
+}
+ShaderProgram::~ShaderProgram() {
+    glDeleteProgram(m_id);
+}
+
+
 void ShaderProgram::Use() {
     glUseProgram(m_id);
 }
 
-void ShaderProgram::Destroy() {
-    glDeleteProgram(m_id);
-}
 
 GLuint ShaderProgram::GetID() {
     return m_id;
 }
+
 
 bool ShaderProgram::SetBool(const std::string &name, bool value) const {
     GLint location = glGetUniformLocation(m_id, name.c_str());
@@ -61,10 +67,6 @@ bool ShaderProgram::SetMatrix4(const std::string &name, glm::mat4 trans) const {
 
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(trans));
     return true;
-}
-
-ShaderProgram::ShaderProgram(const char *vertexPath, const char *fragPath) {
-    SetUpShaderProgram(vertexPath, fragPath);
 }
 
 // Main function to set up the shader program.
