@@ -42,6 +42,7 @@ public:
 	// all internal buffers and array
 	void UpdateIndices(std::vector<unsigned int> indices);
 
+	// Returns the amount of indices stored by the mesh.
 	int GetIndicesCount() const;
 
 	// Returns the ID of the vertex array used by this object that openGL assigns.

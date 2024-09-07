@@ -33,11 +33,9 @@ void processInput(GLFWwindow *window, Camera *cam);
 int main(void) {
     GLFWwindow* window = setUp();
 
-    // Shader setup
     ShaderProgram shader1("res\\shaders\\vertexShader.shader", "res\\shaders\\fragmentShader.shader");
-
-    // Camera setup
     Camera cam = Camera();
+    Renderer renderer = Renderer();
 
     // model matrix consists of translations, scaling and rotations applied
     // to all objects to place then in the correct global world space.
@@ -45,6 +43,7 @@ int main(void) {
     // model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.5f, 0.0f));
 
     // A projection matrix does some stuff with perspective honestly im not sure.
+    // TODO: maybe i should put this in my camera class idk.
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(glm::radians(45.0f), 960.0f / 720.0f, 0.1f, 100.0f);
 
@@ -68,8 +67,10 @@ int main(void) {
         2, 3, 5  // square p2
     };
 
-    Renderer renderer = Renderer();
+    hexagonVertices.resize(0);
+    hexagonIndices.resize(0);
 
+    // I am going to use the hexagon mesh to draw the graphnodes.
     Mesh2D hexagonMesh = Mesh2D(hexagonVertices, hexagonIndices);
 
     // Loop until the user closes the window.
@@ -84,7 +85,7 @@ int main(void) {
         // Updates the camera and processes additional input
         processInput(window, &cam);
 
-        // shader unform setters
+        // shader uniform setters
         shader1.SetMatrix4("view", cam.GetViewMatrix());
 
         // Draw the hexagon mesh.

@@ -11,8 +11,10 @@
 */
 class Renderer {
 public:
+	// Clears the window.
 	void Clear();
 
+	// Draws a mesh onto the screen.
 	void Draw(const Mesh2D &mesh, ShaderProgram &shader) const;
 };
 
