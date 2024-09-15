@@ -4,6 +4,26 @@ Mesh2D::Mesh2D() {
 	glGenBuffers(1, &m_vbID);
 	glGenBuffers(1, &m_ibID);
 	glGenVertexArrays(1, &m_vaID);
+
+	m_positionData = {};
+	m_indices = {};
+}
+Mesh2D::Mesh2D(std::vector<glm::vec2> positionData) {
+	glGenBuffers(1, &m_vbID);
+	glGenBuffers(1, &m_ibID);
+	glGenVertexArrays(1, &m_vaID);
+
+	m_positionData = positionData;
+	m_indices = {};
+	
+	// Configuring vertex buffer.
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbID);
+	glBufferData(GL_ARRAY_BUFFER, positionData.size() * 2 * sizeof(float), positionData.data(), GL_STATIC_DRAW);
+
+	// Configuring vertex array.
+	glBindVertexArray(m_vaID);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(0);
 }
 Mesh2D::Mesh2D(std::vector<glm::vec2> positionData, std::vector<unsigned int> indices) {
 	glGenBuffers(1, &m_vbID);
@@ -57,8 +77,11 @@ void Mesh2D::UpdateIndices(std::vector<unsigned int> indices) {
 }
 
 
-int Mesh2D::GetIndicesCount() const {
+unsigned int Mesh2D::GetIndicesCount() const {
 	return m_indices.size();
+}
+unsigned int Mesh2D::GetVertexCount() const {
+	return m_positionData.size();
 }
 
 GLuint Mesh2D::GetVertexArrayID() const {
@@ -67,3 +90,4 @@ GLuint Mesh2D::GetVertexArrayID() const {
 GLuint Mesh2D::GetIndexBufferID() const {
 	return m_ibID;
 }
+

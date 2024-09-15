@@ -53,6 +53,11 @@ public:
 	// Will move the camera or zoom it in or out depending on the key pressed
 	// and the length of time between the last frame.
 	void ProcessKeyboardMovement(Keys keyPressed, float deltaTime);
+
+	// Returns the x coordinate the camera is centred around.
+	float GetX() const;
+	// Returns the Y coordinate the camera is centred around.
+	float GetY() const;
 };
 
 #endif

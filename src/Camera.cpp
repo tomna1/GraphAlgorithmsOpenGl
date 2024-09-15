@@ -51,3 +51,11 @@ void Camera::ProcessKeyboardMovement(Keys keyPressed, float deltaTime) {
 	else if (keyPressed == Keys::Q_KEY) ZoomOut();
 	else if (keyPressed == Keys::E_KEY) ZoomIn();
 }
+
+
+float Camera::GetX() const {
+	return m_cameraPos.x;
+}
+float Camera::GetY() const {
+	return m_cameraPos.y;
+}

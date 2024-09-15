@@ -50,6 +50,7 @@ int main(void) {
     shader1.SetMatrix4("view", cam.GetViewMatrix());
     shader1.SetMatrix4("projection", projection);
 
+
     std::vector<glm::vec2> hexagonVertices = {
         {-0.5f,  0.25f}, // top left
         {0.0f,  0.5f}, // top middle
@@ -68,9 +69,31 @@ int main(void) {
 
     // I am going to use the hexagon mesh to draw the graphnodes.
     Mesh2D hexagonMesh = Mesh2D(hexagonVertices, hexagonIndices);
-
     hexagonVertices.resize(0);
     hexagonIndices.resize(0);
+
+
+    // The grid can either be stored as 2 lines which i translate with a model matrix
+    // multiple times to make a grid or multiple lines which are all stored in the
+    // gridVertices array which make up the grid and the entire grid can be translated by a model matrix.
+    std::vector<glm::vec2> gridVertices;
+    int gridSize = 100;
+    int startX = -(gridSize / 2);
+    int startY = -(gridSize / 2);;
+
+    for (int i = 0; i < gridSize; i++) {
+        // Adding X line
+        gridVertices.push_back({ startX + i, startY });
+        gridVertices.push_back({ startX + i, startY + gridSize });
+
+        // Adding Y line.
+        gridVertices.push_back({ startX, startY + i });
+        gridVertices.push_back({ startX + gridSize, startY + i });
+    }
+ 
+    Mesh2D gridMesh = Mesh2D(gridVertices);
+    gridVertices.resize(0);
+
 
     // Loop until the user closes the window.
     while (!glfwWindowShouldClose(window)) {
@@ -87,14 +110,15 @@ int main(void) {
         // shader uniform setters
         shader1.SetMatrix4("view", cam.GetViewMatrix());
 
+        // Draws the grid.
+        renderer.DrawLines(gridMesh, shader1, 0, 0);
+
         // Draw the hexagon mesh.
         renderer.Draw(hexagonMesh, shader1, 0, 0);
-
         renderer.Draw(hexagonMesh, shader1, 10, 10);
 
         // Swap front and back buffers 
         glfwSwapBuffers(window);
-
         // Poll for and process events 
         glfwPollEvents();
     }

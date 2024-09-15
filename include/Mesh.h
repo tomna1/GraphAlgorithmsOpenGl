@@ -9,6 +9,9 @@
 
 #include <vector>
 
+// TODO: COULD CREATE A MESH INTERFACE WHICH ALL MESH CLASSES DERIVE FROM. 
+// CURRENTLY ONLY NEED 2D MESHES THOUGH SO MAYBE WASTE OF TIME.
+
 // A mesh represents a single drawable entity. In this case the mesh is 2D
 // meaning position data only contains 2 values per vertex.
 class Mesh2D {
@@ -29,6 +32,9 @@ private:
 public:
 	// Creates empty mesh with no vertex data.
 	Mesh2D();
+	// Creates a 2d mesh with position data. The mesh can be drawn with just position
+	// data and no indices
+	Mesh2D(std::vector<glm::vec2> positionData);
 	// Creates a 2d mesh with the position and index data and configures the interal
 	// buffers and array correctly
 	Mesh2D(std::vector<glm::vec2> positionData, std::vector<unsigned int> indices);
@@ -37,13 +43,16 @@ public:
 	// Delete all current positions vertex data and uses the new positions data.
 	// Reconfigures the interal buffers and arrays.
 	void UpdatePositionVertices(std::vector<glm::vec2> positionData);
-
 	// Deletes all current indices data and uses the new indices data. Reconfigures
 	// all internal buffers and array
 	void UpdateIndices(std::vector<unsigned int> indices);
 
 	// Returns the amount of indices stored by the mesh.
-	int GetIndicesCount() const;
+	unsigned int GetIndicesCount() const;
+	// Returns the amount of vertices stored by the internal vertex array.
+	unsigned int GetVertexCount() const;
+
+
 
 	// Returns the ID of the vertex array used by this object that openGL assigns.
 	GLuint GetVertexArrayID() const;
