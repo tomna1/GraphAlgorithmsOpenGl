@@ -58,6 +58,12 @@ public:
 	float GetX() const;
 	// Returns the Y coordinate the camera is centred around.
 	float GetY() const;
+	// Returns the Z coordinate (zoom distance) the camera is centred around. 
+	float GetZ() const;
+
+	// Returns the coordinates of where the mouse is hovering over based on the
+	// camera being used and its coordinates.
+	glm::vec2 ScreenToWorld(int x, int y, glm::mat4 projection);
 };
 
 #endif

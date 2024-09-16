@@ -116,13 +116,22 @@ bool MappedGraph::HasEdge(const GraphNode &node, int nodeIndex) const {
 	}
 	return false;
 }
+bool MappedGraph::HasNodeAtPoint(int x, int y) const {
+	for (int i = 0; i < m_nodes.size(); i++) {
+		if (m_nodes[i].GetX() == x && m_nodes[i].GetY() == y) return true;
+	}
+	return false;
+}
 
 bool MappedGraph::AddNode(const GraphNode &node) {
+	if (HasNodeAtPoint(node.GetX(), node.GetY())) return false;
+	
 	m_nodes.push_back(node);
 
 	if (m_nodes.size() >= m_edges.capacity()) {
 		m_edges.resize(m_edges.capacity() * 2);
 	}
+
 	return true;
 }
 bool MappedGraph::AddEdge(const GraphNode &node, const GraphNode &to, int weight) {
@@ -136,26 +145,36 @@ bool MappedGraph::AddEdge(const GraphNode &node, const GraphNode &to, int weight
 	m_edges[index2].push_back({ index, weight });
 	return true;
 }
-bool MappedGraph::AddNodes(const std::vector<GraphNode> &nodes) {
+unsigned int MappedGraph::AddNodes(const std::vector<GraphNode> &nodes) {
+	unsigned int output = 0;
 	for (int i = 0; i < nodes.size(); i++) {
+		if (HasNodeAtPoint(nodes[i].GetX(), nodes[i].GetY())) continue;
 		m_nodes.push_back(nodes[i]);
 		m_edges.push_back({});
+		output++;
 	}
 	
 	m_edges.resize(m_edges.capacity() + nodes.size());
-	return true;
+	return output;
 }
-bool MappedGraph::AddEdges(const GraphNode &node, const std::vector<std::pair<int, int>> &edges) {
+/*
+unsigned int MappedGraph::AddEdges(const GraphNode &node, const std::vector<std::pair<int, int>> &edges) {
+	unsigned int output = 0;
+	
 	int index = GetNodeIndex(node);
-	if (index == -1) return false;
+	if (index == -1) return output;
 
 	for (int i = 0; i < edges.size(); i++) {
 		if (!HasEdge(node, edges[i].first)) {
 			m_edges[index].push_back(edges[i]);
 		}
-		else return false;
+		else output++;
 	}
-	return true;
+	return output;
+}*/
+bool MappedGraph::AddNodeAtPoint(int x, int y) {
+	GraphNode node = GraphNode(x, y);
+	return AddNode(node);
 }
 
 

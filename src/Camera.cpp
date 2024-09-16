@@ -1,5 +1,13 @@
 #include "Camera.h"
 
+#include <GL/glew.h>
+
+
+#include <iostream>
+
+#define DISPLAY_WIDTH = 1920
+#define DISPLAY_HEIGHT = 1080
+
 void Camera::ZoomOut() {
 	float z = m_cameraPos.z;
 	if (z < MAX_Z_DISTANCE) return;
@@ -58,4 +66,48 @@ float Camera::GetX() const {
 }
 float Camera::GetY() const {
 	return m_cameraPos.y;
+}
+float Camera::GetZ() const {
+	return m_cameraPos.z;
+}
+
+
+glm::vec2 Camera::ScreenToWorld(int x, int y, glm::mat4 projection) {
+	// coordindates multiplied by the view matrix then the then the projection matrix creates normalised screen coordinates.
+
+	// that must mean some inverse stuff is true.
+	// 3rd value is screen. width, 4th value is screen height.
+	int screenSize[4];
+	glGetIntegerv(GL_VIEWPORT, screenSize);
+
+	// normalised screen coordinates between -1 and 1.
+	float nx = (2 * ((float)x / (float)screenSize[2])) - 1;
+	float ny = -((2 * ((float)y / (float)screenSize[3])) - 1);
+	// std::cout << "Normalised coords: " << nx << ", " << ny << std::endl;
+
+	// dont know what im doing so going to copy this.
+	// https://www.reddit.com/r/gamedev/comments/10izurv/screen_to_world_coordinates/
+	glm::mat4 invProj = glm::inverse(projection);
+	glm::mat4 invView = glm::inverse(GetViewMatrix());
+
+	glm::mat4 idk = projection * GetViewMatrix();
+	glm::mat4 idkinv = glm::inverse(idk);
+
+	glm::vec4 coords = { (float)nx, (float)ny, 0.0f, 1.0f };
+
+	auto pos = idkinv * coords;
+	
+	
+	
+	//glm::vec4 viewSpace = invProj * coords;
+	// std::cout << "viewSpace: " << viewSpace.x << "," << viewSpace.y << "," << viewSpace.z << "," << viewSpace.w << std::endl;
+	//glm::vec4 worldSpace = invView * viewSpace;
+	// std::cout << "worldSpace: " << worldSpace.x << "," << worldSpace.y << "," << worldSpace.z << "," << worldSpace.w << std::endl;
+
+
+	std::cout << "pos: " << pos.x << "," << pos.y << "," << pos.z << "," << pos.w << std::endl;
+
+	
+
+	return { pos.x, pos.y };
 }

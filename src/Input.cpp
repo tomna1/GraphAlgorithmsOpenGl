@@ -1,5 +1,7 @@
 #include "Input.h"
 
+#include <iostream>
+
 #define DEFAULT_SCREEN_WIDTH 960
 #define DEFAULT_SCREEN_HEIGHT 720
 
@@ -26,6 +28,7 @@ void Mouse::SetMousePos(double x, double y) {
     m_x = x;
     m_y = y;
 }
+
 
 
 // ESC to exit, TAB to go into wireframe mode and LEFT_SHIFT to go back
@@ -67,11 +70,7 @@ void processInput(GLFWwindow *window, Camera &cam, float deltaTime) {
 
 // Selecting nodes when mouse is pressed on them, adding nodes to other
 // coordinates, selecting edges between nodes, added edges between nodes.
-void processMouseInput(GLFWwindow *window, Mouse &mouse) {
-    // if the left mouse button is not pressed, do nothing.
-    int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-    if (state != GLFW_PRESS) return;
-
+void processMouseInput(GLFWwindow *window, Mouse &mouse, MappedGraph &graph) {
     double xPos, yPos;
     glfwGetCursorPos(window, &xPos, &yPos);
 
@@ -82,7 +81,16 @@ void processMouseInput(GLFWwindow *window, Mouse &mouse) {
     if (xPos > 0 && xPos < screenSize[2]) mouse.SetX(xPos);
     if (yPos > 0 && yPos < screenSize[3]) mouse.SetY(yPos);
 
+    // if the left mouse button is not pressed, return.
+    int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+    if (state != GLFW_PRESS) return;
 
+    if (!graph.HasNodeAtPoint((int)mouse.GetX(), (int)mouse.GetY())) {
+        // mouse coordinate and graph coordinate use different system.
+        // need to convert mouse coordinates to graph coordinates.
+        graph.AddNodeAtPoint((int)mouse.GetX(), (int)mouse.GetY());
+        
+    }
 }
 
 

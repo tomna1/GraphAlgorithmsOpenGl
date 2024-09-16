@@ -62,6 +62,8 @@ public:
 	bool HasNode(const GraphNode &node) const;
 	// Checks if the graph has a certain edge between nodes. O(n)
 	bool HasEdge(const GraphNode &node, const GraphNode &rhs) const;
+	// Checks if the graph has a node at a certain point.
+	bool HasNodeAtPoint(int x, int y) const;
 private:
 	// Checks if the graph has a certain edge between a node and
 	// m_nodes[nodeIndex].
@@ -77,13 +79,14 @@ public:
 	// Both specified nodes have to be in the graph for the edge to be added.
 	// O(n) (checks if nodes are already in graph)
 	bool AddEdge(const GraphNode &node, const GraphNode &rhs, int weight);
-	// Adds all the nodes to the graph. Will not add duplicate nodes. Returns
-	// true if all nodes not already in the graph have been added and false
-	// if all nodes not already in the graph have not all been successfully
-	// added. 
-	bool AddNodes(const std::vector<GraphNode> &nodes);
-	// Adds all the edges to a node.
-	bool AddEdges(const GraphNode &node, const std::vector<std::pair<int, int>> &edges);
+	// Adds the nodes to the graph. Will not add duplicate nodes. Returns
+	// the amount of nodes successfully added to the graph.
+	unsigned int AddNodes(const std::vector<GraphNode> &nodes);
+	// Adds the edges to a node. Will not add duplicate edges. Returns
+	// the amount of edges successfully added to the node.
+	/* unsigned int AddEdges(const GraphNode &node, const std::vector<std::pair<int, int>> &edges); */
+	// Adds a node to the graph at the specified x,y coordinate.
+	bool AddNodeAtPoint(int x, int y);
 
 	// Removes a nodes and all edges associated with that node.
 	bool RemoveNode(const GraphNode &node);
@@ -94,6 +97,8 @@ public:
 	// already be an edge between 2 nodes.
 	bool ChangeEdgeWeight(const GraphNode &node, const GraphNode &rhs, const int newWeight);
 
+
+	// TODO: CHANGE THESE TO USE THE INSERTION OPERATOR INSTEAD
 
 	// Print out and edge to the standard output. Example: Edge(Node(1, 2), 5)
 	// where 1 is the x coordinate of the node, 2 is the y coordinate and 5 is 

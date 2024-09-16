@@ -39,7 +39,6 @@ GLFWwindow *setUp() {
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
-
     // Sets up glew.
     if (glewInit() != GLEW_OK) {
         std::cerr << "GLEW failed to initialise." << std::endl;
@@ -50,10 +49,11 @@ GLFWwindow *setUp() {
     std::cout << "Currently using OpenGL version " << glGetString(GL_VERSION)
         << std::endl;
 
-
     // Sets up debug message callback function
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(Errors::debugMessageCallback, nullptr);
+
+    setupInputCallbacks(window);
 
     // Sets the background colour of the window.
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -157,7 +157,8 @@ int main(void) {
 
         // Updates the camera and processes additional input
         processInput(window, cam, deltaTime);
-        processMouseInput(window, mouse);
+        processMouseInput(window, mouse, graph);
+        glm::vec2 coords = cam.ScreenToWorld(mouse.GetX(), mouse.GetY(), projection);
 
         // Changing camera view.
         shader1.SetMatrix4("view", cam.GetViewMatrix());

@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 
 #include "Camera.h"
+#include "MappedGraph.h"
 
 class Mouse {
 private:
@@ -29,7 +30,7 @@ void processInput(GLFWwindow *window, Camera &cam, float deltaTime);
 // Processes mouse inputs.
 // Selecting nodes when mouse is pressed on them, adding nodes to other
 // coordinates, selecting edges between nodes, added edges between nodes.
-void processMouseInput(GLFWwindow *window, Mouse &mouse);
+void processMouseInput(GLFWwindow *window, Mouse &mouse, MappedGraph &graph);
 
 // will setup all callback functions involving any user inputs.
 void setupInputCallbacks(GLFWwindow *window);
