@@ -1,8 +1,6 @@
-﻿  Mesh.cpp
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Mesh.cpp(82,25): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Mesh.cpp(85,30): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
-  Renderer.cpp
-  main.cpp
-  Generating Code...
+﻿  main.cpp
+glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(input.obj)' or at 'C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(monitor.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(monitor.obj)' or at 'C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(null_monitor.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(null_monitor.obj)' or at ''; linking object as if no debug info
 glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_joystick.obj)' or at 'C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\glfw3.pdb'; linking object as if no debug info
   GraphAlgorithmsOpenGl.vcxproj -> C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\GraphAlgorithmsOpenGl.exe

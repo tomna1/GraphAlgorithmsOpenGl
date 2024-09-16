@@ -150,7 +150,7 @@ GLFWwindow *setUp() {
     glDebugMessageCallback(debugMessageCallback, nullptr);
 
     // Sets the background colour of the window.
-    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     // GL_DEPTH_TEST is used to make sure that sides that are closes to the 
     // camera are drawn over sides that are further away

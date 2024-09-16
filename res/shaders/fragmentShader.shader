@@ -2,10 +2,8 @@
 
 out vec4 color;
 
-in vec4 vertexColor;
-
-uniform vec4 u_Color;
+uniform vec3 u_Color;
 
 void main() {
-	color = vertexColor;
+	color = vec4(u_Color, 1.0f);
 }

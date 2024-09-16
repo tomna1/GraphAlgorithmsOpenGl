@@ -69,6 +69,18 @@ bool ShaderProgram::SetMatrix4(const std::string &name, glm::mat4 trans) const {
     return true;
 }
 
+bool ShaderProgram::SetVec3f(const std::string &name, glm::vec3 vector) const {
+    GLint location = glGetUniformLocation(m_id, name.c_str());
+    if (location == -1) {
+        std::cerr << "Uniform variable \"" << name << "\" could not be found."
+            << std::endl;
+        return false;
+    }
+
+    glUniform3f(location, vector.x, vector.y, vector.z);
+    return true;
+}
+
 // Main function to set up the shader program.
 GLuint ShaderProgram::SetUpShaderProgram(const char *vertexPath, const char *fragPath) {
     // expected filepath: res\shaders\vertexShader.shader

@@ -96,6 +96,7 @@ int main(void) {
     }
  
     Mesh2D gridMesh = Mesh2D(gridVertices);
+    gridMesh.UpdateColour({ 0.5f, 0.0f, 0.0f });
     gridVertices.resize(0);
 
 
@@ -103,11 +104,14 @@ int main(void) {
     graph.AddNode({ 0, 0 });
     graph.AddNode({ 10, 10 });
     graph.AddNode({ -10, -10 });
-
+    
+    std::vector<glm::ivec2> nodesPos = {};
 
     // Loop until the user closes the window.
     while (!glfwWindowShouldClose(window)) {
         renderer.Clear();
+
+        nodesPos = graph.GetNodesPosition();
 
         // Timing stuff
         float currentFrame = static_cast<float>(glfwGetTime());
@@ -121,12 +125,13 @@ int main(void) {
         // shader uniform setters
         shader1.SetMatrix4("view", cam.GetViewMatrix());
 
+        // Draws the graph nodes.
+        for (int i = 0; i < nodesPos.size(); i++) {
+            renderer.Draw(hexagonMesh, shader1, nodesPos[i].x, nodesPos[i].y);
+        }
+
         // Draws the grid.
         renderer.DrawLines(gridMesh, shader1, 0, 0);
-
-        // Draw the hexagon mesh.
-        renderer.Draw(hexagonMesh, shader1, 0, 0);
-        renderer.Draw(hexagonMesh, shader1, 10, 10);
 
         // Swap front and back buffers 
         glfwSwapBuffers(window);

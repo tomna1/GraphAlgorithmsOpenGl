@@ -255,6 +255,17 @@ void MappedGraph::PrintAllEdges() const {
 }
 
 
+std::vector<glm::ivec2> MappedGraph::GetNodesPosition() const {
+	std::vector<glm::ivec2> output;
+	output.resize(m_nodes.size());
+	
+	for (int i = 0; i < m_nodes.size(); i++) {
+		output.push_back({ m_nodes[i].GetX(), m_nodes[i].GetY() });
+	}
+	return output;
+}
+
+
 
 // Returns a list of nodes which indicate the shortest path between 2 nodes.
 // A indicates this algorithm is the A* algorithm

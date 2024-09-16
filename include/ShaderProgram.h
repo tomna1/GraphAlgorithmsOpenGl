@@ -38,9 +38,12 @@ public:
 	// Sets a float uniform variable given the name of the variable and the
 	// value to set it to.
 	bool SetFloat(const std::string &name, float value) const;
-	// Sets a 4d matrix uniform variable given the name of the variable in the shader
+	// Sets a 4x4 matrix uniform variable given the name of the variable in the shader
 	// and the value to set it to.
 	bool SetMatrix4(const std::string &name, glm::mat4 trans) const;
+	// Sets a 3d vector of floats uniform variable given the name of the variable
+	// in the shader and the value to set it to.
+	bool SetVec3f(const std::string &name, glm::vec3 vector) const;
 
 private:
 	// Main function to set up the shader program.

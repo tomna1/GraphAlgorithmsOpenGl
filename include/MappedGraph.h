@@ -115,6 +115,8 @@ public:
 	// Edge(Node(1, 1), 4)
 	void PrintAllEdges() const;
 
+	std::vector<glm::ivec2> GetNodesPosition() const;
+
 	// Returns a list of nodes which indicate the shortest path between 2 nodes.
 	// A indicates this algorithm is the A* algorithm
 	std::vector<GraphNode> FindShortestPathA(const GraphNode &start, const GraphNode &end) const;

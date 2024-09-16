@@ -8,6 +8,9 @@ void Renderer::Clear() const {
 void Renderer::Draw(const Mesh2D &mesh, ShaderProgram &shader, int posX, int posY) const {
 	shader.Use();
 
+	// Sets the correct colour.
+	shader.SetVec3f("u_Color", mesh.GetColour());
+
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(posX, posY, 0));
 	shader.SetMatrix4("model", model);
@@ -27,6 +30,9 @@ void Renderer::Draw(const Mesh2D &mesh, ShaderProgram &shader, int posX, int pos
 
 void Renderer::DrawLines(const Mesh2D &mesh, ShaderProgram &shader, int posX, int posY) const {
 	shader.Use();
+
+	// Sets the correct colour.
+	shader.SetVec3f("u_Color", mesh.GetColour());
 
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(posX, posY, 0));
