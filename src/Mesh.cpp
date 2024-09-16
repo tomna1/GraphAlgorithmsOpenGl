@@ -7,8 +7,9 @@ Mesh2D::Mesh2D() {
 
 	m_positionData = {};
 	m_indices = {};
+	m_colourData = {};
 }
-Mesh2D::Mesh2D(std::vector<glm::vec2> positionData) {
+Mesh2D::Mesh2D(std::vector<glm::vec2> &positionData) {
 	glGenBuffers(1, &m_vbID);
 	glGenBuffers(1, &m_ibID);
 	glGenVertexArrays(1, &m_vaID);
@@ -25,7 +26,7 @@ Mesh2D::Mesh2D(std::vector<glm::vec2> positionData) {
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(0);
 }
-Mesh2D::Mesh2D(std::vector<glm::vec2> positionData, std::vector<unsigned int> indices) {
+Mesh2D::Mesh2D(std::vector<glm::vec2> &positionData, std::vector<unsigned int> &indices) {
 	glGenBuffers(1, &m_vbID);
 	glGenBuffers(1, &m_ibID);
 	glGenVertexArrays(1, &m_vaID);
@@ -56,7 +57,7 @@ Mesh2D::~Mesh2D() {
 }
 
 
-void Mesh2D::UpdatePositionVertices(std::vector<glm::vec2> positionData) {
+void Mesh2D::UpdatePositionVertices(std::vector<glm::vec2> &positionData) {
 	m_positionData = positionData;
 
 	// Configuring vertex buffer.
@@ -68,7 +69,7 @@ void Mesh2D::UpdatePositionVertices(std::vector<glm::vec2> positionData) {
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(0);
 }
-void Mesh2D::UpdateIndices(std::vector<unsigned int> indices) {
+void Mesh2D::UpdateIndices(std::vector<unsigned int> &indices) {
 	m_indices = indices;
 
 	// Configuring index buffer.

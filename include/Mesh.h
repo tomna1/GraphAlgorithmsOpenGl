@@ -17,8 +17,12 @@
 class Mesh2D {
 private:
 	// TODO: HAVE THE MESH INCLUDE MORE VERTEX DATA LIKE TEXTURE OR COLOUR DATA.
+	// each vec2 is a vertex.
 	std::vector<glm::vec2> m_positionData;
+	// each index relates to a vertex in m_positionData which will be drawn.
 	std::vector<unsigned int> m_indices;
+	// Each vec3 is a normalised rgb value.
+	std::vector<glm::vec3> m_colourData;
 
 	// The vertex buffer contains the raw vertex data;
 	GLuint m_vbID;
@@ -34,23 +38,27 @@ public:
 	Mesh2D();
 	// Creates a 2d mesh with position data. The mesh can be drawn with just position
 	// data and no indices
-	Mesh2D(std::vector<glm::vec2> positionData);
+	Mesh2D(std::vector<glm::vec2> &positionData);
 	// Creates a 2d mesh with the position and index data and configures the interal
 	// buffers and array correctly
-	Mesh2D(std::vector<glm::vec2> positionData, std::vector<unsigned int> indices);
+	Mesh2D(std::vector<glm::vec2> &positionData, std::vector<unsigned int> &indices);
 	~Mesh2D();
 
 	// Delete all current positions vertex data and uses the new positions data.
 	// Reconfigures the interal buffers and arrays.
-	void UpdatePositionVertices(std::vector<glm::vec2> positionData);
+	void UpdatePositionVertices(std::vector<glm::vec2> &positionData);
 	// Deletes all current indices data and uses the new indices data. Reconfigures
 	// all internal buffers and array
-	void UpdateIndices(std::vector<unsigned int> indices);
+	void UpdateIndices(std::vector<unsigned int> &indices);
 
 	// Returns the amount of indices stored by the mesh.
 	unsigned int GetIndicesCount() const;
 	// Returns the amount of vertices stored by the internal vertex array.
 	unsigned int GetVertexCount() const;
+
+	// Checks if the currently stored index data is compatible with the
+	// currently stored position data.
+	bool isValidIndices() const;
 
 
 

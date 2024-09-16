@@ -12,12 +12,6 @@
 
 #include "setup.h"
 
-void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
-    // glViewport resizes everything in the window to be able to fit within
-    // The size of the window
-    glViewport(0, 0, width, height);
-}
-
 // This function prints out a standard error message to the error stream.
 void GLAPIENTRY debugMessageCallback(GLenum source, GLenum type, GLuint id
     , GLenum severity, GLsizei length, const GLchar *message, const void *userParam) {
@@ -150,11 +144,6 @@ GLFWwindow *setUp() {
     std::cout << "Currently using OpenGL version " << glGetString(GL_VERSION)
         << std::endl;
 
-
-    // Sets the opengl viewport size and sets the framebufferSizeCallback
-    // function to be called everytime the window is resized.
-    glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
-    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
     // Sets up debug message callback function
     glEnable(GL_DEBUG_OUTPUT);

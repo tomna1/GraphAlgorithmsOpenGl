@@ -15,6 +15,7 @@
 #include "GraphNode.h"
 #include "Renderer.h"
 #include "Mesh.h"
+#include "Input.h"
 
 
 // timing
@@ -25,7 +26,9 @@ float lastFrame = 0.0f;
 * The function in which all of the input code should be handled. This function
 * should be called every render loop.
 */
-void processInput(GLFWwindow *window, Camera *cam);
+void processInput(GLFWwindow *window, Camera &cam);
+
+void processMouseInput(GLFWwindow *window, Camera &cam, Mouse &mouse);
 
 
 // THERE IS VERY MINIMAL ERROR HANDLING IN THIS PRORGAM SO IF SOMETHING GOES
@@ -36,6 +39,7 @@ int main(void) {
     ShaderProgram shader1("res\\shaders\\vertexShader.shader", "res\\shaders\\fragmentShader.shader");
     Camera cam = Camera();
     Renderer renderer = Renderer();
+    Mouse mouse = Mouse();
 
     // model matrix consists of translations, scaling and rotations applied
     // to all objects to place then in the correct global world space.
@@ -95,6 +99,12 @@ int main(void) {
     gridVertices.resize(0);
 
 
+    MappedGraph graph = MappedGraph();
+    graph.AddNode({ 0, 0 });
+    graph.AddNode({ 10, 10 });
+    graph.AddNode({ -10, -10 });
+
+
     // Loop until the user closes the window.
     while (!glfwWindowShouldClose(window)) {
         renderer.Clear();
@@ -105,7 +115,8 @@ int main(void) {
         lastFrame = currentFrame;
 
         // Updates the camera and processes additional input
-        processInput(window, &cam);
+        processInput(window, cam);
+        processMouseInput(window, cam, mouse);
 
         // shader uniform setters
         shader1.SetMatrix4("view", cam.GetViewMatrix());
@@ -120,7 +131,7 @@ int main(void) {
         // Swap front and back buffers 
         glfwSwapBuffers(window);
         // Poll for and process events 
-        glfwPollEvents();
+        glfwWaitEvents();
     }
 
     glfwTerminate();
@@ -129,7 +140,11 @@ int main(void) {
 
 // ESC to exit, TAB to go into wireframe mode and LEFT_SHIFT to go back
 // into fill mode. WASD to move the camera, Q to zoom out and E to zoom in.
-void processInput(GLFWwindow *window, Camera *cam) {
+void processInput(GLFWwindow *window, Camera &cam) {
+    // Use to make the simulation run smoother. See glfw event processing for
+    // more details.
+    glfwPostEmptyEvent();
+    
     // If the esc key is pressed then the window closes.
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
@@ -146,16 +161,31 @@ void processInput(GLFWwindow *window, Camera *cam) {
     }
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        cam->ProcessKeyboardMovement(Keys::W_KEY, deltaTime);
+        cam.ProcessKeyboardMovement(Keys::W_KEY, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        cam->ProcessKeyboardMovement(Keys::S_KEY, deltaTime);
+        cam.ProcessKeyboardMovement(Keys::S_KEY, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        cam->ProcessKeyboardMovement(Keys::A_KEY, deltaTime);
+        cam.ProcessKeyboardMovement(Keys::A_KEY, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        cam->ProcessKeyboardMovement(Keys::D_KEY, deltaTime);
+        cam.ProcessKeyboardMovement(Keys::D_KEY, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-        cam->ProcessKeyboardMovement(Keys::Q_KEY, deltaTime);
+        cam.ProcessKeyboardMovement(Keys::Q_KEY, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-        cam->ProcessKeyboardMovement(Keys::E_KEY, deltaTime);
+        cam.ProcessKeyboardMovement(Keys::E_KEY, deltaTime);
+}
+
+// Selecting nodes when mouse is pressed on them, adding nodes to other
+// coordinates, selecting edges between nodes, added edges between nodes.
+void processMouseInput(GLFWwindow *window, Camera &cam, Mouse &mouse) {
+    // TODO: ONLY NEED TO UPDATE MOUSE POS WHEN A BUTTON IS CLICKED.
+    double xPos, yPos;
+    glfwGetCursorPos(window, &xPos, &yPos);
+
+    int screenSize[4];
+    glGetIntegerv(GL_VIEWPORT, screenSize);
+
+    // if mouse pos within correct bounds, update mouse.
+    if (xPos > 0 && xPos < screenSize[2]) mouse.SetX(xPos);
+    if (yPos > 0 && yPos < screenSize[3]) mouse.SetY(yPos);
 }
 
