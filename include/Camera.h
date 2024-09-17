@@ -5,13 +5,15 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Display.h"
+
 // DONT CHANGE, STUFF STARTS DISAPPEARING IF CAMERA GOES TOO FAR OUT. DONT
 // KNOW HOW TO FIX.
-const float MAX_Z_DISTANCE = -80.0;
-const float MIN_Z_DISTANCE = -5.0;
+const float MAX_FOV = 140.0f;
+const float MIN_FOV = 15.0f;
 
 const float MAX_CAM_SPEED = 160.0f;
-const float MIN_CAM_SPEED = 8.0f;
+const float MIN_CAM_SPEED = 16.0f;
 
 enum class Keys {
 	W_KEY,	// move camera up
@@ -27,6 +29,10 @@ private:
 	// The speed the camera moves.
 	float m_cameraSpeed;
 
+	// field of view used for the projection matrix. The larger the fov,
+	// the more of the world can be seen.
+	float m_fov;
+
 	// This camera will only be 2d and not have any 3d movement.
 	glm::vec3 m_cameraPos;
 
@@ -38,17 +44,15 @@ private:
 public:
 	// Creates a camera at the origin with default speed.
 	Camera();
-	// Creates a camera at a given position at a default speed. Will change
-	// camera position if the z value is outside of the given MAX_Z_DISTANCE
-	// or MIN_Z_DISTANCE.
-	Camera(glm::vec3 position);
-	// Creates a camera at a given position at the given speed. Will change
-	// camera position if the z value is outside of the given MAX_Z_DISTANCE
-	// or MIN_Z_DISTANCE.
-	Camera(glm::vec3 position, float speed);
+	// Creates a camera at a the origin at the given speed.
+	Camera(float speed);
 
 	// Gets the view matrix defined by the position of the camera.
 	glm::mat4 GetViewMatrix() const;
+
+	// A projection matrix does some stuff with perspective honestly im not sure. 
+	// Returns the matrix.
+	glm::mat4 GetProjectionMatrix(Display &display) const;
 
 	// Will move the camera or zoom it in or out depending on the key pressed
 	// and the length of time between the last frame.

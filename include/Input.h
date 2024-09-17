@@ -1,10 +1,11 @@
 #ifndef ALL_INPUT_H
 #define ALL_INPUT_H
+#include "Camera.h"
+#include "MappedGraph.h"
 
 #include <GLFW/glfw3.h>
 
-#include "Camera.h"
-#include "MappedGraph.h"
+
 
 class Mouse {
 private:

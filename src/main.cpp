@@ -16,60 +16,22 @@
 #include "Mesh.h"
 #include "Input.h"
 #include "Errors.h"
+#include "Display.h"
 
 #define DEFAULT_SCREEN_WIDTH 960
-#define DEFAULT_SCREEN_HEIGHT 720
+#define DEFAULT_SCREEN_HEIGHT 960
 
 
-GLFWwindow *setUp() {
+// THERE IS VERY MINIMAL ERROR HANDLING IN THIS PRORGAM SO IF SOMETHING GOES
+// WRONG, EVERYTHING WILL GO WRONG. IT IS NOT A BUG, IT IS A FEATURE.
+int main(void) {
     // sets up glfw.
     if (!glfwInit()) {
         std::cerr << "GLFW failed to initialise." << std::endl;
         exit(1);
     }
 
-    // Sets up glfw window.
-    GLFWwindow *window = glfwCreateWindow(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, "Hello World", nullptr, nullptr);
-    if (!window)
-    {
-        std::cerr << "Window failed to open" << std::endl;
-        glfwTerminate();
-        exit(1);
-    }
-    glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
-
-    // Sets up glew.
-    if (glewInit() != GLEW_OK) {
-        std::cerr << "GLEW failed to initialise." << std::endl;
-        glfwTerminate();
-        exit(1);
-    }
-
-    std::cout << "Currently using OpenGL version " << glGetString(GL_VERSION)
-        << std::endl;
-
-    // Sets up debug message callback function
-    glEnable(GL_DEBUG_OUTPUT);
-    glDebugMessageCallback(Errors::debugMessageCallback, nullptr);
-
-    setupInputCallbacks(window);
-
-    // Sets the background colour of the window.
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-    // GL_DEPTH_TEST is used to make sure that sides that are closes to the 
-    // camera are drawn over sides that are further away
-    glEnable(GL_DEPTH_TEST);
-
-    return window;
-}
-
-
-// THERE IS VERY MINIMAL ERROR HANDLING IN THIS PRORGAM SO IF SOMETHING GOES
-// WRONG, EVERYTHING WILL GO WRONG. IT IS NOT A BUG, IT IS A FEATURE.
-int main(void) {
-    GLFWwindow* window = setUp();
+    Display display = Display(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 
     ShaderProgram shader1("res\\shaders\\vertexShader.shader", "res\\shaders\\fragmentShader.shader");
     Camera cam = Camera();
@@ -87,7 +49,7 @@ int main(void) {
     // A projection matrix does some stuff with perspective honestly im not sure.
     // TODO: maybe i should put this in my camera class idk.
     glm::mat4 projection = glm::mat4(1.0f);
-    projection = glm::perspective(glm::radians(45.0f), 960.0f / 720.0f, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(45.0f), (float)(DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT), 0.1f, 100.0f);
 
     shader1.SetMatrix4("model", model);
     shader1.SetMatrix4("view", cam.GetViewMatrix());
@@ -147,7 +109,7 @@ int main(void) {
     std::vector<glm::ivec2> nodesPos = {};
 
     // Loop until the user closes the window.
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(display.GetWindow())) {
         renderer.Clear();
 
         // Timing stuff
@@ -155,13 +117,15 @@ int main(void) {
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
+
         // Updates the camera and processes additional input
-        processInput(window, cam, deltaTime);
-        processMouseInput(window, mouse, graph);
+        processInput(display.GetWindow(), cam, deltaTime);
+        processMouseInput(display.GetWindow(), mouse, graph);
         glm::vec2 coords = cam.ScreenToWorld(mouse.GetX(), mouse.GetY(), projection);
 
         // Changing camera view.
         shader1.SetMatrix4("view", cam.GetViewMatrix());
+        shader1.SetMatrix4("projection", cam.GetProjectionMatrix(display));
 
         // Draws the graph nodes.
         nodesPos = graph.GetNodesPosition();
@@ -173,7 +137,7 @@ int main(void) {
         renderer.DrawLines(gridMesh, shader1, 0, 0);
 
         // Swap front and back buffers 
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(display.GetWindow());
         // Poll for and process events 
         glfwWaitEvents();
     }

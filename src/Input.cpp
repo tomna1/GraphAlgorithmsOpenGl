@@ -74,8 +74,7 @@ void processMouseInput(GLFWwindow *window, Mouse &mouse, MappedGraph &graph) {
     double xPos, yPos;
     glfwGetCursorPos(window, &xPos, &yPos);
 
-    int screenSize[4];
-    glGetIntegerv(GL_VIEWPORT, screenSize);
+    /*
 
     // if mouse pos within correct bounds, update mouse.
     if (xPos > 0 && xPos < screenSize[2]) mouse.SetX(xPos);
@@ -90,23 +89,5 @@ void processMouseInput(GLFWwindow *window, Mouse &mouse, MappedGraph &graph) {
         // need to convert mouse coordinates to graph coordinates.
         graph.AddNodeAtPoint((int)mouse.GetX(), (int)mouse.GetY());
         
-    }
-}
-
-
-
-// Called whenever the window size is changed by the user.
-void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
-    // glViewport resizes everything in the window to be able to fit within
-    // The size of the window
-    glViewport(0, 0, width, height);
-}
-
-
-// Sets up all of the callback functions that involve inputs by the user.
-void setupInputCallbacks(GLFWwindow *window) {
-    // Sets the opengl viewport size and sets the framebufferSizeCallback
-    // function to be called everytime the window is resized.
-    glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
-    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+    }*/
 }
