@@ -34,9 +34,9 @@ glm::mat4 Camera::GetViewMatrix() const {
 	view = glm::translate(view, m_cameraPos);
 	return view;
 }
-glm::mat4 Camera::GetProjectionMatrix(Display &display) const {
+glm::mat4 Camera::GetProjectionMatrix(const float width, const float height) const {
 	glm::mat4 projection = glm::mat4(1.0f);
-	projection = glm::perspective(glm::radians(m_fov), (float)(display.GetWidth() / display.GetHeight()), 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(m_fov), width / height, 0.1f, 100.0f);
 	return projection;
 }
 
@@ -63,39 +63,37 @@ float Camera::GetZ() const {
 }
 
 
-glm::vec2 Camera::ScreenToWorld(int x, int y, glm::mat4 projection) {
+glm::vec2 Camera::ScreenToWorld(int x, int y, const Display &display) {
 	// coordindates multiplied by the view matrix then the then the projection matrix creates normalised screen coordinates.
 
 	// that must mean some inverse stuff is true.
 	// 3rd value is screen. width, 4th value is screen height.
-	int screenSize[4] = { 1, 2, 3, 4 };
 	
-
 	// normalised screen coordinates between -1 and 1.
-	float nx = (2 * ((float)x / (float)screenSize[2])) - 1;
-	float ny = -((2 * ((float)y / (float)screenSize[3])) - 1);
+	float nx = (2 * ((float)x / (float)display.GetWidth())) - 1;
+	float ny = -((2 * ((float)y / (float)display.GetHeight())) - 1);
 	glm::vec4 coords = { nx, ny, 0.0f, 1.0f };
 	// std::cout << "Normalised coords: " << nx << ", " << ny << std::endl;
 
 	// dont know what im doing so going to copy this.
 	// https://www.reddit.com/r/gamedev/comments/10izurv/screen_to_world_coordinates/
-	glm::mat4 invProj = glm::inverse(projection);
+	glm::mat4 invProj = glm::inverse(GetProjectionMatrix(display.GetWidth(), display.GetHeight()));
 	glm::mat4 invView = glm::inverse(GetViewMatrix());
 	glm::mat4 idkinv2 = invProj * invView;
 
-	glm::mat4 idk = projection * GetViewMatrix();
+	glm::mat4 idk = GetProjectionMatrix(display.GetWidth(), display.GetHeight()) * GetViewMatrix();
 	glm::mat4 idkinv = glm::inverse(idk);
 
-	// auto pos = idk * coords;
-	// pos /= pos.w;
+	//auto pos = idk * coords;
+	//pos /= pos.w;
 	// std::cout << "pos: " << pos.x << "," << pos.y << "," << pos.z << "," << pos.w << std::endl;
 	
 	
-	glm::vec4 viewSpace = invProj * coords;
+	glm::vec4 viewSpace = invView * coords;
 	// std::cout << "viewSpace: " << viewSpace.x << "," << viewSpace.y << "," << viewSpace.z << "," << viewSpace.w << std::endl;
-	glm::vec4 worldSpace = invView * viewSpace;
+	glm::vec4 worldSpace = invProj * viewSpace;
 	worldSpace /= worldSpace.w;
-	// std::cout << "worldSpace: " << worldSpace.x << "," << worldSpace.y << "," << worldSpace.z << "," << worldSpace.w << std::endl;
+	std::cout << "worldSpace: " << worldSpace.x << "," << worldSpace.y << "," << worldSpace.z << "," << worldSpace.w << std::endl;
 
 	// THIS NEARLY WORKS BUT ONLY WHEN I MOVE AROUND USING THE WASD KEYS, IF I MOVE THE MOUSE
 	// IT DOES NOT SHOW THE CORRECT COORDINATES.

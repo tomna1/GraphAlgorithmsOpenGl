@@ -2,6 +2,7 @@
 #define ALL_INPUT_H
 #include "Camera.h"
 #include "MappedGraph.h"
+#include "Display.h"
 
 #include <GLFW/glfw3.h>
 
@@ -31,9 +32,7 @@ void processInput(GLFWwindow *window, Camera &cam, float deltaTime);
 // Processes mouse inputs.
 // Selecting nodes when mouse is pressed on them, adding nodes to other
 // coordinates, selecting edges between nodes, added edges between nodes.
-void processMouseInput(GLFWwindow *window, Mouse &mouse, MappedGraph &graph);
+void processMouseInput(const Display &display, Mouse &mouse, MappedGraph &graph);
 
-// will setup all callback functions involving any user inputs.
-void setupInputCallbacks(GLFWwindow *window);
 
 #endif

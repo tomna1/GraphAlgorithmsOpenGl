@@ -51,20 +51,20 @@ Display::Display(int width, int height) {
 	glEnable(GL_DEPTH_TEST);
 }
 
-int Display::GetWidth() {
+int Display::GetWidth() const {
 	// 3rd value is screen. width, 4th value is screen height.
 	int screenSize[4];
 	glGetIntegerv(GL_VIEWPORT, screenSize);
 	return screenSize[2];
 }
 
-int Display::GetHeight() {
+int Display::GetHeight() const {
 	// 3rd value is screen. width, 4th value is screen height.
 	int screenSize[4];
 	glGetIntegerv(GL_VIEWPORT, screenSize);
 	return screenSize[3];
 }
 
-GLFWwindow *Display::GetWindow() {
+GLFWwindow *Display::GetWindow() const {
 	return m_window;
 }

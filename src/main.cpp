@@ -48,12 +48,12 @@ int main(void) {
 
     // A projection matrix does some stuff with perspective honestly im not sure.
     // TODO: maybe i should put this in my camera class idk.
-    glm::mat4 projection = glm::mat4(1.0f);
-    projection = glm::perspective(glm::radians(45.0f), (float)(DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT), 0.1f, 100.0f);
+    // glm::mat4 projection = glm::mat4(1.0f);
+    // projection = glm::perspective(glm::radians(45.0f), (float)(DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT), 0.1f, 100.0f);
 
     shader1.SetMatrix4("model", model);
     shader1.SetMatrix4("view", cam.GetViewMatrix());
-    shader1.SetMatrix4("projection", projection);
+    shader1.SetMatrix4("projection", cam.GetProjectionMatrix(display.GetWidth(), display.GetHeight()));
 
 
     std::vector<glm::vec2> hexagonVertices = {
@@ -120,12 +120,12 @@ int main(void) {
 
         // Updates the camera and processes additional input
         processInput(display.GetWindow(), cam, deltaTime);
-        processMouseInput(display.GetWindow(), mouse, graph);
-        glm::vec2 coords = cam.ScreenToWorld(mouse.GetX(), mouse.GetY(), projection);
+        processMouseInput(display, mouse, graph);
+        glm::vec2 coords = cam.ScreenToWorld(mouse.GetX(), mouse.GetY(), display);
 
         // Changing camera view.
         shader1.SetMatrix4("view", cam.GetViewMatrix());
-        shader1.SetMatrix4("projection", cam.GetProjectionMatrix(display));
+        shader1.SetMatrix4("projection", cam.GetProjectionMatrix(display.GetWidth(), display.GetHeight()));
 
         // Draws the graph nodes.
         nodesPos = graph.GetNodesPosition();

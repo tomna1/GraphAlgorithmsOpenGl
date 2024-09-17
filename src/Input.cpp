@@ -70,18 +70,16 @@ void processInput(GLFWwindow *window, Camera &cam, float deltaTime) {
 
 // Selecting nodes when mouse is pressed on them, adding nodes to other
 // coordinates, selecting edges between nodes, added edges between nodes.
-void processMouseInput(GLFWwindow *window, Mouse &mouse, MappedGraph &graph) {
+void processMouseInput(const Display &display, Mouse &mouse, MappedGraph &graph) {
     double xPos, yPos;
-    glfwGetCursorPos(window, &xPos, &yPos);
-
-    /*
+    glfwGetCursorPos(display.GetWindow(), &xPos, &yPos);
 
     // if mouse pos within correct bounds, update mouse.
-    if (xPos > 0 && xPos < screenSize[2]) mouse.SetX(xPos);
-    if (yPos > 0 && yPos < screenSize[3]) mouse.SetY(yPos);
+    if (xPos > 0 && xPos < display.GetWidth()) mouse.SetX(xPos);
+    if (yPos > 0 && yPos < display.GetHeight()) mouse.SetY(yPos);
 
     // if the left mouse button is not pressed, return.
-    int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+    int state = glfwGetMouseButton(display.GetWindow(), GLFW_MOUSE_BUTTON_LEFT);
     if (state != GLFW_PRESS) return;
 
     if (!graph.HasNodeAtPoint((int)mouse.GetX(), (int)mouse.GetY())) {
@@ -89,5 +87,5 @@ void processMouseInput(GLFWwindow *window, Mouse &mouse, MappedGraph &graph) {
         // need to convert mouse coordinates to graph coordinates.
         graph.AddNodeAtPoint((int)mouse.GetX(), (int)mouse.GetY());
         
-    }*/
+    }
 }

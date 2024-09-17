@@ -14,9 +14,9 @@ public:
 	// before this constructor will work.
 	Display(int width, int height);
 	
-	int GetWidth();
-	int GetHeight();
-	GLFWwindow *GetWindow();
+	int GetWidth() const;
+	int GetHeight() const;
+	GLFWwindow *GetWindow() const;
 };
 
 #endif

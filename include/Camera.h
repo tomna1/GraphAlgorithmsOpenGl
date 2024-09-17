@@ -52,7 +52,7 @@ public:
 
 	// A projection matrix does some stuff with perspective honestly im not sure. 
 	// Returns the matrix.
-	glm::mat4 GetProjectionMatrix(Display &display) const;
+	glm::mat4 GetProjectionMatrix(const float width, const float height) const;
 
 	// Will move the camera or zoom it in or out depending on the key pressed
 	// and the length of time between the last frame.
@@ -67,7 +67,7 @@ public:
 
 	// Returns the coordinates of where the mouse is hovering over based on the
 	// camera being used and its coordinates.
-	glm::vec2 ScreenToWorld(int x, int y, glm::mat4 projection);
+	glm::vec2 ScreenToWorld(int x, int y, const Display &display);
 };
 
 #endif
