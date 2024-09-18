@@ -1,5 +1,4 @@
-﻿  Camera.cpp
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Camera.cpp(75,91): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Camera.cpp(75,70): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(input.obj)' or at 'C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\glfw3.pdb'; linking object as if no debug info
+﻿  Input.cpp
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Input.cpp(85,65): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Input.cpp(85,51): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
   GraphAlgorithmsOpenGl.vcxproj -> C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\GraphAlgorithmsOpenGl.exe

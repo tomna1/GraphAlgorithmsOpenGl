@@ -70,7 +70,7 @@ void processInput(GLFWwindow *window, Camera &cam, float deltaTime) {
 
 // Selecting nodes when mouse is pressed on them, adding nodes to other
 // coordinates, selecting edges between nodes, added edges between nodes.
-void processMouseInput(const Display &display, Mouse &mouse, MappedGraph &graph) {
+void processMouseInput(const Display &display, Mouse &mouse, MappedGraph &graph, Camera &cam) {
     double xPos, yPos;
     glfwGetCursorPos(display.GetWindow(), &xPos, &yPos);
 
@@ -82,10 +82,13 @@ void processMouseInput(const Display &display, Mouse &mouse, MappedGraph &graph)
     int state = glfwGetMouseButton(display.GetWindow(), GLFW_MOUSE_BUTTON_LEFT);
     if (state != GLFW_PRESS) return;
 
-    if (!graph.HasNodeAtPoint((int)mouse.GetX(), (int)mouse.GetY())) {
+
+    // If hovering over an empty point, add a new node.
+    glm::vec2 point = cam.ScreenToWorld(mouse.GetX(), mouse.GetY(), display);
+    if (!graph.HasNodeAtPoint(static_cast<int>(std::round(point.x)), static_cast<int>(std::round(point.y)))) {
         // mouse coordinate and graph coordinate use different system.
         // need to convert mouse coordinates to graph coordinates.
-        graph.AddNodeAtPoint((int)mouse.GetX(), (int)mouse.GetY());
+        graph.AddNodeAtPoint(static_cast<int>(std::round(point.x)), static_cast<int>(std::round(point.y)));
         
     }
 }

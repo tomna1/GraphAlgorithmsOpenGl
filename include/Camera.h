@@ -66,7 +66,8 @@ public:
 	float GetZ() const;
 
 	// Returns the coordinates of where the mouse is hovering over based on the
-	// camera being used and its coordinates.
+	// camera being used and its coordinates. X and Y are both unnormalised 
+	// cursor positions.
 	glm::vec2 ScreenToWorld(int x, int y, const Display &display);
 };
 

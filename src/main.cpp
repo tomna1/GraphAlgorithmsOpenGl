@@ -120,7 +120,7 @@ int main(void) {
 
         // Updates the camera and processes additional input
         processInput(display.GetWindow(), cam, deltaTime);
-        processMouseInput(display, mouse, graph);
+        processMouseInput(display, mouse, graph, cam);
         glm::vec2 coords = cam.ScreenToWorld(mouse.GetX(), mouse.GetY(), display);
 
         // Changing camera view.

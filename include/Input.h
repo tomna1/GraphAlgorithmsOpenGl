@@ -32,7 +32,7 @@ void processInput(GLFWwindow *window, Camera &cam, float deltaTime);
 // Processes mouse inputs.
 // Selecting nodes when mouse is pressed on them, adding nodes to other
 // coordinates, selecting edges between nodes, added edges between nodes.
-void processMouseInput(const Display &display, Mouse &mouse, MappedGraph &graph);
+void processMouseInput(const Display &display, Mouse &mouse, MappedGraph &graph, Camera &cam);
 
 
 #endif
