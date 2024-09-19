@@ -19,9 +19,9 @@ public:
 	void Clear() const;
 
 	// Draws a mesh onto the screen.
-	void Draw(const Mesh2D &mesh, ShaderProgram &shader, int posX, int posY) const;
+	void Draw(const Mesh2D &mesh, const ShaderProgram &shader, const int posX, const int posY) const;
 
-	void DrawLines(const Mesh2D &mesh, ShaderProgram &shader, int posX, int posY) const;
+	void DrawLines(const Mesh2D &mesh, const ShaderProgram &shader, const int posX, const int posY) const;
 };
 
 #endif

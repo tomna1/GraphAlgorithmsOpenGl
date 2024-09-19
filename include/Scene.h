@@ -1,0 +1,1 @@
+// The renderer should only be allowed to render a scene.

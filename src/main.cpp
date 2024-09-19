@@ -97,7 +97,6 @@ int main(void) {
     }
  
     Mesh2D gridMesh = Mesh2D(gridVertices);
-    gridMesh.UpdateColour({ 0.5f, 0.0f, 0.0f });
     gridVertices.resize(0);
 
 

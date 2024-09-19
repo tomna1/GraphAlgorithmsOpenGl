@@ -28,6 +28,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\ShaderProgram.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -39,6 +40,7 @@
     <ClInclude Include="include\GraphNode.h" />
     <ClInclude Include="include\Mesh.h" />
     <ClInclude Include="include\Renderer.h" />
+    <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\ShaderProgram.h" />
   </ItemGroup>
   <ItemGroup>

@@ -5,21 +5,18 @@ void Renderer::Clear() const {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::Draw(const Mesh2D &mesh, ShaderProgram &shader, int posX, int posY) const {
+void Renderer::Draw(const Mesh2D &mesh, const ShaderProgram &shader, const int posX, const int posY) const {
 	shader.Use();
-
-	// Sets the correct colour.
-	shader.SetVec3f("u_Color", mesh.GetColour());
 
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(posX, posY, 0));
 	shader.SetMatrix4("model", model);
 
-	glBindVertexArray(mesh.GetVertexArrayID());
+	mesh.BindVAO();
 
 	// Draws from the index data if there is index data
 	if (mesh.GetIndicesCount() != 0) {
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.GetIndexBufferID());
+		mesh.BindIndexBuffer();
 		glDrawElements(GL_TRIANGLES, mesh.GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
 	}
 	// If there is no index data, draws directly from the vertex array.
@@ -28,20 +25,17 @@ void Renderer::Draw(const Mesh2D &mesh, ShaderProgram &shader, int posX, int pos
 	}
 }
 
-void Renderer::DrawLines(const Mesh2D &mesh, ShaderProgram &shader, int posX, int posY) const {
+void Renderer::DrawLines(const Mesh2D &mesh, const ShaderProgram &shader, const int posX, const int posY) const {
 	shader.Use();
-
-	// Sets the correct colour.
-	shader.SetVec3f("u_Color", mesh.GetColour());
 
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(posX, posY, 0));
 	shader.SetMatrix4("model", model);
 
-	glBindVertexArray(mesh.GetVertexArrayID());
+	mesh.BindVAO();
 
 	if (mesh.GetIndicesCount() != 0) {
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.GetIndexBufferID());
+		mesh.BindIndexBuffer();
 		glDrawElements(GL_LINES, mesh.GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
 	}
 	else {
