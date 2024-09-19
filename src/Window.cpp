@@ -1,4 +1,4 @@
-#include "Display.h"
+#include "Window.h"
 
 #include "Errors.h"
 
@@ -9,7 +9,13 @@ void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
 	std::cout << "new width: " << width << ", new height: " << height << std::endl;
 }
 
-Display::Display(int width, int height) {
+Window::Window(int width, int height) {
+	// sets up glfw.
+	if (!glfwInit()) {
+		std::cerr << "GLFW failed to initialise." << std::endl;
+		exit(1);
+	}
+	
 	// Sets up glfw window.
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -51,20 +57,20 @@ Display::Display(int width, int height) {
 	glEnable(GL_DEPTH_TEST);
 }
 
-int Display::GetWidth() const {
+int Window::GetWidth() const {
 	// 3rd value is screen. width, 4th value is screen height.
 	int screenSize[4];
 	glGetIntegerv(GL_VIEWPORT, screenSize);
 	return screenSize[2];
 }
 
-int Display::GetHeight() const {
+int Window::GetHeight() const {
 	// 3rd value is screen. width, 4th value is screen height.
 	int screenSize[4];
 	glGetIntegerv(GL_VIEWPORT, screenSize);
 	return screenSize[3];
 }
 
-GLFWwindow *Display::GetWindow() const {
+GLFWwindow *Window::GetWindow() const {
 	return m_window;
 }

@@ -19,12 +19,9 @@ Camera::Camera() {
 	m_fov = 45.0f;
 }
 
-Camera::Camera(float speed) {
-	m_cameraPos = glm::vec3(0.0f, 0.0f, -10.0f);
-	if (speed < MIN_CAM_SPEED) m_cameraSpeed = MIN_CAM_SPEED;
-	if (speed > MAX_CAM_SPEED) m_cameraSpeed = MAX_CAM_SPEED;
-	else m_cameraSpeed = speed;
-	m_fov = 45.0f;
+void Camera::Update(const ShaderProgram &shader, const Window &window) {
+	shader.SetMatrix4("view", GetViewMatrix());
+	shader.SetMatrix4("projection", GetProjectionMatrix(window.GetWidth(), window.GetHeight()));
 }
 
 
@@ -40,7 +37,7 @@ glm::mat4 Camera::GetProjectionMatrix(const float width, const float height) con
 	return projection;
 }
 
-void Camera::ProcessKeyboardMovement(Keys keyPressed, float deltaTime) {
+void Camera::ProcessKeyboardMovement(Keys keyPressed, const float deltaTime) {
 	// WASD move in that direction, Q zooms out and E zooms in.
 	float velocity = m_cameraSpeed * deltaTime;
 	if (keyPressed == Keys::W_KEY) m_cameraPos -= glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
@@ -63,10 +60,10 @@ float Camera::GetZ() const {
 }
 
 
-glm::vec2 Camera::ScreenToWorld(int x, int y, const Display &display) {
+glm::vec2 Camera::ScreenToWorld(const int x, const int y, const Window &window) const {
 	// normalised screen coordinates between -1 and 1.
-	float nx = (2 * ((float)x / (float)display.GetWidth())) - 1;
-	float ny = -((2 * ((float)y / (float)display.GetHeight())) - 1);
+	float nx = (2 * ((float)x / (float)window.GetWidth())) - 1;
+	float ny = -((2 * ((float)y / (float)window.GetHeight())) - 1);
 	// I GENUINELY HAVE NO IDEA WHY MULTIPLYING THE NORMALISED COORDS BY 50 WORKS 
 	// BUT IT WORKS SO I WONT CHANGE IT.
 	glm::vec4 coords = { nx*50, ny*50, 0.0f, 1.0f };
@@ -74,14 +71,11 @@ glm::vec2 Camera::ScreenToWorld(int x, int y, const Display &display) {
 
 	// dont know what im doing so going to copy this.
 	// https://stackoverflow.com/questions/7692988/opengl-math-projecting-screen-space-to-world-space-coords
-	glm::mat4 invMat = glm::inverse(GetProjectionMatrix(display.GetWidth(), display.GetHeight()) * GetViewMatrix());
+	glm::mat4 invMat = glm::inverse(GetProjectionMatrix(window.GetWidth(), window.GetHeight()) * GetViewMatrix());
 
 	glm::vec4 pos = invMat * coords;
 	pos /= pos.w;
-
 	// std::cout << "pos: " << pos.x << "," << pos.y << "," << pos.z << "," << pos.w << std::endl;
-
-	// FOR SOME REASON THIS WORKS WHEN I DONT MOVE THE MOUSE BUT ANY MOUSE MOVEMENT MESS UP THE 
-	// CALCULATIONS IDK WHY.
+	
 	return { pos.x, pos.y };
 }

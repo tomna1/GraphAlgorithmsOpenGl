@@ -6,13 +6,13 @@
 
 // Contains all information about the window being used to render opengl
 // and its size. Might be expanded in the future to contains other things
-class Display {
+class Window {
 private:
 	GLFWwindow *m_window;
 public:
 	// Initialises glew and setups up the glfw window. Glfw must be initialised
 	// before this constructor will work.
-	Display(int width, int height);
+	Window(int width, int height);
 	
 	int GetWidth() const;
 	int GetHeight() const;

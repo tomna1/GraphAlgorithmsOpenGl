@@ -1,10 +1,12 @@
-﻿  Renderer.cpp
+﻿  Camera.cpp
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Camera.cpp(32,89): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Camera.cpp(32,69): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Camera.cpp(82,89): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Camera.cpp(82,69): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
   main.cpp
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(56,99): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(56,78): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(123,70): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(123,56): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(127,103): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(127,82): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(46,97): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(46,77): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(113,70): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(113,56): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
   Generating Code...
   GraphAlgorithmsOpenGl.vcxproj -> C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\GraphAlgorithmsOpenGl.exe

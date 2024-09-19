@@ -5,7 +5,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Display.h"
+#include "Window.h"
+#include "ShaderProgram.h"
 
 // DONT CHANGE, STUFF STARTS DISAPPEARING IF CAMERA GOES TOO FAR OUT. DONT
 // KNOW HOW TO FIX.
@@ -44,8 +45,9 @@ private:
 public:
 	// Creates a camera at the origin with default speed.
 	Camera();
-	// Creates a camera at a the origin at the given speed.
-	Camera(float speed);
+
+	// Updates the view and projection matrix in the currently being used shader.
+	void Update(const ShaderProgram &shader, const Window &window);
 
 	// Gets the view matrix defined by the position of the camera.
 	glm::mat4 GetViewMatrix() const;
@@ -56,7 +58,7 @@ public:
 
 	// Will move the camera or zoom it in or out depending on the key pressed
 	// and the length of time between the last frame.
-	void ProcessKeyboardMovement(Keys keyPressed, float deltaTime);
+	void ProcessKeyboardMovement(Keys keyPressed, const float deltaTime);
 
 	// Returns the x coordinate the camera is centred around.
 	float GetX() const;
@@ -68,7 +70,7 @@ public:
 	// Returns the coordinates of where the mouse is hovering over based on the
 	// camera being used and its coordinates. X and Y are both unnormalised 
 	// cursor positions.
-	glm::vec2 ScreenToWorld(int x, int y, const Display &display);
+	glm::vec2 ScreenToWorld(const int x, const int y, const Window &window) const;
 };
 
 #endif

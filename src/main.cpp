@@ -16,7 +16,7 @@
 #include "Mesh.h"
 #include "Input.h"
 #include "Errors.h"
-#include "Display.h"
+#include "Window.h"
 
 #define DEFAULT_SCREEN_WIDTH 960
 #define DEFAULT_SCREEN_HEIGHT 960
@@ -25,13 +25,7 @@
 // THERE IS VERY MINIMAL ERROR HANDLING IN THIS PRORGAM SO IF SOMETHING GOES
 // WRONG, EVERYTHING WILL GO WRONG. IT IS NOT A BUG, IT IS A FEATURE.
 int main(void) {
-    // sets up glfw.
-    if (!glfwInit()) {
-        std::cerr << "GLFW failed to initialise." << std::endl;
-        exit(1);
-    }
-
-    Display display = Display(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
+    Window window = Window(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 
     ShaderProgram shader1("res\\shaders\\vertexShader.shader", "res\\shaders\\fragmentShader.shader");
     Camera cam = Camera();
@@ -45,15 +39,11 @@ int main(void) {
     // model matrix consists of translations, scaling and rotations applied
     // to all objects to place then in the correct global world space.
     glm::mat4 model = glm::mat4(1.0f);
-
-    // A projection matrix does some stuff with perspective honestly im not sure.
-    // TODO: maybe i should put this in my camera class idk.
-    // glm::mat4 projection = glm::mat4(1.0f);
-    // projection = glm::perspective(glm::radians(45.0f), (float)(DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT), 0.1f, 100.0f);
+    
 
     shader1.SetMatrix4("model", model);
     shader1.SetMatrix4("view", cam.GetViewMatrix());
-    shader1.SetMatrix4("projection", cam.GetProjectionMatrix(display.GetWidth(), display.GetHeight()));
+    shader1.SetMatrix4("projection", cam.GetProjectionMatrix(window.GetWidth(), window.GetHeight()));
 
 
     std::vector<glm::vec2> hexagonVertices = {
@@ -108,7 +98,7 @@ int main(void) {
     std::vector<glm::ivec2> nodesPos = {};
 
     // Loop until the user closes the window.
-    while (!glfwWindowShouldClose(display.GetWindow())) {
+    while (!glfwWindowShouldClose(window.GetWindow())) {
         renderer.Clear();
 
         // Timing stuff
@@ -118,13 +108,12 @@ int main(void) {
 
 
         // Updates the camera and processes additional input
-        processInput(display.GetWindow(), cam, deltaTime);
-        processMouseInput(display, mouse, graph, cam);
-        glm::vec2 coords = cam.ScreenToWorld(mouse.GetX(), mouse.GetY(), display);
+        processInput(window.GetWindow(), cam, deltaTime);
+        processMouseInput(window, mouse, graph, cam);
+        glm::vec2 coords = cam.ScreenToWorld(mouse.GetX(), mouse.GetY(), window);
 
         // Changing camera view.
-        shader1.SetMatrix4("view", cam.GetViewMatrix());
-        shader1.SetMatrix4("projection", cam.GetProjectionMatrix(display.GetWidth(), display.GetHeight()));
+        cam.Update(shader1, window);
 
         // Draws the graph nodes.
         nodesPos = graph.GetNodesPosition();
@@ -136,7 +125,7 @@ int main(void) {
         renderer.DrawLines(gridMesh, shader1, 0, 0);
 
         // Swap front and back buffers 
-        glfwSwapBuffers(display.GetWindow());
+        glfwSwapBuffers(window.GetWindow());
         // Poll for and process events 
         glfwWaitEvents();
     }
