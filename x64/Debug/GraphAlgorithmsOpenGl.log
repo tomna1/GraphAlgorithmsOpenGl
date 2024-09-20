@@ -1,12 +1,11 @@
-﻿  Camera.cpp
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Camera.cpp(32,89): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Camera.cpp(32,69): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Camera.cpp(82,89): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Camera.cpp(82,69): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-  main.cpp
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(46,97): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(46,77): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(113,70): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\main.cpp(113,56): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+﻿  Renderer.cpp
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Renderer.cpp(22,80): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Renderer.cpp(26,54): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Renderer.cpp(47,94): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Renderer.cpp(51,69): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Renderer.cpp(69,76): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Renderer.cpp(72,50): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  ResourceManager.cpp
+  Scene.cpp
   Generating Code...
   GraphAlgorithmsOpenGl.vcxproj -> C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\GraphAlgorithmsOpenGl.exe

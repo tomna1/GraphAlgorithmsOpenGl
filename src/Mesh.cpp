@@ -86,10 +86,10 @@ bool Mesh2D::isValidIndices() const {
 }
 
 
-unsigned int Mesh2D::GetIndicesCount() const {
+size_t Mesh2D::GetIndicesCount() const {
 	return m_indices.size();
 }
-unsigned int Mesh2D::GetVertexCount() const {
+size_t Mesh2D::GetVertexCount() const {
 	return m_positionData.size();
 }
 
@@ -99,4 +99,14 @@ void Mesh2D::BindIndexBuffer() const {
 void Mesh2D::BindVAO() const {
 	glBindVertexArray(m_vaID);
 }
+
+
+bool Mesh2D::operator==(const Mesh2D &rhs) const {
+	return *(this) != rhs;
+}
+bool Mesh2D::operator!=(const Mesh2D &rhs) const {
+	if (m_positionData != rhs.m_positionData || m_indices != rhs.m_indices) return true;
+	return false;
+}
+
 

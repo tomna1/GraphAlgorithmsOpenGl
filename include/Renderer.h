@@ -7,6 +7,8 @@
 
 #include "ShaderProgram.h"
 #include "Mesh.h"
+#include "Model.h"
+#include "Scene.h"
 
 /**
 * The renderer is used to draw objects to the screen. Currently can only
@@ -20,6 +22,9 @@ public:
 
 	// Draws a mesh onto the screen.
 	void Draw(const Mesh2D &mesh, const ShaderProgram &shader, const int posX, const int posY) const;
+
+	// Draws a scene onto the screen.
+	void Draw(Scene &scene, const ShaderProgram &shader) const;
 
 	void DrawLines(const Mesh2D &mesh, const ShaderProgram &shader, const int posX, const int posY) const;
 };

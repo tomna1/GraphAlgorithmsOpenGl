@@ -9,9 +9,6 @@
 
 #include <vector>
 
-// TODO: COULD CREATE A MESH INTERFACE WHICH ALL MESH CLASSES DERIVE FROM. 
-// CURRENTLY ONLY NEED 2D MESHES THOUGH SO MAYBE WASTE OF TIME.
-
 // A mesh represents a single drawable entity. In this case the mesh is 2D
 // meaning position data only contains 2 values per vertex.
 class Mesh2D {
@@ -54,14 +51,17 @@ public:
 	bool isValidIndices() const;
 
 	// Returns the amount of indices stored by the mesh.
-	unsigned int GetIndicesCount() const;
+	size_t GetIndicesCount() const;
 	// Returns the amount of vertices stored by the internal vertex array.
-	unsigned int GetVertexCount() const;
+	size_t GetVertexCount() const;
 
 	// Returns the ID of the index buffer used by this objects that opengl assigns.
 	void BindIndexBuffer() const;
 	// Binds the internally stored VAO to be the current VAO used by opengl.
 	void BindVAO() const;
+
+	bool operator==(const Mesh2D &rhs) const;
+	bool operator!=(const Mesh2D &rhs) const;
 };
 
 #endif

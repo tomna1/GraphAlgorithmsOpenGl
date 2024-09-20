@@ -17,6 +17,8 @@
 #include "Input.h"
 #include "Errors.h"
 #include "Window.h"
+#include "Model.h"
+#include "Scene.h"
 
 #define DEFAULT_SCREEN_WIDTH 960
 #define DEFAULT_SCREEN_HEIGHT 960
@@ -97,6 +99,15 @@ int main(void) {
     
     std::vector<glm::ivec2> nodesPos = {};
 
+
+    std::string hexMesh = "hexagonMesh";
+    Scene mainScene = Scene();
+    mainScene.AddMesh(hexMesh, hexagonMesh);
+    for (int i = 0; i < 3; i++) {
+        Model2D model = Model2D(hexMesh, 1.0f * 5 * i, 1.0f * 5 * i);
+        mainScene.AddModel(model);
+    }
+
     // Loop until the user closes the window.
     while (!glfwWindowShouldClose(window.GetWindow())) {
         renderer.Clear();
@@ -106,20 +117,16 @@ int main(void) {
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-
         // Updates the camera and processes additional input
         processInput(window.GetWindow(), cam, deltaTime);
         processMouseInput(window, mouse, graph, cam);
         glm::vec2 coords = cam.ScreenToWorld(mouse.GetX(), mouse.GetY(), window);
 
-        // Changing camera view.
+        // Changing camera view by updating projection and view matrix.
         cam.Update(shader1, window);
 
-        // Draws the graph nodes.
-        nodesPos = graph.GetNodesPosition();
-        for (int i = 0; i < nodesPos.size(); i++) {
-            renderer.Draw(hexagonMesh, shader1, nodesPos[i].x, nodesPos[i].y);
-        }
+        // Draws the Scene
+        renderer.Draw(mainScene, shader1);
 
         // Draws the grid.
         renderer.DrawLines(gridMesh, shader1, 0, 0);
