@@ -8,6 +8,10 @@
 Mouse::Mouse() {
     m_x = 0;
     m_y = 0;
+    m_previousRMBstate = GLFW_RELEASE;
+    m_RMBstate = GLFW_RELEASE;
+    m_previousLMBstate = GLFW_RELEASE;
+    m_LMBstate = GLFW_RELEASE;
 }
 Mouse::~Mouse() { }
 
@@ -29,6 +33,77 @@ void Mouse::SetMousePos(double x, double y) {
     m_y = y;
 }
 
+void Mouse::SetLMB(unsigned int state) {
+    m_previousLMBstate = m_LMBstate;
+    m_LMBstate = state;
+}
+void Mouse::SetRMB(unsigned int state) {
+    m_previousRMBstate = m_RMBstate;
+    m_RMBstate = state;
+}
+
+bool Mouse::LMBclicked() {
+    if ((m_previousLMBstate == GLFW_RELEASE) && (m_LMBstate == GLFW_PRESS)) return true;
+    return false;
+}
+bool Mouse::RMBclicked() {
+    if ((m_previousRMBstate == GLFW_RELEASE) && (m_RMBstate == GLFW_PRESS)) return true;
+    return false;
+}
+bool Mouse::LMBreleased() {
+    if ((m_previousLMBstate == GLFW_PRESS) && (m_LMBstate == GLFW_RELEASE)) return true;
+    return false;
+}
+bool Mouse::RMBreleased() {
+    if ((m_previousRMBstate == GLFW_PRESS) && (m_RMBstate == GLFW_RELEASE)) return true;
+    return false;
+}
+
+
+// Selecting nodes when mouse is pressed on them, adding nodes to other
+// coordinates, selecting edges between nodes, added edges between nodes.
+// left clicking one node and then another node should create an edje between them.
+// left clicking empty tile should create a new node there
+// left clicking an edge should allow to edit the edge.
+// right clicking should remove all currently selected nodes.
+void Mouse::processMouseInput(const Window &window, MappedGraph &graph, Camera &cam, Scene &scene) {
+    double xPos, yPos;
+    glfwGetCursorPos(window.GetWindow(), &xPos, &yPos);
+
+    // if mouse pos within correct bounds, update mouse.
+    if (xPos > 0 && xPos < window.GetWidth()) SetX(xPos);
+    if (yPos > 0 && yPos < window.GetHeight()) SetY(yPos);
+
+    // left and right mouse buttons.
+    int lmbstate = glfwGetMouseButton(window.GetWindow(), GLFW_MOUSE_BUTTON_LEFT);
+    int rmbstate = glfwGetMouseButton(window.GetWindow(), GLFW_MOUSE_BUTTON_RIGHT);
+    SetLMB(lmbstate);
+    SetRMB(rmbstate);
+
+    if (RMBreleased()) {
+        scene.DeselectAllModels();
+    }
+
+    // If hovering over an empty point, add a new node.
+    glm::vec2 point = cam.ScreenToWorld(GetX(), GetY(), window);
+    if (LMBreleased() &&
+        !graph.HasNodeAtPoint(static_cast<int>(std::round(point.x)), static_cast<int>(std::round(point.y))))
+    {
+        // mouse coordinate and graph coordinate use different system.
+        // need to convert mouse coordinates to graph coordinates.
+        graph.AddNodeAtPoint(static_cast<int>(std::round(point.x)), static_cast<int>(std::round(point.y)));
+        std::string hexMesh = "hexagonMesh";
+        Model2D model = Model2D(hexMesh, std::round(point.x), std::round(point.y));
+        scene.AddModel(model);
+    }
+
+    // if hovering over an already existing node, select it.
+    if (LMBreleased() &&
+        graph.HasNodeAtPoint(static_cast<int>(std::round(point.x)), static_cast<int>(std::round(point.y))))
+    {
+        scene.SelectModelAtPoint(std::round(point.x), std::round(point.y));
+    }
+}
 
 
 // ESC to exit, TAB to go into wireframe mode and LEFT_SHIFT to go back
@@ -67,28 +142,3 @@ void processInput(GLFWwindow *window, Camera &cam, float deltaTime) {
         cam.ProcessKeyboardMovement(Keys::E_KEY, deltaTime);
 }
 
-
-// Selecting nodes when mouse is pressed on them, adding nodes to other
-// coordinates, selecting edges between nodes, added edges between nodes.
-void processMouseInput(const Window &window, Mouse &mouse, MappedGraph &graph, Camera &cam) {
-    double xPos, yPos;
-    glfwGetCursorPos(window.GetWindow(), &xPos, &yPos);
-
-    // if mouse pos within correct bounds, update mouse.
-    if (xPos > 0 && xPos < window.GetWidth()) mouse.SetX(xPos);
-    if (yPos > 0 && yPos < window.GetHeight()) mouse.SetY(yPos);
-
-    // if the left mouse button is not pressed, return.
-    int state = glfwGetMouseButton(window.GetWindow(), GLFW_MOUSE_BUTTON_LEFT);
-    if (state != GLFW_PRESS) return;
-
-
-    // If hovering over an empty point, add a new node.
-    glm::vec2 point = cam.ScreenToWorld(mouse.GetX(), mouse.GetY(), window);
-    if (!graph.HasNodeAtPoint(static_cast<int>(std::round(point.x)), static_cast<int>(std::round(point.y)))) {
-        // mouse coordinate and graph coordinate use different system.
-        // need to convert mouse coordinates to graph coordinates.
-        graph.AddNodeAtPoint(static_cast<int>(std::round(point.x)), static_cast<int>(std::round(point.y)));
-        
-    }
-}

@@ -12,6 +12,8 @@ void Renderer::Draw(const Mesh2D &mesh, const ShaderProgram &shader, const int p
 	model = glm::translate(model, glm::vec3(posX, posY, 0));
 	shader.SetMatrix4("model", model);
 
+	shader.SetVec3f("u_Color", { 0.0f, 0.0f, 0.0f });
+
 	mesh.BindVAO();
 
 	// Draws from the index data if there is index data
@@ -38,6 +40,10 @@ void Renderer::Draw(Scene &scene, const ShaderProgram &shader) const {
 		shader.SetMatrix4("model", modelMat);
 		scene.BindMeshVAO(meshName);
 
+		shader.SetVec3f("u_Color", { 0.0f, 0.0f, 0.0f });
+		// Selected Models should render in different colour
+		if (renderList->isSelected()) shader.SetVec3f("u_Color", { 0.5f, 0.8f, 1.0f });
+
 		// Draws from the index data if there is index data
 		if (scene.GetMeshIndicesCount(meshName) != 0) {
 			scene.BindMeshIndexBuffer(meshName);
@@ -58,6 +64,8 @@ void Renderer::DrawLines(const Mesh2D &mesh, const ShaderProgram &shader, const 
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(posX, posY, 0));
 	shader.SetMatrix4("model", model);
+
+	shader.SetVec3f("u_Color", { 0.0f, 0.0f, 0.0f });
 
 	mesh.BindVAO();
 

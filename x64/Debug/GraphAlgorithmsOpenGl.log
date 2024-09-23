@@ -1,11 +1,4 @@
-﻿  Renderer.cpp
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Renderer.cpp(22,80): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Renderer.cpp(26,54): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Renderer.cpp(47,94): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Renderer.cpp(51,69): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Renderer.cpp(69,76): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\CPPProjects\GraphAlgorithmsOpenGl\src\Renderer.cpp(72,50): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-  ResourceManager.cpp
-  Scene.cpp
-  Generating Code...
+﻿  Input.cpp
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Input.cpp(89,53): warning C4244: 'argument': conversion from 'double' to 'const int', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Input.cpp(89,45): warning C4244: 'argument': conversion from 'double' to 'const int', possible loss of data
   GraphAlgorithmsOpenGl.vcxproj -> C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\GraphAlgorithmsOpenGl.exe

@@ -20,6 +20,7 @@ private:
 	float m_scale;
 
 public:
+	Model2D();
 	Model2D(std::string &meshName, float posX, float posY);
 
 	// Selects the model.

@@ -119,8 +119,7 @@ int main(void) {
 
         // Updates the camera and processes additional input
         processInput(window.GetWindow(), cam, deltaTime);
-        processMouseInput(window, mouse, graph, cam);
-        glm::vec2 coords = cam.ScreenToWorld(mouse.GetX(), mouse.GetY(), window);
+        mouse.processMouseInput(window, graph, cam, mainScene);
 
         // Changing camera view by updating projection and view matrix.
         cam.Update(shader1, window);

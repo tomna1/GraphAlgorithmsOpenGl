@@ -1,9 +1,16 @@
 #include "Model.h"
 
 
+Model2D::Model2D() {
+	m_meshName = "";
+	m_position = { 0,  0 };
+	m_isSelected = false;
+	m_scale = 1;
+}
+
 Model2D::Model2D(std::string &meshName, float posX, float posY) {
 	m_meshName = meshName;
-	m_position = { posX, posX };
+	m_position = { posX, posY };
 	m_isSelected = false;
 	m_scale = 1;
 }

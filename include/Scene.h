@@ -14,6 +14,8 @@ class Scene {
 private:
 	std::vector<Model2D> m_models;
 	ResourceManager m_manager;
+	// The index of the selected model in m_models.
+	std::vector<int> m_selectedModels;
 
 public:
 	Scene();
@@ -37,6 +39,13 @@ public:
 	void RemoveModel(const Model2D &model);
 	// Returns the amount of models currently stored by the scene.
 	size_t GetModelCount() const;
+
+
+	void SelectModelAtPoint(float x, float y);
+	void DeselectModelAtPoint(float x, float y);
+	void DeselectAllModels();
+
+	size_t GetSelectedModelCount() const;
 
 	std::vector<Model2D>::iterator Begin();
 	std::vector<Model2D>::iterator End();
