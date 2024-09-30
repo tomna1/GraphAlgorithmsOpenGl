@@ -7,6 +7,7 @@
 #include "Model.h"
 
 #include <vector>
+#include <utility>
 
 // Each scene contains models that are stored in the scene and a resource
 // manager to manage the meshes that those models use.
@@ -15,7 +16,9 @@ private:
 	std::vector<Model2D> m_models;
 	ResourceManager m_manager;
 	// The index of the selected model in m_models.
-	std::vector<int> m_selectedModels;
+
+	// Contains the most recently selected models.
+	std::vector<Model2D> m_selectedModels;
 
 public:
 	Scene();
@@ -44,6 +47,9 @@ public:
 	void SelectModelAtPoint(float x, float y);
 	void DeselectModelAtPoint(float x, float y);
 	void DeselectAllModels();
+	// Deselects the indexth model selected. Example: if index was 2, deselectes the
+	// 3rd to last models that was selected.
+	void DeselectLastModelSelected(unsigned int index);
 
 	size_t GetSelectedModelCount() const;
 

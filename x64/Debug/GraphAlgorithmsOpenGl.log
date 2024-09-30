@@ -1,2 +1,4 @@
-﻿  MappedGraph.cpp
+﻿  Input.cpp
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Input.cpp(90,53): warning C4244: 'argument': conversion from 'double' to 'const int', possible loss of data
+C:\CPPProjects\GraphAlgorithmsOpenGl\src\Input.cpp(90,45): warning C4244: 'argument': conversion from 'double' to 'const int', possible loss of data
   GraphAlgorithmsOpenGl.vcxproj -> C:\CPPProjects\GraphAlgorithmsOpenGl\x64\Debug\GraphAlgorithmsOpenGl.exe

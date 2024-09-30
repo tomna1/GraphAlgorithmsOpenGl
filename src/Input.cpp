@@ -80,6 +80,8 @@ void Mouse::processMouseInput(const Window &window, MappedGraph &graph, Camera &
     SetLMB(lmbstate);
     SetRMB(rmbstate);
 
+
+    // deselect all models if right click.
     if (RMBreleased()) {
         scene.DeselectAllModels();
     }
@@ -98,12 +100,27 @@ void Mouse::processMouseInput(const Window &window, MappedGraph &graph, Camera &
         std::string hexMesh = "hexagonMesh";
         Model2D model = Model2D(hexMesh, (float)x, (float)y);
         scene.AddModel(model);
+        return;
     }
 
-    // if hovering over an already existing node, select it.
-    if (LMBreleased() &&
-        graph.HasNodeAtPoint(static_cast<int>(std::round(point.x)), static_cast<int>(std::round(point.y))))
-    {
+    // if left click on a node with no other selected models or a single other
+    // selected model, select the model. If left click on a model when 2 models
+    // already selected, deselect one and select new one. If left shift is down
+    // selects the model regardless of how many other models are selected.
+    if (LMBreleased() && graph.HasNodeAtPoint(x, y)) {
+        if (scene.GetSelectedModelCount() <= 1) {
+            scene.SelectModelAtPoint(std::round(point.x), std::round(point.y));
+            return;
+        }
+        
+        if (glfwGetKey(window.GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+            scene.SelectModelAtPoint(std::round(point.x), std::round(point.y));
+            return;
+        }
+        
+        while (scene.GetSelectedModelCount() >= 2) {
+            scene.DeselectLastModelSelected(1);
+        }
         scene.SelectModelAtPoint(std::round(point.x), std::round(point.y));
     }
 }
@@ -116,20 +133,20 @@ void processInput(GLFWwindow *window, Camera &cam, float deltaTime) {
     // more details.
     glfwPostEmptyEvent();
 
+    static bool isWireframeMode = false;
+
     // If the esc key is pressed then the window closes.
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }
 
     if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) {
-        // TODO: SWITCH BETWEEN LINES AND FILLED RATHER THAN JUST SWITCHING
-        // TO LINES AND NOT BEING ABLE TO SWITCH BACK
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        if (isWireframeMode) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        else glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        isWireframeMode = !isWireframeMode;
     }
 
-    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    }
+ 
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         cam.ProcessKeyboardMovement(Keys::W_KEY, deltaTime);

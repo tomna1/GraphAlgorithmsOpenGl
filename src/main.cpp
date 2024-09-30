@@ -92,11 +92,6 @@ int main(void) {
     MappedGraph graph = MappedGraph();
     std::string nodeName = "Node 0,0";
     graph.AddNode({ nodeName, 0, 0});
-    nodeName = "Node 10,10";
-    graph.AddNode({ nodeName, 10, 10 });
-    nodeName = "Node -10,-10";
-    graph.AddNode({ nodeName, -10, -10 });
-
 
     std::string hexMesh = "hexagonMesh";
     Scene mainScene = Scene();
@@ -104,10 +99,7 @@ int main(void) {
     
     Model2D model1 = Model2D(hexMesh, 0.0f, 0.0f);
     mainScene.AddModel(model1);
-    Model2D model2 = Model2D(hexMesh, 10.0f, 10.0f);
-    mainScene.AddModel(model2);
-    Model2D model3 = Model2D(hexMesh, -10.0f, -10.0f);
-    mainScene.AddModel(model3);
+    
 
     // Loop until the user closes the window.
     while (!glfwWindowShouldClose(window.GetWindow())) {
