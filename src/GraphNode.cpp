@@ -1,37 +1,41 @@
 #include <cmath>
-#include <iostream>
 
 #include "GraphNode.h"
 
 GraphNode::GraphNode() {
+	m_name = "";
 	m_x = 0;
 	m_y = 0;
 }
-GraphNode::GraphNode(int x, int y) {
+GraphNode::GraphNode(std::string &name) {
+	m_name = name;
+	m_x = 0;
+	m_y = 0;
+}
+GraphNode::GraphNode(std::string &name, int x, int y) {
+	m_name = name;
 	m_x = x;
 	m_y = y;
 }
 
 bool GraphNode::operator==(const GraphNode &rhs) const {
-	if ((m_x == rhs.m_x) && (m_y == rhs.m_y)) {
+	if ((m_x == rhs.m_x) && (m_y == rhs.m_y) && (m_name == rhs.m_name)) {
 		return true;
 	}
 	return false;
 }
 bool GraphNode::operator!=(const GraphNode &rhs) const {
-	if ((m_x != rhs.m_x) || (m_y != rhs.m_y)) {
+	if ((m_x != rhs.m_x) || (m_y != rhs.m_y) || (m_name != rhs.m_name)) {
 		return true;
 	}
 	return false;
 }
 
-bool GraphNode::SetX(int x) {
+void GraphNode::SetX(int x) {
 	m_x = x;
-	return true;
 }
-bool GraphNode::SetY(int y) {
+void GraphNode::SetY(int y) {
 	m_y = y;
-	return true;
 }
 
 int GraphNode::GetX() const {
@@ -39,6 +43,13 @@ int GraphNode::GetX() const {
 }
 int GraphNode::GetY() const {
 	return m_y;
+}
+
+void GraphNode::SetName(std::string &name) {
+	m_name = name;
+}
+std::string GraphNode::GetName() const {
+	return m_name;
 }
 
 int GraphNode::DistanceToNode(const GraphNode& rhs) const {
@@ -56,8 +67,5 @@ int GraphNode::DistanceToPoint(int x, int y) const {
 	return std::sqrt(pow(xDistance, 2) + pow(yDistance, 2));
 }
 
-void GraphNode::PrintNode() const {
-	std::cout << "Node(" << m_x << ", " << m_y << ')' << std::endl;
-}
 
 

@@ -41,8 +41,6 @@ int main(void) {
     // model matrix consists of translations, scaling and rotations applied
     // to all objects to place then in the correct global world space.
     glm::mat4 model = glm::mat4(1.0f);
-    
-
     shader1.SetMatrix4("model", model);
     shader1.SetMatrix4("view", cam.GetViewMatrix());
     shader1.SetMatrix4("projection", cam.GetProjectionMatrix(window.GetWidth(), window.GetHeight()));
@@ -56,7 +54,6 @@ int main(void) {
         {0.0f, -0.5f}, // bottom middle
         {-0.5f, -0.25f} // bottom left
     };
-
     std::vector<unsigned int> hexagonIndices = {
         0, 1, 2, // top triangle
         3, 4, 5, // bottom triangle
@@ -93,20 +90,24 @@ int main(void) {
 
 
     MappedGraph graph = MappedGraph();
-    graph.AddNode({ 0, 0 });
-    graph.AddNode({ 10, 10 });
-    graph.AddNode({ -10, -10 });
-    
-    std::vector<glm::ivec2> nodesPos = {};
+    std::string nodeName = "Node 0,0";
+    graph.AddNode({ nodeName, 0, 0});
+    nodeName = "Node 10,10";
+    graph.AddNode({ nodeName, 10, 10 });
+    nodeName = "Node -10,-10";
+    graph.AddNode({ nodeName, -10, -10 });
 
 
     std::string hexMesh = "hexagonMesh";
     Scene mainScene = Scene();
     mainScene.AddMesh(hexMesh, hexagonMesh);
-    for (int i = 0; i < 3; i++) {
-        Model2D model = Model2D(hexMesh, 1.0f * 5 * i, 1.0f * 5 * i);
-        mainScene.AddModel(model);
-    }
+    
+    Model2D model1 = Model2D(hexMesh, 0.0f, 0.0f);
+    mainScene.AddModel(model1);
+    Model2D model2 = Model2D(hexMesh, 10.0f, 10.0f);
+    mainScene.AddModel(model2);
+    Model2D model3 = Model2D(hexMesh, -10.0f, -10.0f);
+    mainScene.AddModel(model3);
 
     // Loop until the user closes the window.
     while (!glfwWindowShouldClose(window.GetWindow())) {

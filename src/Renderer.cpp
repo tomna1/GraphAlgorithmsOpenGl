@@ -35,10 +35,9 @@ void Renderer::Draw(Scene &scene, const ShaderProgram &shader) const {
 
 	while (renderList != itEnd) {
 		std::string meshName = renderList->GetMeshName();
-		
-		glm::mat4 modelMat = renderList->GetModelMatrix();
-		shader.SetMatrix4("model", modelMat);
 		scene.BindMeshVAO(meshName);
+		
+		shader.SetMatrix4("model", renderList->GetModelMatrix());
 
 		shader.SetVec3f("u_Color", { 0.0f, 0.0f, 0.0f });
 		// Selected Models should render in different colour
@@ -60,6 +59,8 @@ void Renderer::Draw(Scene &scene, const ShaderProgram &shader) const {
 
 void Renderer::DrawLines(const Mesh2D &mesh, const ShaderProgram &shader, const int posX, const int posY) const {
 	shader.Use();
+
+	glLineWidth(1.0f);
 
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(posX, posY, 0));

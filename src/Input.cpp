@@ -86,14 +86,17 @@ void Mouse::processMouseInput(const Window &window, MappedGraph &graph, Camera &
 
     // If hovering over an empty point, add a new node.
     glm::vec2 point = cam.ScreenToWorld(GetX(), GetY(), window);
-    if (LMBreleased() &&
-        !graph.HasNodeAtPoint(static_cast<int>(std::round(point.x)), static_cast<int>(std::round(point.y))))
-    {
+    int x = static_cast<int>(std::round(point.x));
+    int y = static_cast<int>(std::round(point.y));
+    if (LMBreleased() && !graph.HasNodeAtPoint(x, y)) {
+        
         // mouse coordinate and graph coordinate use different system.
         // need to convert mouse coordinates to graph coordinates.
-        graph.AddNodeAtPoint(static_cast<int>(std::round(point.x)), static_cast<int>(std::round(point.y)));
+        std::string name = "Node " + std::to_string(x) + "," + std::to_string(y);
+        GraphNode node = GraphNode(name, x, y);
+        graph.AddNode(node);
         std::string hexMesh = "hexagonMesh";
-        Model2D model = Model2D(hexMesh, std::round(point.x), std::round(point.y));
+        Model2D model = Model2D(hexMesh, (float)x, (float)y);
         scene.AddModel(model);
     }
 

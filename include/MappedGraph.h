@@ -3,71 +3,61 @@
 
 #include <vector>
 #include <utility>
+#include <map>
 
 #include "GraphNode.h"
 
 /**
 * A graph of nodes and edges where the nodes have a mapped position (x and y
-* coordinate in a 2D space.
+* coordinate in a 2D space. 
 */
 class MappedGraph {
 private:
-	// All the nodes associated with the graph.
-	std::vector<GraphNode> m_nodes;
+	typedef struct {
+		std::string connectedNodeName;
+		int weight;
+	} Edge;
+	
+	// Each struct contains a node and a list of edges associated with that node.
+	// The size_t in edges in the index of the node in m_nodes it is connected
+	// to and the int is the weight of the edge.
+	typedef struct {
+		GraphNode node;
+		std::vector<Edge> edges;
+	} Node;
 
-	// Each node has a list which contains what other nodes it is connected to
-	// and the weight of each connection. The first list of edges relates to the
-	// first node in the nodes dynamic array. The first int in the pair is the 
-	// index of the node in the m_nodes array it is connected to and the second int
-	// is the edge weight
-	std::vector<std::vector<std::pair<int, int>>> m_edges;
+	// All the nodes associated with the graph.
+	std::map<std::string, Node> m_nodes;
+
 public:
 	// Initialises a graph with no nodes and no edges.
 	MappedGraph();
-	// Initialises a graph with the nodes in the list.
-	MappedGraph(const std::vector<GraphNode> &nodes);
-	// Initialises a graph with nodes and edges.
-	MappedGraph(const std::vector<GraphNode> &nodes,
-		const std::vector<std::vector<std::pair<int, int>>> &edges);
 	// Copy constructor.
 	MappedGraph(const MappedGraph &rhs);
 	// Destructor.
 	~MappedGraph();
 private:
-	// Returns the index of the specified node in the m_nodes array. Will
-	// return -1 if not found. O(n)
-	int GetNodeIndex(const GraphNode &node) const;
-	// Returns the index of the specified edge in the m_edges array. Returns 
-	// -1 if the edge has not been found. O(n)
-	int GetEdgeIndex(const GraphNode &node, const GraphNode &rhs) const;
-	// Returns the node at m_nodes[index]. NO ERROR
-	// CHECKING SO MAKE SURE TO INPUT CORRECT INDEX.
-	GraphNode GetNode(const int index) const;
-	// Returns the node at m_edges[nodeIndex][edgeIndex]. NO ERROR CHECKING SO MAKE SURE TO INPUT CORRECT
-	// INDEX.
-	GraphNode GetNode(const int nodeIndex, const int edgeIndex) const;
+	// Returns the node associated with the name.
+	GraphNode GetNode(std::string &name) const;
 public:
 	// Returns the amount of nodes stored in the graph. O(n)
-	int GetNodeCount() const;
+	size_t GetNodeCount() const;
 	// Returns the amount of edges stored in the graph. O(n)
-	int GetEdgeCount() const;
+	size_t GetEdgeCount() const;
 	// Gets the amount of edges a specific node in the graph has. Will return 
 	// -1 if the node is not found in the graph. O(n)
-	int GetEdgeCount(const GraphNode &node) const;
+	size_t GetEdgeCount(const GraphNode &node) const;
 	// Gets the weight between of an edge between 2 nodes. If there is no edge
 	// then will return -1. O(n)
 	int GetEdgeWeight(const GraphNode &node, const GraphNode &rhs) const;
 
 	// Checks if the graph has a certain node. O(n)
 	bool HasNode(const GraphNode &node) const;
+	bool HasNode(const std::string &name) const;
 	// Checks if the graph has a certain edge between nodes. O(n)
 	bool HasEdge(const GraphNode &node, const GraphNode &rhs) const;
 	// Checks if the graph has a node at a certain point.
 	bool HasNodeAtPoint(int x, int y) const;
-private:
-	// Checks if the graph has a certain edge between a node and
-	// m_nodes[nodeIndex].
-	bool HasEdge(const GraphNode &node, int nodeIndex) const;
 
 public:
 	// Adds Node to the graph. Returns true if nodes has been successfully added
@@ -79,20 +69,15 @@ public:
 	// Both specified nodes have to be in the graph for the edge to be added.
 	// O(n) (checks if nodes are already in graph)
 	bool AddEdge(const GraphNode &node, const GraphNode &rhs, int weight);
-	// Adds the nodes to the graph. Will not add duplicate nodes. Returns
-	// the amount of nodes successfully added to the graph.
-	unsigned int AddNodes(const std::vector<GraphNode> &nodes);
-	// Adds the edges to a node. Will not add duplicate edges. Returns
-	// the amount of edges successfully added to the node.
-	/* unsigned int AddEdges(const GraphNode &node, const std::vector<std::pair<int, int>> &edges); */
 	// Adds a node to the graph at the specified x,y coordinate.
-	bool AddNodeAtPoint(int x, int y);
+	// bool AddNodeAtPoint(int x, int y);
 
 	// Removes a nodes and all edges associated with that node.
 	bool RemoveNode(const GraphNode &node);
 	// Removes an edge between 2 nodes. All edges are bidirectional so will
 	// remove the edge from both specified nodes.
 	bool RemoveEdge(const GraphNode &node, const GraphNode &rhs);
+	bool RemoveEdge(const GraphNode &node, const std::string &rhs);
 	// Changes the edge weight of an edge between 2 nodes. Requires there to 
 	// already be an edge between 2 nodes.
 	bool ChangeEdgeWeight(const GraphNode &node, const GraphNode &rhs, const int newWeight);
@@ -120,7 +105,8 @@ public:
 	// Edge(Node(1, 1), 4)
 	void PrintAllEdges() const;
 
-	std::vector<glm::ivec2> GetNodesPosition() const;
+	// Returns the positions of all nodes in the graph.
+	std::vector<GraphNode> GetAllNodes() const;
 
 	// Returns a list of nodes which indicate the shortest path between 2 nodes.
 	// A indicates this algorithm is the A* algorithm
@@ -128,7 +114,7 @@ public:
 
 	// Returns a list of nodes which indicates the shortest path between 2 nodes.
 	// D indicates this uses Djikstra's shortest path algorithm.
-	std::vector<GraphNode> FindShortestPathD(GraphNode &start, const GraphNode &end);
+	std::vector<GraphNode> FindShortestPathD(const std::string &start, const std::string &end);
 };
 
 #endif

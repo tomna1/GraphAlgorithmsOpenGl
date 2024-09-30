@@ -2,244 +2,201 @@
 
 #include "MappedGraph.h"
 
+
 // Initialises a graph with no nodes and no edges.
 MappedGraph::MappedGraph() {
 	m_nodes = {};
-	m_edges = {};
-	m_edges.resize(2);
 }
-// Initialises a graph with the nodes in the array and no edges.
-MappedGraph::MappedGraph(const std::vector<GraphNode> &nodes)
-	: m_nodes(nodes)
-{
-	m_edges.resize(2);
-}
-// Initialises a graph with nodes and edges.
-MappedGraph::MappedGraph(const std::vector<GraphNode> &nodes,
-	const std::vector<std::vector<std::pair<int, int>>> &edges)
-	: m_nodes(nodes), m_edges(edges)
-{ }
+
 MappedGraph::MappedGraph(const MappedGraph &rhs) {
 	m_nodes = rhs.m_nodes;
-	m_edges = rhs.m_edges;
 }
 
 MappedGraph::~MappedGraph() {
 	// TODO: THIS.
 }
 
-int MappedGraph::GetNodeIndex(const GraphNode &node) const {
-	for (int i = 0; i < m_nodes.size(); i++) {
-		if (m_nodes[i] == node) {
-			return i;
-		}
-	}
-	return -1;
-}
-int MappedGraph::GetEdgeIndex(const GraphNode &node, const GraphNode &rhs) const{
-	int index = GetNodeIndex(node);
-	if (index == -1) {
-		return -1;
-	}
 
-	for (int i = 0; i < m_edges[index].size(); i++) {
-		if (m_edges[index][i].first == index) {
-			return i;
-		}
-	}
-	return -1;
-}
-GraphNode MappedGraph::GetNode(const int index) const {
+GraphNode MappedGraph::GetNode(std::string &name) const {
 	// if (index > m_nodes.size() - 1) return;
-	return m_nodes[index];
-}
-GraphNode MappedGraph::GetNode(const int nodeIndex, const int edgeIndex) const {
-	// if (nodeIndex > m_nodes.size() - 1) return;
-	// if (edgeIndex > m_edges[nodeIndex].size() - 1) return;
-	int index = m_edges[nodeIndex][edgeIndex].first;
-	return m_nodes[index];
+	return m_nodes.at(name).node;
 }
 
 
-int MappedGraph::GetNodeCount() const {
+size_t MappedGraph::GetNodeCount() const {
 	return m_nodes.size();
 }
-int MappedGraph::GetEdgeCount() const {
-	int edgeCount = 0;
-	for (int i = 0; i < m_edges.size(); i++) {
-		edgeCount += m_edges[i].size();
+size_t MappedGraph::GetEdgeCount() const {
+	size_t edgeCount = 0;
+	auto it = m_nodes.begin();
+	while (it != m_nodes.end()) {
+		edgeCount += it->second.edges.size();
+		it++;
 	}
 	return edgeCount;
 }
-int MappedGraph::GetEdgeCount(const GraphNode &node) const {
-	int index = GetNodeIndex(node);
-	if (index == -1) return -1;
+size_t MappedGraph::GetEdgeCount(const GraphNode &node) const {
+	auto it = m_nodes.find(node.GetName());
+	if (it == m_nodes.end()) return 0;
 
-	return m_edges[index].size();
+	return it->second.edges.size();
+	
 }
 int MappedGraph::GetEdgeWeight(const GraphNode &node, const GraphNode &rhs) const {
-	int index = GetNodeIndex(node);
-	if (index == -1) return -1;
-
-	int edgeIndex = GetEdgeIndex(node, rhs);
-	if (edgeIndex == -1) return -1;
-
-	return m_edges[index][edgeIndex].second;
+	if (!HasNode(node) || !HasNode(rhs)) return -1;
+	for (int i = 0; i < m_nodes.at(node.GetName()).edges.size(); i++) {
+		if (m_nodes.at(node.GetName()).node == rhs) return m_nodes.at(node.GetName()).edges[i].weight;
+	}
+	return -1;
 }
 
 
 bool MappedGraph::HasNode(const GraphNode &node) const {
-	for (int i = 0; i < m_nodes.size(); i++) {
-		if (m_nodes[i] == node) return true;
-	}
-	return false;
+	auto it = m_nodes.find(node.GetName());
+	if (it == m_nodes.end()) return false;
+	return true;
+}
+bool MappedGraph::HasNode(const std::string &name) const {
+	auto it = m_nodes.find(name);
+	if (it == m_nodes.end()) return false;
+	return true;
 }
 bool MappedGraph::HasEdge(const GraphNode &node, const GraphNode &rhs) const {
-	int index = GetNodeIndex(node);
-	if (index == -1) return false;
-	int index2 = GetNodeIndex(rhs);
-	if (index2 == -1) return false;
+	if (!HasNode(node)) return false;
+	if (!HasNode(rhs)) return false;
 
-	for (int i = 0; i < m_edges[index].size(); i++) {
-		if (m_edges[index][i].first == index2) {
-			return true;
-		}
-	}
-	return false;
-}
-bool MappedGraph::HasEdge(const GraphNode &node, int nodeIndex) const {
-	int index = GetNodeIndex(node);
-	if (index == -1) return false;
-
-	for (int i = 0; i < m_edges[index].size(); i++) {
-		if (m_edges[index][i].first == nodeIndex) return true;
+	auto it = m_nodes.at(node.GetName()).edges.begin();
+	while (it != m_nodes.at(node.GetName()).edges.end()) {
+		if (it->connectedNodeName == rhs.GetName()) return true;
+		it++;
 	}
 	return false;
 }
 bool MappedGraph::HasNodeAtPoint(int x, int y) const {
-	for (int i = 0; i < m_nodes.size(); i++) {
-		if (m_nodes[i].GetX() == x && m_nodes[i].GetY() == y) return true;
+	auto it = m_nodes.begin();
+	while (it != m_nodes.end()) {
+		if (it->second.node.GetX() == x && it->second.node.GetY() == y) return true;
+		it++;
 	}
 	return false;
 }
 
 bool MappedGraph::AddNode(const GraphNode &node) {
-	if (HasNodeAtPoint(node.GetX(), node.GetY())) return false;
+	if (m_nodes.find(node.GetName()) != m_nodes.end()) return false;
 	
-	m_nodes.push_back(node);
-
-	if (m_nodes.size() >= m_edges.capacity()) {
-		m_edges.resize(m_edges.capacity() * 2);
-	}
-
+	m_nodes.insert({ node.GetName(), {node, {}} });
 	return true;
 }
 bool MappedGraph::AddEdge(const GraphNode &node, const GraphNode &to, int weight) {
-	int index = GetNodeIndex(node);
-	if (index == -1) return false;
-
-	int index2 = GetNodeIndex(to);
-	if (index2 == -1) return false;
-
-	m_edges[index].push_back({ index2, weight });
-	m_edges[index2].push_back({ index, weight });
+	if (!HasNode(node)) return false;
+	if (!HasNode(to)) return false;
+	if (HasEdge(node, to)) return false;
+	m_nodes[node.GetName()].edges.push_back({ to.GetName(), weight });
+	m_nodes[to.GetName()].edges.push_back({ node.GetName(), weight });
 	return true;
 }
-unsigned int MappedGraph::AddNodes(const std::vector<GraphNode> &nodes) {
-	unsigned int output = 0;
-	for (int i = 0; i < nodes.size(); i++) {
-		if (HasNodeAtPoint(nodes[i].GetX(), nodes[i].GetY())) continue;
-		m_nodes.push_back(nodes[i]);
-		m_edges.push_back({});
-		output++;
-	}
-	
-	m_edges.resize(m_edges.capacity() + nodes.size());
-	return output;
-}
 /*
-unsigned int MappedGraph::AddEdges(const GraphNode &node, const std::vector<std::pair<int, int>> &edges) {
-	unsigned int output = 0;
-	
-	int index = GetNodeIndex(node);
-	if (index == -1) return output;
-
-	for (int i = 0; i < edges.size(); i++) {
-		if (!HasEdge(node, edges[i].first)) {
-			m_edges[index].push_back(edges[i]);
-		}
-		else output++;
-	}
-	return output;
-}*/
 bool MappedGraph::AddNodeAtPoint(int x, int y) {
 	GraphNode node = GraphNode(x, y);
 	return AddNode(node);
-}
+}*/
 
 
 bool MappedGraph::RemoveNode(const GraphNode &node) {
-	int index = GetNodeIndex(node);
-	if (index == -1) return false;
+	if (!HasNode(node)) return false;
 
 	// remove all edges associated with the node
-	while (m_edges[index].size() > 0) {
-		RemoveEdge(node, GetNode(index, 0));
+	while (m_nodes[node.GetName()].edges.size() > 0) {
+		if (RemoveEdge(node, m_nodes[node.GetName()].edges[0].connectedNodeName) == false) {
+			return false;
+		}
 	}
 
-	// remove the node from m_nodes array
-	std::vector<GraphNode>::iterator itNodes = m_nodes.begin();
-	m_nodes.erase(itNodes + index);
-
-	// remove the node from m_edges array
-	std::vector<std::vector<std::pair<int, int>>>::iterator itEdges = m_edges.begin();
-	m_edges.erase(itEdges + index);
-
+	// remove the node.
+	m_nodes.erase(m_nodes.find(node.GetName()));
 	return true;
 }
 bool MappedGraph::RemoveEdge(const GraphNode &node, const GraphNode &rhs) {
-	int index = GetNodeIndex(node);
-	if (index == -1) return false;
+	if (!HasNode(node)) return false;
+	if (!HasNode(rhs)) return false;
 
-	int index2 = GetNodeIndex(rhs);
-	if (index2 == -1) return false;
+	const std::string nodeName = node.GetName();
+	const std::string rhsName = rhs.GetName();
 
-	if (!HasEdge(node, rhs)) {
-		return false;
+	auto it = m_nodes[nodeName].edges.begin();
+	while (it != m_nodes[nodeName].edges.end()) {
+		if (it->connectedNodeName == rhsName) {
+			m_nodes[nodeName].edges.erase(it);
+			break;
+		}
+		it++;
 	}
 
-	int edgeIndex = GetEdgeIndex(node, rhs);
-	std::vector<std::pair<int, int>>::iterator it = m_edges[index].begin();
-	m_edges[index].erase(it + edgeIndex);
+	it = m_nodes[rhsName].edges.begin();
+	while (it != m_nodes[rhsName].edges.end()) {
+		if (it->connectedNodeName == nodeName) {
+			m_nodes[rhsName].edges.erase(it);
+			break;
+		}
+		it++;
+	}
+	return true;
+}
+bool MappedGraph::RemoveEdge(const GraphNode &node, const std::string &rhs) {
+	// Checks both nodes are in the graph.
+	if (!HasNode(node)) return false;
+	if (m_nodes.find(rhs) == m_nodes.end()) return false;
 
-	int edgeIndex2 = GetEdgeIndex(rhs, node);
-	it = m_edges[index2].begin();
-	m_edges[index2].erase(it + edgeIndex2);
+	auto it = m_nodes[node.GetName()].edges.begin();
+	while (it != m_nodes[node.GetName()].edges.end()) {
+		if (it->connectedNodeName == rhs) {
+			m_nodes[node.GetName()].edges.erase(it);
+			break;
+		}
+		it++;
+	}
 
+	it = m_nodes[rhs].edges.begin();
+	while (it != m_nodes[rhs].edges.end()) {
+		if (it->connectedNodeName == node.GetName()) {
+			m_nodes[rhs].edges.erase(it);
+			break;
+		}
+		it++;
+	}
 	return true;
 }
 
 
 bool MappedGraph::ChangeEdgeWeight(const GraphNode &node, const GraphNode &rhs, const int newWeight) {
-	int index = GetNodeIndex(node);
-	if (index == -1) return false;
+	if (!HasNode(node)) return false;
+	if (!HasNode(rhs)) return false;
 
-	int index2 = GetNodeIndex(rhs);
-	if (index2 == -1) return false;
+	const std::string nodeName = node.GetName();
+	const std::string rhsName = rhs.GetName();
 
-	int edgeIndex = GetEdgeIndex(node, rhs);
-	if (edgeIndex == -1) return false;
+	auto it = m_nodes[nodeName].edges.begin();
+	while (it != m_nodes[nodeName].edges.end()) {
+		if (it->connectedNodeName == rhsName) {
+			m_nodes[nodeName].edges.erase(it);
+			break;
+		}
+		it++;
+	}
 
-	std::pair<int, int> newPair = std::make_pair(index2, newWeight);
-	m_edges[index][edgeIndex] = newPair;
-
-	int edgeIndex2 = GetEdgeIndex(rhs, node);
-	std::pair<int, int> newPair2 = std::make_pair(index, newWeight);
-	m_edges[index2][edgeIndex2] = newPair2;
+	it = m_nodes[rhsName].edges.begin();
+	while (it != m_nodes[rhsName].edges.end()) {
+		if (it->connectedNodeName == nodeName) {
+			m_nodes[rhsName].edges.erase(it);
+			break;
+		}
+		it++;
+	}
 
 	return true;
 }
 
+/*
 void MappedGraph::PrintEdge(const std::pair<int, int> &edge) const {
 	
 	std::cout << "Edge(Node(" << m_nodes[edge.first].GetX() << ", " << m_nodes[edge.first].GetY()
@@ -272,14 +229,17 @@ void MappedGraph::PrintAllEdges() const {
 		}
 	}
 }
+*/
 
 
-std::vector<glm::ivec2> MappedGraph::GetNodesPosition() const {
-	std::vector<glm::ivec2> output;
+std::vector<GraphNode> MappedGraph::GetAllNodes() const {
+	std::vector<GraphNode> output;
 	output.resize(m_nodes.size());
 	
-	for (int i = 0; i < m_nodes.size(); i++) {
-		output.push_back({ m_nodes[i].GetX(), m_nodes[i].GetY() });
+	auto it = m_nodes.begin();
+	while (it != m_nodes.end()) {
+		output.push_back({ it->second.node });
+		it++;
 	}
 	return output;
 }
@@ -298,29 +258,32 @@ std::vector<glm::ivec2> MappedGraph::GetNodesPosition() const {
 // distance from the start, if the node is visted or not and the index of
 // the previous node.
 struct DNode {
+	std::string name;
 	// The distance this node if from the starting node.
-	int distanceFromStart;
+	unsigned int distanceFromStart;
 	// has the node been visited or not.
 	bool isVisited;
 	// the index of the previous node in the m_nodes array. -1 if there is
 	// no previous node.
-	int previousNodeIndex;
+	std::string previousNodeName;
 };
-// Function used to get the index of the shortest from the start, unvisited 
-// node. Returns -1 if there are no available options.
-int getShortestUnvistedIndex(std::vector<DNode> vec) {
-	int output = -1;
-	int currentShortest = INT_MAX;
-	for (int i = 0; i < vec.size(); i++) {
-		if ((vec[i].isVisited == false) && vec[i].distanceFromStart < currentShortest) {
-			output = i;
+// Returns the name of the node with the shortest distance from start.
+std::string getShortestUnvistedNode(std::map<std::string, DNode> &nodes) {
+	std::string output = "";
+	unsigned int currentShortest = UINT_MAX;
+	auto it = nodes.begin();
+	while (it != nodes.end()) {
+		if (it->second.distanceFromStart < currentShortest) {
+			currentShortest = it->second.distanceFromStart;
+			output = it->second.name;
 		}
+		it++;
 	}
 	return output;
 }
 // Returns a list of nodes which indicates the shortest path between 2 nodes.
 // D indicates this uses Djikstra's shortest path algorithm.
-std::vector<GraphNode> MappedGraph::FindShortestPathD(GraphNode &start, const GraphNode &end) {
+std::vector<GraphNode> MappedGraph::FindShortestPathD(const std::string &start, const std::string &end) {
 	// Djikstra's algorithm works by:
 	// 1. Marking the distances from the start for all nodes connected to the
 	// current node. 
@@ -330,55 +293,67 @@ std::vector<GraphNode> MappedGraph::FindShortestPathD(GraphNode &start, const Gr
 	// previous nodes to make a list of the nodes that were visited. Else 
 	// go back to step 1.
 
+	if (!HasNode(start)) return {};
+	if (!HasNode(end)) return {};
 
 	// Array used to contains the information of nodes needed for the 
 	// algorithm.
-	std::vector<DNode> nodesInfo = {};
-	nodesInfo.resize(m_nodes.size());
+	std::map<std::string, DNode> nodesInfo;
 	
-	// Each index in nodesInfo relates to the node at the same index in m_nodes
-	nodesInfo.push_back({ 0, false, -1 });
-	for (int i = 0; i < m_nodes.size() - 1; i++) {
-		nodesInfo.push_back({ INT_MAX, false, -1 });
+	// Sets up nodesInfo array.
+	auto it = m_nodes.begin();
+	while (it != m_nodes.end()) {
+		nodesInfo.insert({ it->first, { it->first, UINT_MAX, false, "" } });
 	}
+	nodesInfo[start].distanceFromStart = 0;
+
 
 	// A pointer to nodes in m_nodes
-	GraphNode *currentNode = &start;
-	// index is the index of the current node in m_nodes and index2 is the
-	// index of a node connected to the current node.
-	int index, index2;
+	GraphNode *currentNode = &(m_nodes.at(start).node);
 
-	while ((*currentNode) != end) {
-		index = GetNodeIndex(*currentNode);
+	unsigned int distanceFromStart;
+	while (currentNode->GetName() != end) {
 		// Mark the distances from start for all connected nodes.
-		for (int i = 0; i < m_edges[index].size(); i++) {
-			index2 = m_edges[index][i].first;
-			if ((m_edges[index][i].second + nodesInfo[index].distanceFromStart < nodesInfo[index2].distanceFromStart)) {
-				// mark the correct distanceFromStart for any connected node.
-				nodesInfo[index2].distanceFromStart = m_edges[index][i].second + nodesInfo[index].distanceFromStart;
-				// Mark the correct previous node.
-				nodesInfo[index2].previousNodeIndex = index;
+		auto connectedNodeIt = m_nodes.at(currentNode->GetName()).edges.begin();
+		while (connectedNodeIt != m_nodes.at(currentNode->GetName()).edges.end()) {
+			// If the connectedNode is visited, continue
+			if (nodesInfo[connectedNodeIt->connectedNodeName].isVisited) {
+				it++;
+				continue;
 			}
+			
+			// Marks the distance from the start of the connected node.
+			distanceFromStart = connectedNodeIt->weight;
+			if (nodesInfo[currentNode->GetName()].distanceFromStart != UINT_MAX) {
+				distanceFromStart += nodesInfo[currentNode->GetName()].distanceFromStart;
+			}
+			// If the distance from start is less than an already recorded distance from start,
+			// change the distance from start.
+			if (distanceFromStart < nodesInfo[connectedNodeIt->connectedNodeName].distanceFromStart) {
+				nodesInfo[connectedNodeIt->connectedNodeName].distanceFromStart = distanceFromStart;
+				nodesInfo[connectedNodeIt->connectedNodeName].previousNodeName = currentNode->GetName();
+			}
+			it++;
 		}
 		// Mark the current node as visited.
-		nodesInfo[index].isVisited = true;
-		// Make the next unvisited, closest to start node the current one. 
-		index = getShortestUnvistedIndex(nodesInfo);
-		if (index == -1) return {};
+		nodesInfo[currentNode->GetName()].isVisited = true;
+		
+		std::string nextNodeName = getShortestUnvistedNode(nodesInfo);
+		if (nextNodeName == "") return {};
 		
 		// Make the next unvisited, closest to start node the current one.
-		currentNode = &m_nodes[index];
+		currentNode = &(m_nodes[nextNodeName].node);
 	}
 
 	// Create output starting from the current node and using the previous
 	// node in the node info array to go to start.
 	std::vector<GraphNode> output;
 
-	while ((*currentNode) != start) {
-		output.insert(output.begin(), (*currentNode));
-		currentNode = &m_nodes[nodesInfo[GetNodeIndex(*currentNode)].previousNodeIndex];
+	while (currentNode->GetName() != start) {
+		output.insert(output.begin(), *currentNode);
+		currentNode = &(m_nodes[nodesInfo[currentNode->GetName()].previousNodeName].node);
 	}
-	output.insert(output.begin(), (*currentNode));
+	output.insert(output.begin(), *currentNode);
 
 	return output;
 }
